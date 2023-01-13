@@ -1,0 +1,7 @@
+venv
+cmake-build-debug
+CMakeLists.txt
+__pycache__
+webserv
+*.o
+.idea
