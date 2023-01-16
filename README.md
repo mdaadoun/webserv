@@ -7,11 +7,24 @@
 
 * https://fr.wikipedia.org/wiki/Hypertext_Transfer_Protocol
   * https://www.w3.org/Protocols/
+    * 1.0 : https://www.w3.org/Protocols/HTTP/1.0/spec.html
   * https://www.rfc-editor.org/rfc/rfc2616
+  * 1.1 : https://www.rfc-editor.org/rfc/rfc9112.html
 
 * https://en.wikipedia.org/wiki/Common_Gateway_Interface
 
 ## Steps for the mandatory part
+
+So here’s the roadmap I would follow if I started now:
+First start with building a simple http server with blocking fds at first just to get familiar with sockets.
+To parse the request and build the response it is important to understand the rules that they follow. This RFC is a good overview:
+https://www.rfc-editor.org/rfc/rfc9112.html
+Once you are able to display an html in the browser using your server start adding other features on top:
+Non-blocking fds and all the multiplexing logic (epoll/kqueue/poll/select).
+Implement config file and all the location logic.
+CGI (which is basically a program that takes a script as argument as well as required environment variables (check CGI RFC) and reads from standard input to print a message to standard output and perform other actions (like file saving).
+Start adding  GET, POST and DELETE logic.
+It is a big project so make sure you keep double checking all the requirements in the PDF.
 
 ### structuring program, parsing functions
 * [ ] extract information from configuration file (parsing, fstream ?)
@@ -39,10 +52,8 @@
 > Do not test with only one program. Write your tests with a more
   convenient language such as Python or Golang, and so forth. Even in
   C or C++ if you want to.
->* I propose python:
->  *  ```python3 test.py```
-* [ ] unit-test / assert along dev
-  * many libraries in python: requests, httplib2, treq, httpretty
+>* Go for python then :)
+>  *  ```python3 run.py```
 
 ## Bonus ?
 
