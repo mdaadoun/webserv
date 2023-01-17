@@ -11,20 +11,20 @@
   * https://www.rfc-editor.org/rfc/rfc2616
   * 1.1 : https://www.rfc-editor.org/rfc/rfc9112.html
 
+* https://en.wikipedia.org/wiki/Network_socket
 * https://en.wikipedia.org/wiki/Common_Gateway_Interface
 
 ## Steps for the mandatory part
 
-So here’s the roadmap I would follow if I started now:
-First start with building a simple http server with blocking fds at first just to get familiar with sockets.
-To parse the request and build the response it is important to understand the rules that they follow. This RFC is a good overview:
-https://www.rfc-editor.org/rfc/rfc9112.html
-Once you are able to display an html in the browser using your server start adding other features on top:
-Non-blocking fds and all the multiplexing logic (epoll/kqueue/poll/select).
-Implement config file and all the location logic.
-CGI (which is basically a program that takes a script as argument as well as required environment variables (check CGI RFC) and reads from standard input to print a message to standard output and perform other actions (like file saving).
-Start adding  GET, POST and DELETE logic.
-It is a big project so make sure you keep double checking all the requirements in the PDF.
+1. start with building a simple http server with blocking fds at first just to get familiar with sockets.
+2. parse the request and build the response it is important to understand the rules that they follow.
+  * https://www.rfc-editor.org/rfc/rfc9112.html
+3. Once you are able to display an html in the browser using your server start adding other features on top:
+   * Non-blocking fds and all the multiplexing logic (epoll/kqueue/poll/select).
+   * Implement config file and all the location logic.
+   * CGI (which is basically a program that takes a script as argument as well as required environment variables (check CGI RFC) and reads from standard input to print a message to standard output and perform other actions (like file saving).
+   * Start adding  GET, POST and DELETE logic.
+   * Testing the requirements of the project.
 
 ### structuring program, parsing functions
 * [ ] extract information from configuration file (parsing, fstream ?)

@@ -1,0 +1,7 @@
+input=GET,/,0.0.0.0,8000,HTTP/1.0:output=
+input=GET,/,localhost,8000,HTTP/1.0:output=
+input=GET,/,127.0.0.1,8000,HTTP/1.0:output=
+input=GET,/,127.0.0.1,8,HTTP/1.0:output=
+input=GET,/,127.0.0.1,80,HTTP/1.0:output=
+input=GET,/,0.0.0.0,444,HTTP/1.0:output=
+input=GET,/test.html,0.0.0.0,8000,HTTP/1.0:output=

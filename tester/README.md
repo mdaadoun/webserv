@@ -1,19 +1,42 @@
 # TODO
 
-* tester python, unit test to compare result from
-    * mock config.ini files (default will test ./webserv <FILE> with a generated file.ini)
-        * ```python3 run.py```
-    * NGINX’s server (on VM).
-        * ```python3 run.py -n```
-    * prototype python HTTP server.
-        * ```python3 run.py -p```
-    * the 3 are compared, test by test
-        * ```python3 run.py -a```
-
+* thread or process to run server and tester in the same program
 * [ ] unit-test / assert along dev
-* many libraries in python: requests, httplib2, treq, httpretty
+```
+* exemple http
+GET /about.html HTTP/1.0
+User-Agent: Mozilla/5.0
+* exemple 2
+POST /form.php HTTP/1.0
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 21
 
+name=John&surname=Doe
 
+* connection, question/answer example once connected to google.com on port 80
+(1)
+GET /about/ HTTP/1.0
+
+(2)
+HTTP/1.0 200 OK
+Vary: Accept-Encoding
+Content-Type: text/html
+Date: Thu, 09 Feb 2017 16:41:37 GMT
+Expires: Thu, 09 Feb 2017 16:41:37 GMT
+Cache-Control: private, max-age=0
+Last-Modified: Thu, 08 Dec 2016 01:00:57 GMT
+X-Content-Type-Options: nosniff
+Server: sffe
+X-XSS-Protection: 1; mode=block
+Accept-Ranges: none
+<!DOCTYPE html>
+    <html class="google mmfb" lang="en">
+        <head>
+        ...
+
+</html>
+Connection closed by foreign host.
+```
 ## Doc
 * https://requests.readthedocs.io/en/latest/user/quickstart
 * https://docs.python.org/3/library/socket.html
@@ -28,7 +51,6 @@
 ## genini.py: generate config.ini files for testings
 
 ## tester.py: request unit testing
-* call the nginx server from VM
 * https://www.geeksforgeeks.org/unit-testing-python-unittest/
 * https://stackoverflow.com/questions/9559963/unit-testing-a-python-app-that-uses-the-requests-library
 * https://cra.mr/2014/05/20/mocking-requests-with-responses/
