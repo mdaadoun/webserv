@@ -1,4 +1,6 @@
 import click
+import threading
+from rich import print
 from tester import server, tester, genini
 
 @click.command()
@@ -13,8 +15,14 @@ def start(_nginx, _python, _all):
     if _python:
         for test in tests:
             CONFIG = genini.start(test)
-            server.start(CONFIG)
-        #     tester.start(CONFIG)
+            server_thread = threading.Thread(target=server.start, args=(CONFIG,))
+            server_thread.start()
+            while not server.SERVER_RUNNING:
+                pass
+            tester.start(CONFIG)
+            while server.SERVER_RUNNING:
+                pass
+            break
     if _all:
         print("_all")
         click.echo(f"Hello, {_all}!")
@@ -25,13 +33,13 @@ def display_help():
     print("""
 * unit tester python, OPTIONS:
     * default: will test ./webserv <CONFIG_FILE> with generated config files
-        * python3 run.py
+        * [bold magenta]python3 run.py[/bold magenta]
     * -n: NGINX’s server (on VM).
-        * python3 run.py -n
+        * [bold magenta]python3 run.py -n[/bold magenta]
     * -p: prototype python HTTP server.
-        * python3 run.py -p
+        * [bold magenta]python3 run.py -p[/bold magenta]
     * -a: the 3 are compared, test by test
-        * python3 run.py -a
+        * [bold magenta]python3 run.py -a[/bold magenta]
     """)
 
 if __name__ == "__main__":

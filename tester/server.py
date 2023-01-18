@@ -1,5 +1,7 @@
 import socket
 
+SERVER_RUNNING = False
+
 def handle_request(request):
     """Handles the HTTP request."""
 
@@ -24,14 +26,19 @@ def handle_request(request):
 
     return response
 
+
 def start(CONFIG):
-    SERVER_HOST = CONFIG["host"]
-    SERVER_PORT = int(CONFIG["port"])
-    server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    # server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+    global SERVER_RUNNING
+    SERVER_HOST = CONFIG["request"]["host"]
+    SERVER_PORT = int(CONFIG["request"]["port"])
     try:
+        server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        # server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+
+        print(SERVER_HOST, SERVER_PORT)
         server_socket.bind((SERVER_HOST, SERVER_PORT))
         server_socket.listen(1)
+        SERVER_RUNNING = True
         print('Listening on port %s:%s' % (SERVER_HOST, SERVER_PORT))
 
         while True:
@@ -42,6 +49,8 @@ def start(CONFIG):
             response = handle_request(request)
             client_connection.sendall(response.encode())
             client_connection.close()
+            break
     except PermissionError:
         print("PermissionError")
     server_socket.close()
+    SERVER_RUNNING = False

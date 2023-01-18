@@ -37,9 +37,18 @@ Accept-Ranges: none
 </html>
 Connection closed by foreign host.
 ```
+
 ## Doc
 * https://requests.readthedocs.io/en/latest/user/quickstart
 * https://docs.python.org/3/library/socket.html
+
+## Resources
+* WEB and HTTP introduction:
+1. https://www.youtube.com/watch?v=ZT8uqIEG92o
+2. https://www.youtube.com/watch?v=RDvlb_XgVyI
+3. https://www.youtube.com/watch?v=Q5YIrYkrVXg
+4. https://www.youtube.com/watch?v=Fxgw_BxZg2I
+5. https://www.youtube.com/watch?v=PNt8zXl7EJ0  
 
 ## server.py: simple server
 * run.py arguments

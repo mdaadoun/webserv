@@ -2,15 +2,18 @@
 
 ## Documentation
 
+### the http protocol
 * https://developer.mozilla.org/en-US/docs/Web/HTTP
   * https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/Evolution_of_HTTP
 
 * https://fr.wikipedia.org/wiki/Hypertext_Transfer_Protocol
   * https://www.w3.org/Protocols/
     * 1.0 : https://www.w3.org/Protocols/HTTP/1.0/spec.html
-  * https://www.rfc-editor.org/rfc/rfc2616
-  * 1.1 : https://www.rfc-editor.org/rfc/rfc9112.html
+    * 1.1 : https://www.rfc-editor.org/rfc/rfc9112.html
+      * https://www.rfc-editor.org/rfc/rfc2616
 
+### others important topics
+* https://en.wikipedia.org/wiki/List_of_TCP_and_UDP_port_numbers
 * https://en.wikipedia.org/wiki/Network_socket
 * https://en.wikipedia.org/wiki/Common_Gateway_Interface
 
@@ -53,7 +56,15 @@
   convenient language such as Python or Golang, and so forth. Even in
   C or C++ if you want to.
 >* Go for python then :)
->  *  ```python3 run.py```
+```
+  > python3 -m venv venv
+  > source venv/bin/activate
+  > pip install -r requirements.txt
+  > python3 run.py [default webserv tests][-p, python server tests][-n, nginx server tests][-a, all tests]
+```
+* The tester can be used for fast checking during dev, it need to be tested with a browser.
+
+### Notes on Git Fork/Pull Request/Merge
 
 ## Bonus ?
 
