@@ -28,14 +28,53 @@
 * **socket**, creates an endpoint for communication and returns a descriptor.
     * https://linux.die.net/man/7/socket
     * https://linux.die.net/man/2/socket
+    * https://fr.manpages.org/socket/7
 
-...to continue
+* **accept**, 
 
-accept, listen, send, recv, bind, connect, inet_addr, setsockopt, getsockname, fcntl
-execve, dup, dup2, pipe, strerror, gai_strerror,
-errno, dup, dup2, fork, htons, htonl, ntohs, ntohl,
-select, poll, epoll (epoll_create, epoll_ctl,
-epoll_wait), kqueue (kqueue, kevent), socket,
-accept, listen, send, recv, bind, connect,
-getaddrinfo, freeaddrinfo, setsockopt, getsockname,
-getprotobyname, fcntl
+* **listen**, 
+
+* **send**
+* recv
+* bind
+* connect
+* inet_addr
+* setsockopt
+* getsockname
+* fcntl
+execve
+* dup
+* dup2
+* pipe
+* strerror
+* gai_strerror
+* 
+errno
+dup
+dup2
+fork
+htons
+htonl
+ntohs
+ntohl
+
+select
+poll
+epoll (epoll_create, epoll_ctl, epoll_wait)
+kqueue (kqueue, kevent)
+socket
+
+accept
+listen
+send
+recv
+bind
+connect
+
+getaddrinfo
+freeaddrinfo
+setsockopt
+getsockname
+
+getprotobyname
+fcntl

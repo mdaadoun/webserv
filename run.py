@@ -15,7 +15,7 @@ def start(_nginx, _python, _all):
         t = 1
         for test in tests:
             CONFIG = genini.start(test)
-            if CONFIG is None:
+            if CONFIG is None or CONFIG["request"]["port"] != "8080":
                 continue
             else:
                 print("\n========================\n", "TEST", t, "\n========================")

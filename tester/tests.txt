@@ -1,3 +1,5 @@
+GET,/,0.0.0.0,8000,HTTP/1.0:200,...
+#GET,/,1111,8000,HTTP/1.0:output
 #GET,/,0.0.0.0,8000,HTTP/1.0:output
 #GET,/,0.0.0.0,8000,HTTP/1.0:output
 #GET,/,127.0.0.1,8000,HTTP/1.0:output
@@ -6,9 +8,10 @@
 #GET,/,127.0.0.1,60000000,HTTP/1.0:output
 #GET,/,0.0.0.0,-1,HTTP/1.0:output
 #GET,/,0.0.0.0,444,HTTP/1.0:output
-#GET,/test.html,0.0.0.0,8000,HTTP/1.0:output
-#GET,/test.html,localhost,8000,HTTP/1.0:output
-#GET,/favicon.ico,localhost,8002,HTTP/1.0:output
-GET,/,0.0.0.0,8080,HTTP/1.0:output
-GET,/test.html,localhost,8080,HTTP/1.0:output
-GET,/favicon.ico,localhost,8080,HTTP/1.0:output
+GET,/test.html,localhost,8000,HTTP/1.0:output
+GET,/test2.html,0.0.0.0,8000,HTTP/1.0:output
+GET,/favicon.ico,localhost,8002,HTTP/1.0:output
+GET,/,0.0.0.0,8080,HTTP/1.0:200,...
+GET,/test.html,localhost,8080,HTTP/1.0:200,...
+GET,/favicon.ico,localhost,8080,HTTP/1.0:404,...
+GET,/xxx,0.0.0.0,8080,HTTP/1.0:404,...

@@ -7,11 +7,8 @@ def test_get_request(add):
     try:
         response = requests.get(add)
         print("[bold sky_blue2]CLIENT response:[/bold sky_blue2]", response)
-        # print(response.json())
-        print(response.status_code)
         print(response.headers)
         print(response.text)
-        print(response.raw)
         # assert response.status_code == port
         # assert response.text == resp
     except requests.exceptions.HTTPError as err:

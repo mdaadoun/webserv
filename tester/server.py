@@ -1,4 +1,5 @@
 import socket
+from datetime import datetime
 from rich import print
 
 SERVER_RUNNING = False
@@ -6,26 +7,40 @@ SERVER_RUNNING = False
 def handle_request(request):
     """Handles the HTTP request."""
 
-    print("[bold orange_red1]SERVER request:[/bold orange_red1]", request)
+    # print("[bold orange_red1]SERVER request:[/bold orange_red1]", request)
+    date = datetime.utcnow().strftime("%a, %d %b %Y %H:%M:%S GMT")
+    headers = {
+        'Server': 'pyServer',
+        'Date': date,
+        'Content-Type': 'text/html',
+        # 'Transfer-Encoding': 'chunked',
+        # 'Connection': 'keep-alive',
+        # 'Content-Encoding': 'gzip'
+    }
+    content = ''
+    status_code = ''
+
     if request.startswith("GET"):
-        headers = request.split('\n')[0]
-        filename = headers.split()[1]
+        header = request.split('\n')[0]
+        filename = header.split()[1]
         if filename == '/':
             filename = '/index.html'
 
         try:
-            fin = open('htdocs' + filename)
+            fin = open('www' + filename)
             content = fin.read()
             fin.close()
-
-            response = 'HTTP/1.0 200 OK\n\n' + content
+            status_code = '200 OK'
         except FileNotFoundError:
-            response = 'HTTP/1.0 404 NOT FOUND\n\nFile Not Found'
+            status_code = '404 NOT FOUND'
+            fin = open('www/404.html')
+            content = fin.read()
+            fin.close()
     else:
-        response = 'HTTP/1.1 400 Bad Request\n\n'
-
+        status_code = '400 Bad Request'
+    headers_str = "\r\n".join("{}: {}".format(k, v) for k, v in headers.items())
+    response = "HTTP/1.1 " + status_code + "\n" + headers_str + "\n\n" + content
     return response
-
 
 def start(CONFIG):
     global SERVER_RUNNING
@@ -58,4 +73,7 @@ def start(CONFIG):
     except OverflowError:
         SERVER_RUNNING = False
         print("[bold red]SERVER ERROR: OverflowError")
+    except OSError:
+        SERVER_RUNNING = False
+        print("[bold red]SERVER ERROR: OSError (If the port is 8080, the NGINX server is probably running.)")
     SERVER_RUNNING = False
