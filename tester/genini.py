@@ -12,6 +12,8 @@ CONFIG = {
 
 def start(config):
     input = config.split(":")[0]
+    if input[0][0] == "#":
+        return None
     output = config.split(":")[1]
     conf = input.split(",")
     CONFIG["request"]["command"] = conf[0]

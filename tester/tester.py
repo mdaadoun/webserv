@@ -1,11 +1,17 @@
 import requests
+import time
 from rich import print
 
 
-def test_get_request(add, port, resp):
+def test_get_request(add):
     try:
         response = requests.get(add)
-        print(response)
+        print("[bold sky_blue2]CLIENT response:[/bold sky_blue2]", response)
+        # print(response.json())
+        print(response.status_code)
+        print(response.headers)
+        print(response.text)
+        print(response.raw)
         # assert response.status_code == port
         # assert response.text == resp
     except requests.exceptions.HTTPError as err:
@@ -19,7 +25,9 @@ def test_get_request(add, port, resp):
 
 
 def start(CONFIG):
-    print("test", CONFIG)
     # Start all the test requests from config
     path = CONFIG
-    test_get_request('http://localhost:8000', 200, "Hello, World!")
+    address = "http://" + CONFIG["request"]["host"] + ":" + CONFIG["request"]["port"] + CONFIG["request"]["path"]
+    if CONFIG["request"]["command"] == "GET":
+        print("[bold sky_blue2]CLIENT connection to:[/bold sky_blue2]", address)
+        test_get_request(address)

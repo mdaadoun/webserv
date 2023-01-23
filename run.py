@@ -1,3 +1,5 @@
+import time
+
 import click
 import threading
 from rich import print
@@ -10,28 +12,45 @@ from tester import server, tester, genini
 def start(_nginx, _python, _all):
     tests = open("tester/tests.txt", "r")
     if _nginx:
-        print("test nginx server")
-        click.echo(f"Hello, {_nginx}!")
-    if _python:
+        t = 1
         for test in tests:
             CONFIG = genini.start(test)
+            if CONFIG is None:
+                continue
+            else:
+                print("\n========================\n", "TEST", t, "\n========================")
+                t += 1
+            time.sleep(1)
+            tester.start(CONFIG)
+
+    elif _python:
+        t = 1
+        for test in tests:
+            CONFIG = genini.start(test)
+            if CONFIG is None:
+                continue
+            else:
+                print("\n========================\n", "TEST", t, "\n========================")
+                t += 1
             server_thread = threading.Thread(target=server.start, args=(CONFIG,))
             server_thread.start()
             while not server.SERVER_RUNNING:
                 pass
-            tester.start(CONFIG)
+            time.sleep(1)
+            if server.SERVER_RUNNING:
+                tester.start(CONFIG)
             while server.SERVER_RUNNING:
                 pass
-            break
-    if _all:
+            server_thread.join()
+            # break
+    elif _all:
         print("_all")
         click.echo(f"Hello, {_all}!")
     else:
         print("./webserv test")
 
 def display_help():
-    print("""
-* unit tester python, OPTIONS:
+    print("""Tester usage:
     * default: will test ./webserv <CONFIG_FILE> with generated config files
         * [bold magenta]python3 run.py[/bold magenta]
     * -n: NGINX’s server (on VM).
@@ -39,8 +58,7 @@ def display_help():
     * -p: prototype python HTTP server.
         * [bold magenta]python3 run.py -p[/bold magenta]
     * -a: the 3 are compared, test by test
-        * [bold magenta]python3 run.py -a[/bold magenta]
-    """)
+        * [bold magenta]python3 run.py -a[/bold magenta]""")
 
 if __name__ == "__main__":
     display_help()

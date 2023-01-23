@@ -1,6 +1,6 @@
 # TODO
 
-* thread or process to run server and tester in the same program
+* get the same result from nginx to pyserv
 * [ ] unit-test / assert along dev
 ```
 * exemple http
