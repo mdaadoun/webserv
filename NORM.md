@@ -1,7 +1,7 @@
 # NORM
 
 ## Structure files:
->./Makefile  
+>./Makefile
 ./src/main.cpp  
 ./src/utils/ft_utils.cpp  
 ./inc/Webserv.class.hpp  
@@ -18,3 +18,12 @@
 
 ## Methods names:
 > getName
+
+## Class variables:
+> _private_attribute
+> public_attribute
+
+## const
+> <type> const& <function/attribute> const
+
+## tab == 4 espaces

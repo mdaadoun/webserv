@@ -3,7 +3,7 @@ import time
 import click
 import threading
 from rich import print
-from tester import server, tester, genini
+from tester import server, tester, config
 
 @click.command()
 @click.option('-n', '--_nginx', is_flag=True, help='Run and test nginx server')
@@ -14,7 +14,7 @@ def start(_nginx, _python, _all):
     if _nginx:
         t = 1
         for test in tests:
-            CONFIG = genini.start(test)
+            CONFIG = config.start(test)
             if CONFIG is None or CONFIG["request"]["port"] != "8080":
                 continue
             else:
@@ -26,7 +26,7 @@ def start(_nginx, _python, _all):
     elif _python:
         t = 1
         for test in tests:
-            CONFIG = genini.start(test)
+            CONFIG = config.start(test)
             if CONFIG is None:
                 continue
             else:

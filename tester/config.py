@@ -9,7 +9,6 @@ CONFIG = {
     "response": {}
 }
 
-
 def start(config):
     input = config.split(":")[0]
     if input[0][0] == "#":
@@ -22,7 +21,6 @@ def start(config):
     CONFIG["request"]["port"] = conf[3]
     CONFIG["request"]["protocol"] = conf[4]
     return CONFIG
-
 
 # generate a config.ini file for ./webserv <FILE>
 def create_file():

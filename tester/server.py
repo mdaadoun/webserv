@@ -39,7 +39,7 @@ def handle_request(request):
     else:
         status_code = '400 Bad Request'
     headers_str = "\r\n".join("{}: {}".format(k, v) for k, v in headers.items())
-    response = "HTTP/1.1 " + status_code + "\n" + headers_str + "\n\n" + content
+    response = "HTTP/1.1 " + status_code + "\r\n" + headers_str + "\r\n\r\n" + content
     return response
 
 def start(CONFIG):
@@ -53,7 +53,7 @@ def start(CONFIG):
 
         print("[bold orange_red1]SERVER running:[/bold orange_red1]", SERVER_HOST + ":" + SERVER_PORT)
         server_socket.bind((SERVER_HOST, int(SERVER_PORT)))
-        server_socket.listen(1)
+        server_socket.listen(5)
         # print('SERVER: Listening on port %s:%s' % (SERVER_HOST, SERVER_PORT))
         # server_socket.settimeout(1)
         # while True:
