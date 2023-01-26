@@ -11,7 +11,7 @@
   * https://fr.manpages.org/setsockopt/2
   * https://linux.die.net/man/3/setsockopt
 
-* getsockname - get the socket name
+* **getsockname** - get the socket name
   * https://linux.die.net/man/3/getsockname
   * https://fr.manpages.org/getsockname/2
 
