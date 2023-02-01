@@ -3,14 +3,14 @@ import time
 import click
 import threading
 from rich import print
-from tester import server, tester, config
+from tst import server, tester, config
 
 @click.command()
 @click.option('-n', '--_nginx', is_flag=True, help='Run and test nginx server')
 @click.option('-p', '--_python', is_flag=True, help='Run and test the python server')
 @click.option('-a', '--_all', is_flag=True, help='Run and test the 3 servers')
 def start(_nginx, _python, _all):
-    tests = open("tester/tests.txt", "r")
+    tests = open("tst/tests.txt", "r")
     if _nginx:
         t = 1
         for test in tests:
