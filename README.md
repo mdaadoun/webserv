@@ -6,6 +6,10 @@
 - [] b
 - [] c
 
+## USAGE
+
+./webserv [OPTION] [CONFIG_FILE]
+
 ### TEAM NORM
 
 ## Structure files:
