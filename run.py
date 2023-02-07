@@ -1,3 +1,4 @@
+#!/usr/bin/python3.8
 import time
 
 import click
@@ -5,13 +6,16 @@ import threading
 from rich import print
 from tst import server, tester, config
 
+
 @click.command()
-@click.option('-n', '--_nginx', is_flag=True, help='Run and test nginx server')
+@click.option('-n', '--_remote', is_flag=True, help='Run and test remote server')
 @click.option('-p', '--_python', is_flag=True, help='Run and test the python server')
-@click.option('-a', '--_all', is_flag=True, help='Run and test the 3 servers')
-def start(_nginx, _python, _all):
+@click.option('-p', '--_webserv', is_flag=True, help='Run and test the cpp server')
+@click.option('-a', '--_all', is_flag=True, help='Run, test and compare the results of the 3 servers')
+def start(_remote, _python, _webserv, _all):
     tests = open("tst/tests.txt", "r")
-    if _nginx:
+    if _remote:
+        print("REMOTE SERVER TESTS: (test only 8080 port)")
         t = 1
         for test in tests:
             CONFIG = config.start(test)
@@ -24,6 +28,7 @@ def start(_nginx, _python, _all):
             tester.start(CONFIG)
 
     elif _python:
+        print("LOCAL PYTHON SERVER TESTS:")
         t = 1
         for test in tests:
             CONFIG = config.start(test)
@@ -43,23 +48,45 @@ def start(_nginx, _python, _all):
                 pass
             server_thread.join()
             # break
+    elif _webserv:
+        print("TEST CPP WEBSERV")
+        print("./webserv test")
     elif _all:
-        print("_all")
+        print("COMPARE REMOTE SERVER, PYTHON WEBSERV and CPP WEBSERV: (only 8080 port)")
         click.echo(f"Hello, {_all}!")
     else:
-        print("./webserv test")
+        display_help()
+
 
 def display_help():
-    print("""Tester usage:
-    * default: will test ./webserv <CONFIG_FILE> with generated config files
-        * [bold magenta]python3 run.py[/bold magenta]
-    * -n: NGINX’s server (on VM).
-        * [bold magenta]python3 run.py -n[/bold magenta]
-    * -p: prototype python HTTP server.
-        * [bold magenta]python3 run.py -p[/bold magenta]
-    * -a: the 3 are compared, test by test
-        * [bold magenta]python3 run.py -a[/bold magenta]""")
+    print("""[bold yellow]
+=============
+Tester usage:
+=============
+[/bold yellow]
+    * [bold yellow]default[/bold yellow] (./run.py) without option display this help.
+    
+    * [bold yellow]cpp webserv[/bold yellow]: 
+        will test [bold green]CPP WEBSERV[/bold green] with ./webserv <CONFIG_FILE>
+            * [bold magenta]./run.py -w or --webserv[/bold magenta]
+    
+    * [bold yellow]remote server[/bold yellow]: 
+        will test [bold green]REMOTE[/bold green] server (NGINX’s server if possible).
+            * [bold magenta]./run.py -r or --remote[/bold magenta]
+    
+    * [bold yellow]local python server[/bold yellow]: 
+        will test local [bold green]PYTHON[/bold green] HTTP web server.
+            * [bold magenta]./run.py -p or --python[/bold magenta]
+    
+    * [bold yellow]all servers[/bold yellow]: 
+        will test the 3 servers [bold green](REMOTE, PYTHON and CPP)[/bold green] and results are compared.
+            * [bold magenta]./run.py -a or --all[/bold magenta]
+    
+    * notes:
+        [italic]* for ./webserv the tester will generate multiple config files.
+        * add tests to ./tst/tests.txt. (The request:The response expected)
+        * for remote and the --all option, only the tests with 8080 port will be tested.[/italic]""")
+
 
 if __name__ == "__main__":
-    display_help()
     start()
