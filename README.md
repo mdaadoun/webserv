@@ -156,7 +156,9 @@ pour les fichiers
 
 ## Class variables:
 > _private_attribute
+>
 > public_attribute
+>
 > g_global_attribute
 
 ## Struct and enum + typedef
