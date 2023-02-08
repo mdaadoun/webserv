@@ -1,6 +1,5 @@
 #!/usr/bin/python3.8
 import time
-
 import click
 import threading
 from rich import print
@@ -8,13 +7,13 @@ from tst import server, tester, config
 
 
 @click.command()
-@click.option('-n', '--_remote', is_flag=True, help='Run and test remote server')
-@click.option('-p', '--_python', is_flag=True, help='Run and test the python server')
-@click.option('-p', '--_webserv', is_flag=True, help='Run and test the cpp server')
-@click.option('-a', '--_all', is_flag=True, help='Run, test and compare the results of the 3 servers')
-def start(_remote, _python, _webserv, _all):
+@click.option('-n', '--remote', is_flag=True, help='Run and test remote server')
+@click.option('-p', '--python', is_flag=True, help='Run and test the python server')
+@click.option('-w', '--webserv', is_flag=True, help='Run and test the cpp server')
+@click.option('-a', '--all', is_flag=True, help='Run, test and compare the results of the 3 servers')
+def start(remote, python, webserv, all):
     tests = open("tst/tests.txt", "r")
-    if _remote:
+    if remote:
         print("REMOTE SERVER TESTS: (test only 8080 port)")
         t = 1
         for test in tests:
@@ -27,7 +26,7 @@ def start(_remote, _python, _webserv, _all):
             time.sleep(1)
             tester.start(CONFIG)
 
-    elif _python:
+    elif python:
         print("LOCAL PYTHON SERVER TESTS:")
         t = 1
         for test in tests:
@@ -48,10 +47,10 @@ def start(_remote, _python, _webserv, _all):
                 pass
             server_thread.join()
             # break
-    elif _webserv:
+    elif webserv:
         print("TEST CPP WEBSERV")
         print("./webserv test")
-    elif _all:
+    elif all:
         print("COMPARE REMOTE SERVER, PYTHON WEBSERV and CPP WEBSERV: (only 8080 port)")
         click.echo(f"Hello, {_all}!")
     else:

@@ -5,3 +5,4 @@ __pycache__
 webserv
 *.o
 .idea
+.vscode
