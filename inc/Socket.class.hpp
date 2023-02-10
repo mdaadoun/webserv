@@ -6,7 +6,7 @@
 /*   By: tlafont <tlafont@student.42angouleme.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 11:37:07 by tlafont           #+#    #+#             */
-/*   Updated: 2023/02/10 12:08:53 by tlafont          ###   ########.fr       */
+/*   Updated: 2023/02/10 13:18:51 by tlafont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@
 #include <iostream>
 #include <sys/socket.h>
 #include <netinet/in.h>
+#include <cstring>
+#include <exception>
 
 // Typedefs
 
@@ -26,15 +28,15 @@ typedef unsigned short      uint16_t;
 typedef unsigned int        uint32_t;
 
 // class interface
-class ISocket
+class Socket
 {
 	public:
 	    //---- canonical form ----//
 			// constructors //
 				// default constructor
-		ISocket(int dom, int serv, int protoc, int port, uint32_t interf);
+		Socket(int dom, int serv, int protoc, int port, uint32_t interf);
 			// destructor //
-	    virtual ~ISocket(void);
+	    ~Socket(void);
 			
 	    //---- getter methods ----//
 		int					getSocket() const;
@@ -44,11 +46,17 @@ class ISocket
 	    //---- member methods ----//
 				// virtual function to connect to a network
 				//(at define for a server or a client)
-		virtual int	connectToNetwork(int sock, struct sockaddr_in addr);
+		int	connectToNetwork(int sock, struct sockaddr_in addr);
 
 				// connection test establishment
 		void	testConnection(int to_test);
 
+			// exception class//
+		class ErrorConnection : std::exception
+		{
+			public:
+				char const	*what() const throw();
+		};
 	//    int connect();
 	//    int listen();
 	//    int bind();
@@ -56,9 +64,8 @@ class ISocket
 	//    int send();
 	//    int setSockOpt();
 	//    int getSockOpt();
-
 	private:
-		int					_socket;
+		int					_sock;
 		int					_connection;
 		struct sockaddr_in	_address;
 
