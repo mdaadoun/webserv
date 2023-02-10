@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Socket.class.cpp                                   :+:      :+:    :+:   */
+/*   ISocket.class.cpp                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tlafont <tlafont@student.42angouleme.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 12:06:39 by tlafont           #+#    #+#             */
-/*   Updated: 2023/02/10 13:49:55 by tlafont          ###   ########.fr       */
+/*   Updated: 2023/02/10 14:48:08 by tlafont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/Socket.class.hpp"
+#include "../inc/ISocket.class.hpp"
 
 /*
 *  @brief	Default constructor of the class ISocket.
@@ -18,17 +18,17 @@
 *  @param	void
 *  @return	void
 */
-Socket::Socket()
+ISocket::ISocket()
 {
 }
 
 /*
-*  @brief	Default constructor of the class ISocket.
+*  @brief	Overload constructor of the class ISocket.
 *           Initialize the socket with parameters
 *  @param	int , int , int , int , unsigned long
 *  @return	void
 */
-Socket::Socket(int dom, int serv, int protoc, int port, uint32_t interf)
+ISocket::ISocket(int dom, int serv, int protoc, int port, u_long interf)
 {
 	//set values in address struct for connection
 	this->_addr.sin_family = dom;
@@ -38,73 +38,82 @@ Socket::Socket(int dom, int serv, int protoc, int port, uint32_t interf)
 	//establish the socket and test
 	this->_sock = socket(dom, serv, protoc);
 	testConnection(this->_sock);
-	//establish the connection to network and test
-	this->_connec = connectToNetwork(this->_sock, this->_addr);
-	testConnection(this->_connec);
 }
 
 /*
-*  @brief	Method for establish connection.
-*           set the connection for network
-*  @param	int , struct sockaddr_in
-*  @return	int
+*  @brief	Copy  constructor.
+*           Initialize the socket with other socket
+*  @param	ISocket &
+*  @return	void
 */
-int	Socket::connectToNetwork(int sock, struct sockaddr_in addr)
+ISocket::ISocket(const ISocket& rhs)
 {
-	return (bind(this->_sock, (struct sockaddr *)this->_addr, sizeof(this->_addr)));
+	*this = rhs;
 }
 
 /*
-*  @brief	test _sock or _connec.
+*  @brief	Assignment operator.
+*           Copy other socket in this socket
+*  @param	ISocket
+*  @return	Isocket &
+*/
+ISocket  &ISocket::operator=(const ISocket& rhs)
+{
+	(void)rhs;
+	return (*this);
+}
+
+/*
+*  @brief	Test _sock or _connec.
 *           Confirm  data properly established
 *  @param	int
 *  @return	void
 */
-void	Socket::testConnection(int data)
+void	ISocket::testConnection(int data)
 {
 	if (data < 0)
-		throw Socket::ErrorConnection();
+		throw ISocket::ErrorConnection();
 }
 
 /*
-*  @brief	getter for private attribut socket.
-*           return the socket associate
+*  @brief	Getter for private attribut socket.
+*           Return the socket associate
 *  @param	void
 *  @return	int
 */
-int	Socket::getSocket() const
+int	ISocket::getSocket() const
 {
 	return (this->_sock);
 }
 
 /*
-*  @brief	getter for private attribut connection.
-*           return the connection associate
+*  @brief	Getter for private attribut connection.
+*           Return the connection associate
 *  @param	void
 *  @return	int
 */
-int	Socket::getConnection() const
+int	ISocket::getConnection() const
 {
 	return (this->_connec);
 }
 
 /*
-*  @brief	getter for private attribut address.
-*           return the structur address associate
+*  @brief	Getter for private attribut address.
+*           Return the structur address associate
 *  @param	void
 *  @return	struct sockaddr_in
 */
-struct sockaddr_in	Socket::getAddress() const
+struct sockaddr_in	ISocket::getAddress() const
 {
 	return (this->_addr);
 }
 
 /*
-*  @brief	destructor
-*           destroy all member objects
+*  @brief	Destructor
+*           Destroy all member objects
 *  @param	void
 *  @return	void
 */
-Socket::~Socket()
+ISocket::~ISocket()
 {
 }

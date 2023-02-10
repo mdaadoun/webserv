@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Socket.class.hpp                                   :+:      :+:    :+:   */
+/*   ISocket.class.hpp                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tlafont <tlafont@student.42angouleme.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 11:37:07 by tlafont           #+#    #+#             */
-/*   Updated: 2023/02/10 13:50:14 by tlafont          ###   ########.fr       */
+/*   Updated: 2023/02/10 14:45:24 by tlafont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,17 +26,18 @@
 
 typedef unsigned short      uint16_t;
 typedef unsigned int        uint32_t;
+typedef	unsigned long		u_long;
 
 // class interface
-class Socket
+class ISocket
 {
 	public:
 	    //---- canonical form ----//
 			// constructors //
-				// default constructor
-		Socket(int dom, int serv, int protoc, int port, uint32_t interf);
+				// overload constructor
+		ISocket(int dom, int serv, int protoc, int port, u_long interf);
 			// destructor //
-	    ~Socket(void);
+	    virtual ~ISocket(void);
 			
 	    //---- getter methods ----//
 		int					getSocket() const;
@@ -45,33 +46,27 @@ class Socket
 
 	    //---- member methods ----//
 				// virtual function to connect to a network
-				//(at define for a server or a client)
-		int	connectToNetwork(int sock, struct sockaddr_in addr);
+				//(at define for a bindSocket or a listenSocket)
+		virtual int	connectToNetwork(int sock, struct sockaddr_in addr) const = 0;
 
 				// connection test establishment
 		void	testConnection(int to_test);
 
-			// exception class//
+			//---- exception class ----//
 		class ErrorConnection : std::exception
 		{
 			public:
 				char const	*what() const throw();
 		};
-	//    int connect();
-	//    int listen();
-	//    int bind();
-	//    int recv();
-	//    int send();
-	//    int setSockOpt();
-	//    int getSockOpt();
-	private:
+	protected:
 		int					_sock;
 		int					_connec;
 		struct sockaddr_in	_addr;
 
-    	Socket(void);
-	    Socket(const Socket& s);
-	    Socket  &operator=(const Socket& s);
+	private:
+    	ISocket(void);
+	    ISocket(const ISocket& rhs);
+	    ISocket  &operator=(const ISocket& rhs);
 };
 
 #endif
