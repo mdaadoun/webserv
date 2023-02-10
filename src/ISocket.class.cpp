@@ -6,7 +6,7 @@
 /*   By: tlafont <tlafont@student.42angouleme.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 12:06:39 by tlafont           #+#    #+#             */
-/*   Updated: 2023/02/10 14:48:08 by tlafont          ###   ########.fr       */
+/*   Updated: 2023/02/10 15:47:55 by tlafont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,8 @@ ISocket::ISocket(int dom, int serv, int protoc, int port, u_long interf)
 	this->_addr.sin_port = htons(port);
 	this->_addr.sin_addr.s_addr = htonl(interf);
 	//establish the socket and test
-	this->_sock = socket(dom, serv, protoc);
-	testConnection(this->_sock);
+	this->_sock_fd = socket(dom, serv, protoc);
+	testConnection(this->_sock_fd);
 }
 
 /*
@@ -64,7 +64,7 @@ ISocket  &ISocket::operator=(const ISocket& rhs)
 }
 
 /*
-*  @brief	Test _sock or _connec.
+*  @brief	Test _sock_fd or _connec.
 *           Confirm  data properly established
 *  @param	int
 *  @return	void
@@ -83,7 +83,7 @@ void	ISocket::testConnection(int data)
 */
 int	ISocket::getSocket() const
 {
-	return (this->_sock);
+	return (this->_sock_fd);
 }
 
 /*

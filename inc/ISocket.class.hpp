@@ -6,7 +6,7 @@
 /*   By: tlafont <tlafont@student.42angouleme.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 11:37:07 by tlafont           #+#    #+#             */
-/*   Updated: 2023/02/10 14:45:24 by tlafont          ###   ########.fr       */
+/*   Updated: 2023/02/10 15:47:12 by tlafont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ class ISocket
 				char const	*what() const throw();
 		};
 	protected:
-		int					_sock;
+		int					_sock_fd;
 		int					_connec;
 		struct sockaddr_in	_addr;
 

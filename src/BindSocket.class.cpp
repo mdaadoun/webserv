@@ -6,7 +6,7 @@
 /*   By: tlafont <tlafont@student.42angouleme.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 14:30:23 by tlafont           #+#    #+#             */
-/*   Updated: 2023/02/10 14:48:11 by tlafont          ###   ########.fr       */
+/*   Updated: 2023/02/10 15:48:09 by tlafont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ BindSocket::BindSocket()
 BindSocket(int dom, int serv, int protoc, int port, u_long interf) : ISocket(dom, serv, protoc, port, interf)
 {
 	//establish the connection to network and test
-	this->_connec = connectToNetwork(this->_sock, this->_addr);
+	this->_connec = connectToNetwork(this->_sock_fd, this->_addr);
 	testConnection(this->_connec);
 }
 
@@ -66,7 +66,7 @@ BindSocket	&BindSocket::operator=(BindSocket const &rhs)
 */
 int BindSocket::connectToNetwork(int sock, struct sockaddr_in addr)
 {
-	return (bind(this->_sock, (struct sockaddr *)this->_addr, sizeof(this->_addr)));
+	return (bind(this->_sock_fd, (struct sockaddr *)this->_addr, sizeof(this->_addr)));
 }
 
 /*
