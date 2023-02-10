@@ -6,7 +6,7 @@
 /*   By: tlafont <tlafont@student.42angouleme.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 11:37:07 by tlafont           #+#    #+#             */
-/*   Updated: 2023/02/10 13:18:51 by tlafont          ###   ########.fr       */
+/*   Updated: 2023/02/10 13:50:14 by tlafont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,8 @@ class Socket
 	//    int getSockOpt();
 	private:
 		int					_sock;
-		int					_connection;
-		struct sockaddr_in	_address;
+		int					_connec;
+		struct sockaddr_in	_addr;
 
     	Socket(void);
 	    Socket(const Socket& s);

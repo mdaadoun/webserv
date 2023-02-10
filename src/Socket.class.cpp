@@ -6,7 +6,7 @@
 /*   By: tlafont <tlafont@student.42angouleme.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 12:06:39 by tlafont           #+#    #+#             */
-/*   Updated: 2023/02/10 13:18:27 by tlafont          ###   ########.fr       */
+/*   Updated: 2023/02/10 13:49:55 by tlafont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,9 @@
 *  @param	void
 *  @return	void
 */
-Socket::Socket() {};
+Socket::Socket()
+{
+}
 
 /*
 *  @brief	Default constructor of the class ISocket.
@@ -29,16 +31,16 @@ Socket::Socket() {};
 Socket::Socket(int dom, int serv, int protoc, int port, uint32_t interf)
 {
 	//set values in address struct for connection
-	this->_address.sin_family = dom;
+	this->_addr.sin_family = dom;
 		//set octets in order for nertwork (htons, htonl)
-	this->_address.sin_port = htons(port);
-	this->_address.sin_addr.s_addr = htonl(interf);
+	this->_addr.sin_port = htons(port);
+	this->_addr.sin_addr.s_addr = htonl(interf);
 	//establish the socket and test
 	this->_sock = socket(dom, serv, protoc);
 	testConnection(this->_sock);
 	//establish the connection to network and test
-	this->_connection = connectToNetwork(this->_sock, this->_address);
-	testConnection(this->_connection);
+	this->_connec = connectToNetwork(this->_sock, this->_addr);
+	testConnection(this->_connec);
 }
 
 /*
@@ -49,11 +51,11 @@ Socket::Socket(int dom, int serv, int protoc, int port, uint32_t interf)
 */
 int	Socket::connectToNetwork(int sock, struct sockaddr_in addr)
 {
-	//in progress...
+	return (bind(this->_sock, (struct sockaddr *)this->_addr, sizeof(this->_addr)));
 }
 
 /*
-*  @brief	test _sock or _connection.
+*  @brief	test _sock or _connec.
 *           Confirm  data properly established
 *  @param	int
 *  @return	void
@@ -83,7 +85,7 @@ int	Socket::getSocket() const
 */
 int	Socket::getConnection() const
 {
-	return (this->_connection);
+	return (this->_connec);
 }
 
 /*
@@ -94,7 +96,7 @@ int	Socket::getConnection() const
 */
 struct sockaddr_in	Socket::getAddress() const
 {
-	return (this->_address);
+	return (this->_addr);
 }
 
 /*
