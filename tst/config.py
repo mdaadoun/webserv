@@ -12,7 +12,6 @@ CONFIG = {
     "response": {}
 }
 
-
 def start(config):
     input = config.split(":")[0]
     if input[0][0] == "#":
@@ -30,10 +29,10 @@ def start(config):
 # generate a config.ini file for ./webserv <FILE>
 def create_file():
     print("generate a json file from test CONFIG")
-    print(CONFIG)
-    print(json)
+    print(json.dumps(CONFIG))
+    with open("config.json", "w") as file:
+        file.write(json.dumps(CONFIG["request"]))
     pass
-
 
 def generate_file():
     print("Config file generator:")
@@ -41,9 +40,7 @@ def generate_file():
 1. generate config.json with question and answers.
 2. generate quick default config.json file.
 >""")
-    print(ans, json.dumps(CONFIG))
-    with open("config.json", "w") as file:
-        file.write(json.dumps(CONFIG["request"]))
+    create_file()
 
 
 if __name__ == '__main__':
