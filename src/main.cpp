@@ -14,8 +14,7 @@
 
 int main()
 {
-    std::cout << "***** WebServ *****" << std::endl;
-
+  std::cout << "***** WebServ *****" << std::endl;
 	std::cout << "   starting test" << std::endl;
 	std::cout << "*******************\n\n";
 	std::cout << "---BindSocket--- :" << std::endl;

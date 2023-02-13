@@ -1,3 +1,6 @@
+#!/usr/bin/python3
+import json
+
 CONFIG = {
     "request": {
         "command": "GET",
@@ -22,6 +25,23 @@ def start(config):
     CONFIG["request"]["protocol"] = conf[4]
     return CONFIG
 
+
 # generate a config.ini file for ./webserv <FILE>
 def create_file():
+    print("generate a json file from test CONFIG")
+    print(json.dumps(CONFIG))
+    with open("config.json", "w") as file:
+        file.write(json.dumps(CONFIG["request"]))
     pass
+
+def generate_file():
+    print("Config file generator:")
+    ans = input("""
+1. generate config.json with question and answers.
+2. generate quick default config.json file.
+>""")
+    create_file()
+
+
+if __name__ == '__main__':
+    generate_file()
