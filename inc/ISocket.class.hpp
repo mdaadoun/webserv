@@ -6,7 +6,7 @@
 /*   By: tlafont <tlafont@student.42angouleme.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 11:37:07 by tlafont           #+#    #+#             */
-/*   Updated: 2023/02/10 15:47:12 by tlafont          ###   ########.fr       */
+/*   Updated: 2023/02/13 10:54:02 by tlafont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ class ISocket
 		void	testConnection(int to_test);
 
 			//---- exception class ----//
-		class ErrorConnection : std::exception
+		class ErrorConnection : public std::exception
 		{
 			public:
 				char const	*what() const throw();

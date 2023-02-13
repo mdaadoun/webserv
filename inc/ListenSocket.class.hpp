@@ -1,42 +1,43 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   BindSocket.class.hpp                               :+:      :+:    :+:   */
+/*   ListenSocket.class.hpp                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tlafont <tlafont@student.42angouleme.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/10 14:10:59 by tlafont           #+#    #+#             */
-/*   Updated: 2023/02/13 10:43:40 by tlafont          ###   ########.fr       */
+/*   Created: 2023/02/13 08:23:08 by tlafont           #+#    #+#             */
+/*   Updated: 2023/02/13 11:34:00 by tlafont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once
-#ifndef BINDSOCKET_HPP
-# define BINDSOCKET_HPP
+#ifndef LISTENSOCKET_HPP
+# define LISTENSOCKET_HPP
 
 // includes
+#include "BindSocket.class.hpp"
 
-#include "ISocket.class.hpp"
+// typedef
+typedef unsigned long   u_long;
 
-//Typedef
-
-typedef unsigned long	u_long;
-
-class BindSocket : public ISocket
+class ListenSocket : public BindSocket
 {
 	public:
-		//---- canonical form ----//
 			// constructors //
 				// overload constructor
-		BindSocket(int dom, int serv, int protoc, int port, u_long interf);
-
+		ListenSocket(int dom, int serv, int protoc, int port, u_long interf, int bcklog);
 			// destructor //
-		~BindSocket();
+		~ListenSocket();
+		//---- getter methods ----//
+		int	getBcklog() const;
+		int	getListen() const;
 		//---- member methods ----//
-		int connectToNetwork(int sock, struct sockaddr_in addr) const;
-
+		int	startListen();
 	private:
-		BindSocket	&operator=(BindSocket const &rhs);
+		int	_backlog;
+		int	_listen;
+
+		ListenSocket	&operator=(ListenSocket const &rhs);
 };
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: tlafont <tlafont@student.42angouleme.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 12:06:39 by tlafont           #+#    #+#             */
-/*   Updated: 2023/02/10 15:47:55 by tlafont          ###   ########.fr       */
+/*   Updated: 2023/02/13 11:13:01 by tlafont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,13 +54,24 @@ ISocket::ISocket(const ISocket& rhs)
 /*
 *  @brief	Assignment operator.
 *           Copy other socket in this socket
-*  @param	ISocket
+*  @param	ISocket &
 *  @return	Isocket &
 */
 ISocket  &ISocket::operator=(const ISocket& rhs)
 {
 	(void)rhs;
 	return (*this);
+}
+
+/*
+*  @brief	error message for exception.
+*           set the msg in case of exception
+*  @param	void
+*  @return	char *
+*/
+char const  *ISocket::ErrorConnection::what() const throw()
+{
+	return ("Socket: error connection...");
 }
 
 /*
@@ -72,7 +83,9 @@ ISocket  &ISocket::operator=(const ISocket& rhs)
 void	ISocket::testConnection(int data)
 {
 	if (data < 0)
+	{
 		throw ISocket::ErrorConnection();
+	}
 }
 
 /*
