@@ -58,12 +58,13 @@ def run_all(testfile):
 
 
 @click.command()
+@click.option('-h', '--help', is_flag=True, help='Create a json file with questions/answers')
 @click.option('-c', '--conf', is_flag=True, help='Create a json file with questions/answers')
 @click.option('-n', '--remote', is_flag=True, help='Run and test remote server')
 @click.option('-p', '--python', is_flag=True, help='Run and test the python server')
 @click.option('-w', '--webserv', is_flag=True, help='Run and test the cpp server')
 @click.option('-a', '--all', is_flag=True, help='Run, test and compare the results of the 3 servers')
-def start(conf, remote, python, webserv, all):
+def start(help, conf, remote, python, webserv, all):
     with open("tst/tests.txt", "r") as testfile:
         if remote:
             run_remote(testfile)
@@ -75,6 +76,8 @@ def start(conf, remote, python, webserv, all):
             run_all(testfile)
         elif conf:
             config.generate_file()
+        elif help:
+            display_help()
         else:
             display_help()
 
@@ -85,10 +88,11 @@ def display_help():
 Tester usage:
 =============
 [/bold yellow]
-    * [bold yellow]default[/bold yellow] (./run.py) without option display this help.
+    * [bold yellow]default[/bold yellow] (./run.py) without option display this help. 
+        * [italic](option -h and --help will work too)[/italic]
     
     * [bold yellow]config file[/bold yellow]: 
-        will generate a config.json file with default or manual questions/answers.
+        will generate a [bold green]config.json[/bold green] file with default or manual questions/answers parameters.
             * [bold magenta]./run.py -c or --conf[/bold magenta]
     
     * [bold yellow]cpp webserv[/bold yellow]: 
