@@ -1,5 +1,11 @@
 NAME = webserv
-SRCS = src/main.cpp src/Webserv.class.cpp
+SRCS =	src/main.cpp \
+		src/ISocket.class.cpp \
+		src/BindSocket.class.cpp \
+		src/ClientSocket.class.cpp \
+		src/ListenSocket.class.cpp
+
+
 OBJS = $(SRCS:%.cpp=%.o)
 CC = c++
 RM = rm -f
