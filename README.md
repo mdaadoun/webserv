@@ -119,7 +119,7 @@ $> ./webserv [OPTION] [CONFIG_FILE]
 ```
   > python3 -m venv venv
   > source venv/bin/activate
-  > pip install -r requirements.txt
+  > pip3 install -r requirements.txt
   > python3 run.py
   ou
   > chmod +x run.py
@@ -192,5 +192,5 @@ Socket::Socket(void): _fd(-1) {}
 ### 6) Git
 
 voir git flow
-* Fork/Branch functionnality/Pull Request/Merge on branch dev
+* Fork/Branch functionality/Pull Request/Merge on branch dev
 * When ok, dev merge sur main et continuer sur dev

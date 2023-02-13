@@ -4,7 +4,7 @@
 int main() {
 
     std::cout << "WebServ" << std::endl;
-    Socket s;
+//    Socket s;
 //    Epoll e;
 
     return 0;
