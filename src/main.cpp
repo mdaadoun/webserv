@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tlafont <tlafont@student.42angouleme.      +#+  +:+       +#+        */
+/*   By: amorel <amorel@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 10:31:27 by tlafont           #+#    #+#             */
-/*   Updated: 2023/02/13 11:45:52 by tlafont          ###   ########.fr       */
+/*   Updated: 2023/02/14 17:33:38 by amorel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ int main()
 	catch (std::exception &e) {
         std::cout << e.what() << std::endl;
     }
-    parse_config_file("config.ini");
+	std::map<std::string, std::string>	config;
+    parse_config_file(&config, "config.ini");
     return 0;
 }

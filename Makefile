@@ -11,7 +11,7 @@ OBJS = $(SRCS:%.cpp=%.o)
 CC = c++
 RM = rm -f
 INCDIR = inc
-FLAGS = -Wall -Wextra -Werror -Wpedantic -std=c++98 -I$(INCDIR)
+FLAGS = -Wall -Wextra -Werror -Wpedantic -g3 -std=c++98 -I$(INCDIR)
 
 R = \033[38;5;1m
 G = \033[38;5;2m

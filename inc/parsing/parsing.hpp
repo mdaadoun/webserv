@@ -6,7 +6,7 @@
 /*   By: amorel <amorel@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 15:14:07 by amorel            #+#    #+#             */
-/*   Updated: 2023/02/14 15:38:46 by amorel           ###   ########.fr       */
+/*   Updated: 2023/02/14 17:34:24 by amorel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,10 @@
 #include <iostream>
 #include <map>
 #include <string>
-#include<fstream>
-#include<sstream>
+#include <stdlib.h>
+#include <fstream>
+#include <sstream>
 
-std::map	*parse_config_file(std::string  file);
+void	parse_config_file(std::map<std::string, std::string> *config, std::string  file);
 
 #endif // PARSING_HPP
