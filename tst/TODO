@@ -1,0 +1,7 @@
+## work on config file generator
+* change config file format, key=value
+
+## improve client, work on request clarity and testing on local pyserv and remote nginx
+* display the full request for each test
+
+## work on server response...
