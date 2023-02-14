@@ -1,9 +1,9 @@
 NAME = webserv
 SRCS =	src/main.cpp \
-		src/ISocket.class.cpp \
-		src/BindSocket.class.cpp \
-		src/ClientSocket.class.cpp \
-		src/ListenSocket.class.cpp
+		src/sockets/ISocket.class.cpp \
+		src/sockets/BindSocket.class.cpp \
+		src/sockets/ClientSocket.class.cpp \
+		src/sockets/ListenSocket.class.cpp
 
 
 OBJS = $(SRCS:%.cpp=%.o)

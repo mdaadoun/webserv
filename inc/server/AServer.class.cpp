@@ -1,25 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.hpp                                           :+:      :+:    :+:   */
+/*   AServer.class.cpp                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tlafont <tlafont@student.42angouleme.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/13 10:11:36 by tlafont           #+#    #+#             */
-/*   Updated: 2023/02/14 08:27:51 by tlafont          ###   ########.fr       */
+/*   Created: 2023/02/14 08:31:33 by tlafont           #+#    #+#             */
+/*   Updated: 2023/02/14 08:34:50 by tlafont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MAIN_HPP
-# define MAIN_HPP
+#ifndef ASERVER_HPP
+# define ASERVER_HPP
 
-// includes
-#include <iostream>
+//includes
+#include "../sockets/ListenSocket.class.hpp"
 
-// sockets
-#include "sockets/ISocket.class.hpp"
-#include "sockets/BindSocket.class.hpp"
-#include "sockets/ClientSocket.class.hpp"
-#include "sockets/ListenSocket.class.hpp"
+//typedef
+typedef unsigned long	u_long;
 
 #endif
