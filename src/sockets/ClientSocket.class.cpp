@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   BindSocket.class.cpp                               :+:      :+:    :+:   */
+/*   ClientSocket.class.cpp                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tlafont <tlafont@student.42angouleme.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 14:30:23 by tlafont           #+#    #+#             */
-/*   Updated: 2023/02/13 11:17:33 by tlafont          ###   ########.fr       */
+/*   Updated: 2023/02/13 11:43:56 by tlafont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/BindSocket.class.hpp"
+#include "../../inc/sockets/ClientSocket.class.hpp"
 
 /*
 *  @brief   Overload constructor.
@@ -18,21 +18,22 @@
 *  @param   int, int, int, int , unsigned long
 *  @return  void
 */
-BindSocket::BindSocket(int dom, int serv, int protoc, int port, u_long interf):
+ClientSocket::ClientSocket(int dom, int serv, int protoc, int port, u_long interf):
 ISocket(dom, serv, protoc, port, interf)
 {
 	//establish the connection to network and test
 	this->_connec = connectToNetwork(this->_sock_fd, this->_addr);
+	std::cout << _connec << "\n";
 	testConnection(this->_connec);
 }
 
 /*
 *  @brief   Assignment operator.
 *           copy other socket in this socket
-*  @param   BindSocket &
-*  @return  BindSocket &
+*  @param   ClientSocket &
+*  @return  ClientSocket &
 */
-BindSocket	&BindSocket::operator=(BindSocket const &rhs)
+ClientSocket	&ClientSocket::operator=(ClientSocket const &rhs)
 {
 	(void)rhs;
 	return (*this);
@@ -44,9 +45,9 @@ BindSocket	&BindSocket::operator=(BindSocket const &rhs)
 *  @param   int , struct sockaddr_in
 *  @return  int
 */
-int BindSocket::connectToNetwork(int sock, struct sockaddr_in addr) const
+int ClientSocket::connectToNetwork(int sock, struct sockaddr_in addr) const
 {
-	return (bind(sock, (struct sockaddr *)&addr, sizeof(addr)));
+	return (connect(sock, (struct sockaddr *)&addr, sizeof(addr)));
 }
 
 /*
@@ -55,6 +56,6 @@ int BindSocket::connectToNetwork(int sock, struct sockaddr_in addr) const
 *  @param   void
 *  @return  void
 */
-BindSocket::~BindSocket()
+ClientSocket::~ClientSocket()
 {
 }

@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/ISocket.class.hpp"
+#include "../../inc/sockets/ISocket.class.hpp"
 
 /*
 *  @brief	Default constructor of the class ISocket.

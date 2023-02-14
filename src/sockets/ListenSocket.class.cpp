@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/ListenSocket.class.hpp"
+#include "../../inc/sockets/ListenSocket.class.hpp"
 
 /*
 *	@brief	Overload constructor of the class ListenSocket.

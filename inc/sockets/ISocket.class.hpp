@@ -25,7 +25,6 @@
 // Typedefs
 
 typedef unsigned short      uint16_t;
-typedef unsigned int        uint32_t;
 typedef	unsigned long		u_long;
 
 // class interface
