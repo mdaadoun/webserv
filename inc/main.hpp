@@ -6,7 +6,7 @@
 /*   By: tlafont <tlafont@student.42angouleme.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 10:11:36 by tlafont           #+#    #+#             */
-/*   Updated: 2023/02/14 08:27:51 by tlafont          ###   ########.fr       */
+/*   Updated: 2023/02/14 12:26:02 by tlafont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,13 @@
 // includes
 #include <iostream>
 
-// sockets
+// Sockets class
 #include "sockets/ISocket.class.hpp"
 #include "sockets/BindSocket.class.hpp"
 #include "sockets/ClientSocket.class.hpp"
 #include "sockets/ListenSocket.class.hpp"
+
+// Server class
+#include "server/Server.class.hpp"
 
 #endif

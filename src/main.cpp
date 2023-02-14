@@ -6,7 +6,7 @@
 /*   By: tlafont <tlafont@student.42angouleme.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 10:31:27 by tlafont           #+#    #+#             */
-/*   Updated: 2023/02/13 11:45:52 by tlafont          ###   ########.fr       */
+/*   Updated: 2023/02/14 13:52:57 by tlafont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 int main()
 {
-  std::cout << "***** WebServ *****" << std::endl;
+/*	{// test Sockest
+	std::cout << "***** WebServ *****" << std::endl;
 	std::cout << "   starting test" << std::endl;
 	std::cout << "*******************\n\n";
 	std::cout << "---BindSocket--- :" << std::endl;
@@ -63,5 +64,10 @@ int main()
 	{
 		std::cout << e.what() << std::endl;
 	}
+	}//end of test Sockets
+*/
+
+	Server	serv(AF_INET, SOCK_STREAM, 0, 8080, INADDR_ANY, 10);
+	serv.launch();
     return 0;
 }
