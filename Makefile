@@ -3,7 +3,8 @@ SRCS =	src/main.cpp \
 		src/sockets/ISocket.class.cpp \
 		src/sockets/BindSocket.class.cpp \
 		src/sockets/ClientSocket.class.cpp \
-		src/sockets/ListenSocket.class.cpp
+		src/sockets/ListenSocket.class.cpp	\
+		src/parsing/parsing.cpp
 
 
 OBJS = $(SRCS:%.cpp=%.o)

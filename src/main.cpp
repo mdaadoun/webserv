@@ -59,9 +59,9 @@ int main()
 		std::cout << "getter address socket = " << csock.getAddress().sin_addr.s_addr << std::endl;
 		std::cout << "\nSocket connection passed...\n\n";
 	}
-	catch (std::exception &e)
-	{
-		std::cout << e.what() << std::endl;
-	}
+	catch (std::exception &e) {
+        std::cout << e.what() << std::endl;
+    }
+    parse_config_file("config.ini");
     return 0;
 }
