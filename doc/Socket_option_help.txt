@@ -1,0 +1,34 @@
+ISocket(int dom, int serv, int protoc, int port, u_long interf);
+
+Params "dom":
+    AF_INET indique que le socket sera créé avec le protocole d'adressage IPv4.
+    AF_UNIX pour le protocole d'adressage Unix, utilisé pour la communication entre processus sur un même système.
+    AF_INET6 pour le protocole d'adressage IPv6.
+    AF_NETLINK pour le protocole Netlink, utilisé pour la communication entre le noyau du système et les processus.
+    AF_PACKET pour le protocole de communication de niveau liaison de données, qui permet d'accéder directement aux paquets du réseau.
+
+Params "serv":
+    SOCK_STREAM indique que le socket sera orienté connexion et utilisera le protocole de transport TCP.
+    SOCK_DGRAM pour un socket orienté datagramme utilisant le protocole de transport UDP.
+    SOCK_SEQPACKET pour un socket orienté connexion qui garantit que les paquets sont transmis dans l'ordre et sans perte.
+    SOCK_RAW pour un socket brut qui permet de manipuler directement les paquets du réseau.
+    SOCK_RDM pour un socket orienté datagramme qui garantit que les paquets sont transmis sans perte mais sans garantie d'ordre.
+    SOCK_PACKET pour un socket de type packet qui permet la réception des paquets de différentes couches du réseau.
+
+Params "protoc":
+    IPPROTO_TCP pour le protocole de transport TCP.
+    IPPROTO_UDP pour le protocole de transport UDP.
+    IPPROTO_SCTP pour le protocole de transport SCTP.
+    IPPROTO_ICMP pour le protocole de contrôle de message Internet (ICMP).
+    IPPROTO_IGMP pour le protocole de gestion de groupe Internet (IGMP).
+    IPPROTO_RAW pour les données brutes IP.
+
+Params "port":
+    Port d'ecoute du socket.
+
+Params "interf":
+    Une adresse IP spécifique, qui permet de lier le socket à cette adresse particulière.
+    INADDR_ANY indique que le socket est lié à toutes les adresses IP disponibles sur le système.
+    IN6ADDR_ANY_INIT pour les adresses IPv6, qui indique que le socket est lié à toutes les adresses IPv6 disponibles sur le système.
+    INADDR_BROADCAST pour les adresses IPv4, qui permet d'envoyer des données à tous les hôtes du réseau local.
+    INADDR_NONE pour les adresses IPv4, qui indique une adresse invalide.
