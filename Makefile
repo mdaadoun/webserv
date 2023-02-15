@@ -1,40 +1,101 @@
-NAME = webserv
-SRCS =	src/main.cpp \
-		src/sockets/ISocket.class.cpp \
-		src/sockets/BindSocket.class.cpp \
-		src/sockets/ClientSocket.class.cpp \
-		src/sockets/ListenSocket.class.cpp
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: fleblanc <fleblanc@student.42angoulem      +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2023/02/15 15:58:24 by fleblanc          #+#    #+#              #
+#    Updated: 2023/02/15 16:01:44 by fleblanc         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
 
+# **************************************************************************** #
+# Names
 
-OBJS = $(SRCS:%.cpp=%.o)
-CC = c++
-RM = rm -f
-INCDIR = inc
-FLAGS = -Wall -Wextra -Werror -Wpedantic -std=c++98 -I$(INCDIR)
+NAME	= webserv
 
-R = \033[38;5;1m
-G = \033[38;5;2m
-B = \033[38;5;4m
-D = \033[38;5;255m
+# **************************************************************************** #
+# Compilation
 
-.cpp.o:
-	@$(CC) $(FLAGS) -c $< -o $@
+CC		= c++
+WFLAGS	= -Wall -Wextra -Werror -Wpedantic
+IFLAGS	= -I$(INCDIR)
+OFLAGS	= -std=c++98 -g3
 
-all: $(NAME)
+# **************************************************************************** #
+# System commands
 
-$(NAME): $(OBJS)
-	@echo "$(B)Building $(NAME) program.$(D)"
-	$(CC) $(FLAGS) $(OBJS) -o $(NAME)
-	@echo "$(G)$(NAME) program created.$(D)"
+MKDIR	= mkdir -p
+RM		= rm -rf
+
+# **************************************************************************** #
+# Directories
+
+INCDIR	= inc
+OBJDIR	= obj
+SRCDIR	= src
+
+# **************************************************************************** #
+# List of source files
+
+SRCNAME	= main.cpp \
+		  parsing/parsing.cpp \
+		  server/AServer.class.cpp \
+		  sockets/BindSocket.class.cpp \
+		  sockets/ClientSocket.class.cpp \
+		  sockets/ISocket.class.cpp \
+		  sockets/ListenSocket.class.cpp \
+
+# **************************************************************************** #
+# Variables where are listed source and object files
+
+OBJ	= $(addprefix $(OBJDIR)/, $(SRCNAME:.cpp=.o))
+SRC	= $(addprefix $(SRCDIR)/, $(SRCNAME))
+
+# **************************************************************************** #
+# Extra
+
+BASENAME	= `basename $(PWD)`
+CR			= "\r"$(CLEAR)
+CLEAR		= "\\033[0K"
+EOC			= "\033[0;0m"
+GREY		= "\033[0;30m"
+RED			= "\033[0;31m"
+GREEN		= "\033[0;32m"
+YELLOW		= "\033[0;33m"
+BLUE		= "\033[0;34m"
+PURPLE		= "\033[0;35m"
+CYAN		= "\033[0;36m"
+WHITE		= "\033[0;37m"
+
+# **************************************************************************** #
+# Rules
+
+$(OBJDIR)/%.o:	$(SRCDIR)/%.cpp
+		@$(MKDIR) $(dir $@)
+		@$(CC) $(WFLAGS) $(OFLAGS) $(IFLAGS) -c $< -o $@
+		@printf $(CR)"[ $(BASENAME)/%s ]"$(CLEAR) $@
+
+all:	$(NAME)
+
+$(NAME):	$(OBJ)
+		@$(CC) $(WFLAGS) $(OFLAGS) $(OBJ) -o $(NAME)
+		@printf $(CR)$(GREEN)"✓ $(NAME) is created\n"$(EOC)
 
 clean:
-	@echo "$(R)Remove all object files.$(D)"
-	$(RM) $(OBJS)
+		@if [ -d $(OBJDIR) ]; then \
+			$(RM) $(OBJDIR) \
+			&& printf $(CR)$(YELLOW)"✗ The objects files of $(NAME) " \
+			&& printf "are cleaned\n"$(EOC); \
+		fi
 
-fclean: clean
-	@echo "$(R)Remove $(NAME) program if present.$(D)"
-	$(RM) $(NAME)
+fclean:	clean
+		@if [ -e $(NAME) ]; then \
+			$(RM) $(NAME) \
+			&& printf $(CR)$(RED)"✗ $(NAME) is cleaned\n"$(EOC); \
+		fi
 
-re: fclean all
+re:	fclean all
 
-.PHONY:  all clean fclean re
+.PHONY:	all clean fclean re
