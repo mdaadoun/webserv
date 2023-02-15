@@ -6,7 +6,7 @@
 /*   By: tlafont <tlafont@student.42angouleme.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 10:31:27 by tlafont           #+#    #+#             */
-/*   Updated: 2023/02/14 13:52:57 by tlafont          ###   ########.fr       */
+/*   Updated: 2023/02/15 14:28:13 by tlafont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ int main()
 	}//end of test Sockets
 */
 
-	Server	serv(AF_INET, SOCK_STREAM, 0, 8080, INADDR_ANY, 10);
+	Server	serv(AF_INET, SOCK_STREAM, 0, 2424, INADDR_ANY, 10);
 	serv.launch();
     return 0;
 }
