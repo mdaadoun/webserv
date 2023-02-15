@@ -6,7 +6,7 @@
 /*   By: amorel <amorel@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 15:12:25 by amorel            #+#    #+#             */
-/*   Updated: 2023/02/14 17:44:54 by amorel           ###   ########.fr       */
+/*   Updated: 2023/02/15 14:28:20 by amorel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,6 @@ void    parse_config_file(std::map<std::string, std::string> *config, std::strin
         config->insert(it, std::pair<std::string, std::string>(key, value));
         it = config->end();
     }
-    if (config->size() != 18)
-        std::cerr << "Bad number of arguments in " << file << "." << std::endl;
     std::cout << "-------------------------------" << std::endl;
     for (it = config->begin(); it != config->end(); it++)
         std::cout << it->first << ":" << it->second << std::endl;
