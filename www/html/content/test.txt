@@ -1,0 +1,3 @@
+simple test txt file
+other files to test
+try to send from server different format of file (gif, png, jpg, pdf..)
