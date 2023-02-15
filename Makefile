@@ -5,8 +5,8 @@
 #                                                     +:+ +:+         +:+      #
 #    By: fleblanc <fleblanc@student.42angoulem      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2023/02/15 15:58:24 by fleblanc          #+#    #+#              #
-#    Updated: 2023/02/15 16:01:44 by fleblanc         ###   ########.fr        #
+#    Created: 2023/02/15 16:04:29 by fleblanc          #+#    #+#              #
+#    Updated: 2023/02/15 16:06:22 by fleblanc         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,7 +45,7 @@ SRCNAME	= main.cpp \
 		  sockets/BindSocket.class.cpp \
 		  sockets/ClientSocket.class.cpp \
 		  sockets/ISocket.class.cpp \
-		  sockets/ListenSocket.class.cpp \
+		  sockets/ListenSocket.class.cpp
 
 # **************************************************************************** #
 # Variables where are listed source and object files
