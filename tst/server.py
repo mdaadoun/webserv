@@ -10,7 +10,7 @@ def handle_request(request):
     # print("[bold orange_red1]SERVER request:[/bold orange_red1]", request)
     date = datetime.utcnow().strftime("%a, %d %b %Y %H:%M:%S GMT")
     headers = {
-        'Server': 'pyServer',
+        'Server': 'pyserv',
         'Date': date,
         'Content-Type': 'text/html',
         # 'Transfer-Encoding': 'chunked',
@@ -27,23 +27,25 @@ def handle_request(request):
             filename = '/index.html'
 
         try:
-            fin = open('www' + filename)
+            fin = open('www/html' + filename)
             content = fin.read()
             fin.close()
             status_code = '200 OK'
         except FileNotFoundError:
             status_code = '404 NOT FOUND'
-            fin = open('www/404.html')
+            fin = open('www/html/404.html')
             content = fin.read()
             fin.close()
     else:
         status_code = '400 Bad Request'
     headers_str = "\r\n".join("{}: {}".format(k, v) for k, v in headers.items())
     response = "HTTP/1.1 " + status_code + "\r\n" + headers_str + "\r\n\r\n" + content
+    # print('response:', response)
     return response
 
 def start(CONFIG):
     global SERVER_RUNNING
+    print("SERVER IN")
     SERVER_HOST = CONFIG["request"]["host"]
     SERVER_PORT = CONFIG["request"]["port"]
     SERVER_RUNNING = True
@@ -51,22 +53,23 @@ def start(CONFIG):
         server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 
-        print("[bold orange_red1]SERVER running:[/bold orange_red1]", SERVER_HOST + ":" + SERVER_PORT)
+        print("[bold orange_red1]SERVER running ok:[/bold orange_red1]", SERVER_HOST + ":" + SERVER_PORT)
         server_socket.bind((SERVER_HOST, int(SERVER_PORT)))
         server_socket.listen(5)
-        # print('SERVER: Listening on port %s:%s' % (SERVER_HOST, SERVER_PORT))
-        # server_socket.settimeout(1)
-        # while True:
-        client_connection, client_address = server_socket.accept()
-        # print(client_connection, client_address)
-        print("[bold orange_red1]SERVER:[/bold orange_red1] connection established.")
-        request = client_connection.recv(1024).decode()
-        response = handle_request(request)
-        client_connection.sendall(response.encode())
-        client_connection.close()
-        print("[bold orange_red1]SERVER:[/bold orange_red1] close listening.")
-        server_socket.close()
-            # break
+        print('[bold orange_red1]SERVER Listening ok: [/bold orange_red1]%s:%s' % (SERVER_HOST, SERVER_PORT))
+        server_socket.settimeout(1)
+        while True:
+            client_connection, client_address = server_socket.accept()
+            print(client_connection, client_address)
+            print("[bold orange_red1]SERVER:[/bold orange_red1] connection established.")
+            request = client_connection.recv(1024).decode()
+            response = handle_request(request)
+            client_connection.sendall(response.encode())
+            client_connection.close()
+            print("[bold orange_red1]SERVER:[/bold orange_red1] close listening.")
+            server_socket.close()
+            break
+
     except PermissionError:
         SERVER_RUNNING = False
         print("[bold red]SERVER ERROR: PermissionError")
@@ -77,3 +80,4 @@ def start(CONFIG):
         SERVER_RUNNING = False
         print("[bold red]SERVER ERROR: OSError (If the port is 8080, the NGINX server is probably running.)")
     SERVER_RUNNING = False
+    print("SERVER OUT")

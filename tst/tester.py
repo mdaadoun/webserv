@@ -2,9 +2,9 @@ import requests
 from rich import print
 
 
-def test_get_request(add):
+def test_get_request(url):
     try:
-        response = requests.get(add)
+        response = requests.get(url)
         print("[bold sky_blue2]CLIENT response:[/bold sky_blue2]", response)
         print(response.headers)
         print(response.text)
@@ -21,9 +21,12 @@ def test_get_request(add):
 
 
 def start(CONFIG):
-    # Start all the test requests from config
-    path = CONFIG
-    address = "http://" + CONFIG["request"]["host"] + ":" + CONFIG["request"]["port"] + CONFIG["request"]["path"]
+    print("CLIENT IN")
+    host = CONFIG["request"]["host"]
+    port = CONFIG["request"]["port"]
+    path = CONFIG["request"]["path"]
+    url = "http://" + host + ":" + port + path
     if CONFIG["request"]["command"] == "GET":
-        print("[bold sky_blue2]CLIENT connection to:[/bold sky_blue2]", address)
-        test_get_request(address)
+        print("[bold sky_blue2]CLIENT connection to:[/bold sky_blue2]", url)
+        test_get_request(url)
+    print("CLIENT OUT")
