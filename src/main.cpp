@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tlafont <tlafont@student.42angouleme.      +#+  +:+       +#+        */
+/*   By: amorel <amorel@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 10:31:27 by tlafont           #+#    #+#             */
-/*   Updated: 2023/02/13 11:45:52 by tlafont          ###   ########.fr       */
+/*   Updated: 2023/02/14 17:33:38 by amorel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,10 @@ int main()
 		std::cout << "getter address socket = " << csock.getAddress().sin_addr.s_addr << std::endl;
 		std::cout << "\nSocket connection passed...\n\n";
 	}
-	catch (std::exception &e)
-	{
-		std::cout << e.what() << std::endl;
-	}
+	catch (std::exception &e) {
+        std::cout << e.what() << std::endl;
+    }
+	std::map<std::string, std::string>	config;
+    parse_config_file(&config, "config.ini");
     return 0;
 }
