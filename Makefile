@@ -3,14 +3,15 @@ SRCS =	src/main.cpp \
 		src/sockets/ISocket.class.cpp \
 		src/sockets/BindSocket.class.cpp \
 		src/sockets/ClientSocket.class.cpp \
-		src/sockets/ListenSocket.class.cpp
+		src/sockets/ListenSocket.class.cpp	\
+		src/parsing/parsing.cpp
 
 
 OBJS = $(SRCS:%.cpp=%.o)
 CC = c++
 RM = rm -f
 INCDIR = inc
-FLAGS = -Wall -Wextra -Werror -Wpedantic -std=c++98 -I$(INCDIR)
+FLAGS = -Wall -Wextra -Werror -Wpedantic -g3 -std=c++98 -I$(INCDIR)
 
 R = \033[38;5;1m
 G = \033[38;5;2m
