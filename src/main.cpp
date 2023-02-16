@@ -12,7 +12,7 @@
 
 #include "../inc/main.hpp"
 
-void    Socket_Test()
+void    Socket_Test(int port)
 {
     std::cout << "***** WebServ *****" << std::endl;
     std::cout << "   starting test" << std::endl;
@@ -20,7 +20,7 @@ void    Socket_Test()
     std::cout << "---BindSocket--- :" << std::endl;
     try
     {
-        BindSocket	bsock(AF_INET, SOCK_STREAM, 0, 8000, INADDR_ANY);
+        BindSocket	bsock(AF_INET, SOCK_STREAM, 0, port, INADDR_ANY);
 
         std::cout << "getter fd socket = " << bsock.getSocket() << std::endl;
         std::cout << "getter connection socket = " << bsock.getConnection() << std::endl;
@@ -35,7 +35,7 @@ void    Socket_Test()
     std::cout << "---ListenSocket--- :" << std::endl;
     try
     {
-        ListenSocket	lsock(AF_INET, SOCK_STREAM, 0, 8080, INADDR_ANY, 10);
+        ListenSocket	lsock(AF_INET, SOCK_STREAM, 0, port, INADDR_ANY, 10);
 
         std::cout << "getter fd socket = " << lsock.getSocket() << std::endl;
         std::cout << "getter connection socket = " << lsock.getConnection() << std::endl;
@@ -52,7 +52,7 @@ void    Socket_Test()
     std::cout << "---ClientSocket--- :" << std::endl;
     try
     {
-        ClientSocket	csock(AF_INET, SOCK_STREAM, 0, 8070, INADDR_ANY);
+        ClientSocket	csock(AF_INET, SOCK_STREAM, 0, port, INADDR_ANY);
 
         std::cout << "getter fd socket = " << csock.getSocket() << std::endl;
         std::cout << "getter connection socket = " << csock.getConnection() << std::endl;
@@ -73,13 +73,14 @@ int main(int ac, char **av)
     }
     std::string arg = av[1];
     if (arg == "socket")
-        Socket_Test();
+        Socket_Test(8080);
     else
     {
         try
         {
             Parsing parser(arg);
             parser.printMap();
+            Socket_Test(std::atoi(parser.getPort().c_str()));
         }
         catch (std::exception &e)
         {
