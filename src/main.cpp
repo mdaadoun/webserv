@@ -13,7 +13,7 @@
 #include "../inc/main.hpp"
 
 //includes files tests .cpp
-#include "test/socketTest.cpp"
+#include "test/socket.test.cpp" // propose to move it as a main and compile it with make test_socket
 
 int main()
 {
@@ -24,7 +24,6 @@ int main()
 	socketTest();
 	std::cout << "*******************\n\n";
 	}//end of test Sockets
-
 
 	Server	serv(AF_INET, SOCK_STREAM, 0, 2424, INADDR_ANY, 10);
 	serv.launch();
