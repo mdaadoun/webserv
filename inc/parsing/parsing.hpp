@@ -37,6 +37,8 @@ public:
     std::string							getServerName();
     std::string							getClientBodyLimit();
 
+    void	printMap(void);
+
     class ErrorFileException : public std::exception
     {
     public:
@@ -49,7 +51,6 @@ private:
     std::map<std::string, std::string>::iterator	it;
 	
 	void	config_to_map(std::string path);
-	void	printMap(void);
 	void	checkIP(void);
 	void	checkRoot(void);
 	void	checkName(void);

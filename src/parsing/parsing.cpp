@@ -79,7 +79,7 @@ std::string	Parsing::getIPP()
 std::string	Parsing::getIP()
 {
     std::string ip;
-    ssize_t     colon;
+    size_t     colon;
 
     ip = this->config.find("listen")->second;
     colon = ip.find(':');
