@@ -6,7 +6,7 @@
 #    By: fleblanc <fleblanc@student.42angoulem      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/15 16:04:29 by fleblanc          #+#    #+#              #
-#    Updated: 2023/02/16 20:10:25 by fleblanc         ###   ########.fr        #
+#    Updated: 2023/02/16 20:20:01 by fleblanc         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -52,7 +52,7 @@ SRCCLASS = server/Server.class.cpp \
 		   sockets/ListenSocket.class.cpp
 
 SRCTEST	= test/main.test.cpp \
-		  test/socketTest.cpp
+		  test/socket.test.cpp
 
 SRCNAME += $(SRCCLASS)
 
