@@ -24,18 +24,18 @@
 class Parsing
 {
 public:
-    Parsing(std::string path);
-    Parsing(void);
-    ~Parsing(void);
+    Parsing(const std::string& path);
+    Parsing();
+    ~Parsing();
 
-    std::map<std::string, std::string>	*getMap(void);
-    std::string							getIP(void);
-    std::string							getIPP(void);
-    std::string							getPort(void);
-    std::string							getRoot(void);
-    std::string							getIndex(void);
-    std::string							getServerName(void);
-    std::string							getClientBodyLimit(void);
+    std::map<std::string, std::string>	*getMap();
+    std::string							getIP();
+    std::string							getIPP();
+    std::string							getPort();
+    std::string							getRoot();
+    std::string							getIndex();
+    std::string							getServerName();
+    std::string							getClientBodyLimit();
 
     class ErrorFileException : public std::exception
     {

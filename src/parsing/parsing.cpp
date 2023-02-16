@@ -14,12 +14,12 @@
 /*
 ** [de/con]structors
 */
-Parsing::Parsing(void)
+Parsing::Parsing()
 {
     config_to_map("config_default.ini");
 }
 
-Parsing::Parsing(std::string path)
+Parsing::Parsing(const std::string &path)
 {
     config_to_map(path);
 }
@@ -37,11 +37,10 @@ void	Parsing::config_to_map(std::string path)
     std::string key;
     std::string value;
 
-    file.open(path);
+    file.open(path.c_str());
     if (file.fail())
     {
         throw(Parsing::ErrorFileException());
-        return;
     }
     this->it = this->config.begin();
     while (true)
@@ -56,7 +55,7 @@ void	Parsing::config_to_map(std::string path)
     file.close();
 }
 
-void    Parsing::printMap(void)
+void    Parsing::printMap()
 {
     std::cout << "-------------------------------" << std::endl;
     for (this->it = this->config.begin(); this->it != this->config.end(); it++)
@@ -67,17 +66,17 @@ void    Parsing::printMap(void)
 /*
 ** getters
 */
-std::map<std::string, std::string>	*Parsing::getMap(void)
+std::map<std::string, std::string>	*Parsing::getMap()
 {
     return (&(this->config));
 }
 
-std::string	Parsing::getIPP(void)
+std::string	Parsing::getIPP()
 {
     return (this->config.find("listen")->second);
 }
 
-std::string	Parsing::getIP(void)
+std::string	Parsing::getIP()
 {
     std::string ip;
     ssize_t     colon;
@@ -85,31 +84,31 @@ std::string	Parsing::getIP(void)
     ip = this->config.find("listen")->second;
     colon = ip.find(':');
     while (ip.size() != colon)
-        ip.pop_back();
+        ip.erase(ip.length() - 1);
     return (ip);
 }
 
-std::string	Parsing::getPort(void)
+std::string	Parsing::getPort()
 {
     return (&(this->config.find("listen")->second.at(this->config.find("listen")->second.find(':'))));
 }
 
-std::string	Parsing::getRoot(void)
+std::string	Parsing::getRoot()
 {
     return (this->config.find("root")->second);
 }
 
-std::string	Parsing::getIndex(void)
+std::string	Parsing::getIndex()
 {
     return (this->config.find("index")->second);
 }
 
-std::string	Parsing::getServerName(void)
+std::string	Parsing::getServerName()
 {
     return (this->config.find("server_name")->second);
 }
 
-std::string	Parsing::getClientBodyLimit(void)
+std::string	Parsing::getClientBodyLimit()
 {
     return (this->config.find("client_body_limit")->second);
 }
@@ -118,19 +117,18 @@ std::string	Parsing::getClientBodyLimit(void)
 ** checking
 */
 
-void	Parsing::checkIP(void)
+void	Parsing::checkIP()
 {
     std::stringstream   ip(this->getIP());
     std::string         tmp;
     int                 ipMembers[4];
-    int                 port = std::stoi(this->getPort());
+    int                 port = std::atoi(this->getPort().c_str());
 
     for (int i = 0; i < 4; i++)
     {
         getline(ip, tmp, '.');
-        ipMembers[i] = std::stoi(tmp);
+        ipMembers[i] = std::atoi(tmp.c_str());
     }
-
     for (int i = 0; i < 4; i++)
     {
         if (ipMembers[i] < 0 || ipMembers[i] > 255)
@@ -140,33 +138,34 @@ void	Parsing::checkIP(void)
         std::cerr << "port out of bounds" << std::endl; //THROW here pls
 }
 
-void	Parsing::checkName(void)
+void	Parsing::checkName()
 {
     if (this->getServerName().empty())
         this->config.find("server_name")->second = "default";
 }
 
-void	Parsing::checkIndex(void)
+void	Parsing::checkIndex()
 {
     std::string index = this->getRoot() + this->getIndex();
     std::ifstream file;
 
-    file.open(index);
+    file.open(index.c_str());
     if (file.fail())
-        std::cerr << index << " not found" << std::endl; //THROW here pls
+        throw(Parsing::ErrorFileException());
+    file.close();
 }
 
-void	Parsing::checkClientBodyLimit(void)
+void	Parsing::checkClientBodyLimit()
 {
-    if (std::stoi(this->getClientBodyLimit()) <= 0)
+    if (std::atoi(this->getClientBodyLimit().c_str()) <= 0)
         std::cerr << "invalid client body limit" << std::endl; //THROW here pls
 }
 
-void	Parsing::checkErrorPages(void)
+void	Parsing::checkErrorPages()
 {
 }
 
 const char *Parsing::ErrorFileException::what() const throw()
 {
-    return ("Error::Can't open file");
+    return ("Error::Failed open file");
 }
