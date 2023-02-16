@@ -31,7 +31,7 @@ public:
     std::map<std::string, std::string>	*getMap();
     std::string							getIP();
     std::string							getIPP();
-    std::string							getPort();
+    int     							getPort();
     std::string							getRoot();
     std::string							getIndex();
     std::string							getServerName();
@@ -51,6 +51,7 @@ private:
     std::map<std::string, std::string>::iterator	it;
 	
 	void	config_to_map(std::string path);
+    std::string     getStringPort();
 	void	checkIP(void);
 	void	checkRoot(void);
 	void	checkName(void);

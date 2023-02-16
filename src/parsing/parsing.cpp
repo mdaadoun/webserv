@@ -89,9 +89,14 @@ std::string	Parsing::getIP()
     return (ip);
 }
 
-std::string	Parsing::getPort()
+int Parsing::getPort()
 {
-    return (&(this->config.find("listen")->second.at(this->config.find("listen")->second.find(':'))));
+    return (std::atoi(this->getStringPort().c_str()));
+}
+
+std::string	Parsing::getStringPort()
+{
+    return (&(this->config.find("listen")->second.at(this->config.find("listen")->second.find(':'))) + 1);
 }
 
 std::string	Parsing::getRoot()
@@ -123,7 +128,7 @@ void	Parsing::checkIP()
     std::stringstream   ip(this->getIP());
     std::string         tmp;
     int                 ipMembers[4];
-    int                 port = std::atoi(this->getPort().c_str());
+    int                 port = this->getPort();
 
     for (int i = 0; i < 4; i++)
     {

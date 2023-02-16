@@ -14,7 +14,7 @@
 
 //includes files tests .cpp
 #include "test/socket.test.cpp" // propose to move it as a main and compile it with make test_socket
-#include "../Parsing_Test.cpp"
+#include "test/parsing.test.cpp"
 
 int main()
 {
@@ -26,6 +26,7 @@ int main()
 	std::cout << "*******************\n\n";
 	}//end of test Sockets
 
+    Parsing_Test("config_default.ini");
 	Server	serv(AF_INET, SOCK_STREAM, 0, 2424, INADDR_ANY, 10);
 	serv.launch();
     return 0;
