@@ -14,24 +14,24 @@
 /*
 ** [de/con]structors
 */
-parsing::parsing(void)
+Parsing::Parsing(void)
 {
     config_to_map("config_default.ini");
 }
 
-parsing::parsing(std::string path)
+Parsing::Parsing(std::string path)
 {
     config_to_map(path);
 }
 
-parsing::~parsing()
+Parsing::~Parsing()
 {
 }
 
 /*
 ** private functions
 */
-void	parsing::config_to_map(std::string path)
+void	Parsing::config_to_map(std::string path)
 {
     std::ifstream file;
     std::string key;
@@ -40,7 +40,7 @@ void	parsing::config_to_map(std::string path)
     file.open(path);
     if (file.fail())
     {
-        std::cerr << "Error while opening file.";
+        throw(Parsing::ErrorFileException());
         return;
     }
     this->it = this->config.begin();
@@ -56,7 +56,7 @@ void	parsing::config_to_map(std::string path)
     file.close();
 }
 
-void    parsing::printMap(void)
+void    Parsing::printMap(void)
 {
     std::cout << "-------------------------------" << std::endl;
     for (this->it = this->config.begin(); this->it != this->config.end(); it++)
@@ -67,17 +67,17 @@ void    parsing::printMap(void)
 /*
 ** getters
 */
-std::map<std::string, std::string>	*parsing::getMap(void)
+std::map<std::string, std::string>	*Parsing::getMap(void)
 {
     return (&(this->config));
 }
 
-std::string	parsing::getIPP(void)
+std::string	Parsing::getIPP(void)
 {
     return (this->config.find("listen")->second);
 }
 
-std::string	parsing::getIP(void)
+std::string	Parsing::getIP(void)
 {
     std::string ip;
     ssize_t     colon;
@@ -89,27 +89,27 @@ std::string	parsing::getIP(void)
     return (ip);
 }
 
-std::string	parsing::getPort(void)
+std::string	Parsing::getPort(void)
 {
     return (&(this->config.find("listen")->second.at(this->config.find("listen")->second.find(':'))));
 }
 
-std::string	parsing::getRoot(void)
+std::string	Parsing::getRoot(void)
 {
     return (this->config.find("root")->second);
 }
 
-std::string	parsing::getIndex(void)
+std::string	Parsing::getIndex(void)
 {
     return (this->config.find("index")->second);
 }
 
-std::string	parsing::getServerName(void)
+std::string	Parsing::getServerName(void)
 {
     return (this->config.find("server_name")->second);
 }
 
-std::string	parsing::getClientBodyLimit(void)
+std::string	Parsing::getClientBodyLimit(void)
 {
     return (this->config.find("client_body_limit")->second);
 }
@@ -118,7 +118,7 @@ std::string	parsing::getClientBodyLimit(void)
 ** checking
 */
 
-void	parsing::checkIP(void)
+void	Parsing::checkIP(void)
 {
     std::stringstream   ip(this->getIP());
     std::string         tmp;
@@ -140,13 +140,13 @@ void	parsing::checkIP(void)
         std::cerr << "port out of bounds" << std::endl; //THROW here pls
 }
 
-void	parsing::checkName(void)
+void	Parsing::checkName(void)
 {
     if (this->getServerName().empty())
         this->config.find("server_name")->second = "default";
 }
 
-void	parsing::checkIndex(void)
+void	Parsing::checkIndex(void)
 {
     std::string index = this->getRoot() + this->getIndex();
     std::ifstream file;
@@ -156,12 +156,17 @@ void	parsing::checkIndex(void)
         std::cerr << index << " not found" << std::endl; //THROW here pls
 }
 
-void	parsing::checkClientBodyLimit(void)
+void	Parsing::checkClientBodyLimit(void)
 {
     if (std::stoi(this->getClientBodyLimit()) <= 0)
         std::cerr << "invalid client body limit" << std::endl; //THROW here pls
 }
 
-void	parsing::checkErrorPages(void)
+void	Parsing::checkErrorPages(void)
 {
+}
+
+const char *Parsing::ErrorFileException::what() const throw()
+{
+    return ("Error::Can't open file");
 }

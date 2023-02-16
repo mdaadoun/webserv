@@ -21,12 +21,12 @@
 #include <sstream>
 #include <filesystem>
 
-class parsing
+class Parsing
 {
 public:
-    parsing(std::string path);
-    parsing(void);
-    ~parsing(void);
+    Parsing(std::string path);
+    Parsing(void);
+    ~Parsing(void);
 
     std::map<std::string, std::string>	*getMap(void);
     std::string							getIP(void);
@@ -58,4 +58,4 @@ private:
 	void	checkErrorPages(void);
 };
 
-#endif // PARSING_HPP
+#endif
