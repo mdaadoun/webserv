@@ -13,3 +13,11 @@ display the full request for each test
 adapt the pyserv response when comparing with nginx and get the same results
 
 ## Multiplexing, build test with threading multiples client doing multiples requests to nginx and make pyserv make tests work
+
+
+
+## Web APP
+* 3 sections
+    * config, select/add/edit/remove configs
+    * tests, add/silent/activate (need nginx server working to add)
+    * run tests (pyserv, webserv)

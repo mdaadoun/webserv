@@ -1,48 +1,7 @@
 #!/usr/bin/python3
 from rich import print as printr
 from rich.console import Console
-
-CONFIG = {
-    "server": {
-        "server_name": "webserv",
-        "listen": "0.0.0.0:4242",
-        "root": "./www/html",
-        "index": "index.html",
-        "autoindex": "off",
-        "client_body_limit": "4096",
-        "error_page": {
-            "400": "400.html",
-            "401": "401.html",
-            "403": "403.html",
-            "404": "404.html",
-            "405": "405.html",
-            "410": "410.html",
-            "413": "413.html",
-            "500": "500.html",
-            "503": "503.html"
-        },
-        "location": {
-            "/": {
-                "allow_methods": "GET"
-            },
-            "/content": {
-                "allow_methods": "GET"
-            },
-            "/cgi": {
-                "allow_methods": "GET POST DELETE"
-            }
-        }
-    },
-    "request": {
-        "command": "GET",
-        "path": "/",
-        "host": "0.0.0.0",
-        "port": "4242",
-        "protocol": "HTTP/1.1"
-    },
-    "response": {}
-}
-
+from . import data
 
 def start(config):
     input = config.split(":")[0]
@@ -50,12 +9,12 @@ def start(config):
         return None
     output = config.split(":")[1]
     conf = input.split(",")
-    CONFIG["request"]["command"] = conf[0]
-    CONFIG["request"]["path"] = conf[1]
-    CONFIG["request"]["host"] = conf[2]
-    CONFIG["request"]["port"] = conf[3]
-    CONFIG["request"]["protocol"] = conf[4]
-    return CONFIG
+    data.config["request"]["command"] = conf[0]
+    data.config["request"]["path"] = conf[1]
+    data.config["request"]["host"] = conf[2]
+    data.config["request"]["port"] = conf[3]
+    data.config["request"]["protocol"] = conf[4]
+    return data.config
 
 
 # generate a config.ini file for ./webserv <FILE>
@@ -69,15 +28,15 @@ def create_file(content):
 
 def build_content():
     content = ''
-    for c in CONFIG['server']:
+    for c in data.config['server']:
         if c == "error_page":
-            for e in CONFIG['server'][c]:
-                content += c + '_' + e + "=" + CONFIG['server'][c][e] + '\n'
+            for e in data.config['server'][c]:
+                content += c + '_' + e + "=" + data.config['server'][c][e] + '\n'
         elif c == "location":
-            for l in CONFIG['server'][c]:
-                content += c + '_' + l + "=" + 'allow_methods:' + str(CONFIG['server'][c][l]['allow_methods']) + '\n'
+            for l in data.config['server'][c]:
+                content += c + '_' + l + "=" + 'allow_methods:' + str(data.config['server'][c][l]['allow_methods']) + '\n'
         else:
-            content += c + "=" + str(CONFIG['server'][c]) + '\n'
+            content += c + "=" + str(data.config['server'][c]) + '\n'
     return content
 
 
