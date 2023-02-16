@@ -6,7 +6,7 @@
 #    By: fleblanc <fleblanc@student.42angoulem      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/15 16:04:29 by fleblanc          #+#    #+#              #
-#    Updated: 2023/02/16 19:57:45 by fleblanc         ###   ########.fr        #
+#    Updated: 2023/02/16 20:10:25 by fleblanc         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -100,6 +100,10 @@ $(NAME):	$(OBJ)
 		@$(CC) $(WFLAGS) $(OFLAGS) $(OBJ) -o $(NAME)
 		@printf $(CR)$(GREEN)"✓ $(NAME) is created\n"$(EOC)
 
+$(NAME_T):		$(TSTO)
+		@$(CC) $(WFLAGS) $(OFLAGS) $(IFLAGS) $(TSTO) -o $(NAME_T)
+		@printf $(CR)$(GREEN)"✓ $(NAME_T) is created\n"$(EOC)
+
 clean:
 		@if [ -d $(OBJDIR) ]; then \
 			$(RM) $(OBJDIR) \
@@ -118,10 +122,5 @@ fclean:	clean
 		fi
 
 re:	fclean all
-
-$(NAME_T):		$(TSTO)
-		@$(CC) $(WFLAGS) $(OFLAGS) $(IFLAGS) $(TSTO) -o $(NAME_T)
-		@printf $(CR)$(GREEN)"✓ $(NAME_T) is created\n"$(EOC)
 	
-
-.PHONY:	all clean fclean re test
+.PHONY:	all clean fclean re test serv
