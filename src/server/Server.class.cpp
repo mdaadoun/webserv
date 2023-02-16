@@ -6,7 +6,7 @@
 /*   By: tlafont <tlafont@student.42angouleme.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 08:29:43 by tlafont           #+#    #+#             */
-/*   Updated: 2023/02/14 14:46:02 by tlafont          ###   ########.fr       */
+/*   Updated: 2023/02/16 09:54:33 by tlafont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,17 @@ ListenSocket	*Server::getSocket() const
 }
 
 /*
+*  @brief	Getter response.
+*           access to the response at send
+*  @param	void
+*  @return	std::string
+*/
+std::string	Server::getResponse() const
+{
+	return (this->_response);
+}
+
+/*
 *  @brief	method accepter.
 *           grabs the connection request and creates a new socket for that connection
 *  @param	void
@@ -95,14 +106,19 @@ void    Server::accepter()
 void	Server::handler()
 {
 	// to delete with implementation
-	char *tmp = new char[this->_buffer.length() + 1];
-	strcpy(tmp, this->_buffer.c_str());
+	char *tmp = new char[30000];
+	for (size_t i = 0; i < 30000; i++)
+		tmp[i] = '\0';
 	long reading = read(this->_new_socket, tmp, 30000);
 	if (reading >= 0)
-		std::cout << "** request read... **" << this->_buffer << std::endl;
+	{
+		this->_request = std::string(tmp);
+		std::cout << "** request read... **" << std::endl;
+		std::cout << this->_request << std::endl;
+	}
 	else
 		std::cout << " ** No bytes are there to read... **" << std::endl;
-	delete tmp;
+	delete[] tmp;
 }
 
 /*
@@ -113,9 +129,10 @@ void	Server::handler()
 */
 void	Server::responder()
 {
-	std::string	rep = "---> msg from Server...";
+	std::string	rep = "---> response from Server...\n\nrequest send to server;\n";
+	this->_response = rep + this->_request;
 	// to delete with implementation
-	write(this->_new_socket, rep.c_str(), rep.size());
+	write(this->_new_socket, this->_response.c_str(), this->_response.size());
 	close(this->_new_socket);
 }
 
