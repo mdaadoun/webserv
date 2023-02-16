@@ -23,6 +23,27 @@
 
 class parsing
 {
+public:
+    parsing(std::string path);
+    parsing(void);
+    ~parsing(void);
+
+    std::map<std::string, std::string>	*getMap(void);
+    std::string							getIP(void);
+    std::string							getIPP(void);
+    std::string							getPort(void);
+    std::string							getRoot(void);
+    std::string							getIndex(void);
+    std::string							getServerName(void);
+    std::string							getClientBodyLimit(void);
+
+    class ErrorFileException : public std::exception
+    {
+    public:
+
+        virtual const char* what() const throw();
+    };
+
 private:
 	std::map<std::string, std::string>				config;
     std::map<std::string, std::string>::iterator	it;
@@ -35,20 +56,6 @@ private:
 	void	checkIndex(void);
 	void	checkClientBodyLimit(void);
 	void	checkErrorPages(void);
-
-public:
-	parsing(std::string path);
-	parsing(void);
-	~parsing(void);
-
-	std::map<std::string, std::string>	*getMap(void);
-	std::string							getIP(void);
-	std::string							getIPP(void);
-	std::string							getPort(void);
-	std::string							getRoot(void);
-	std::string							getIndex(void);
-	std::string							getServerName(void);
-	std::string							getClientBodyLimit(void);
 };
 
 #endif // PARSING_HPP
