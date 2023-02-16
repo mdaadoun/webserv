@@ -6,7 +6,7 @@
 /*   By: tlafont <tlafont@student.42angouleme.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 11:37:07 by tlafont           #+#    #+#             */
-/*   Updated: 2023/02/13 10:54:02 by tlafont          ###   ########.fr       */
+/*   Updated: 2023/02/14 11:17:00 by tlafont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ class ISocket
 	    virtual ~ISocket(void);
 			
 	    //---- getter methods ----//
-		int					getSocket() const;
+		int					getSocketFd() const;
 		int					getConnection() const;
 		struct sockaddr_in	getAddress() const;
 
@@ -51,7 +51,7 @@ class ISocket
 				// connection test establishment
 		void	testConnection(int to_test);
 
-			//---- exception class ----//
+		//---- exception class ----//
 		class ErrorConnection : public std::exception
 		{
 			public:
