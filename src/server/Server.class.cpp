@@ -74,10 +74,10 @@ ListenSocket	*Server::getSocket() const
 *  @param	void
 *  @return	std::string
 */
-std::string	Server::getResponse() const
-{
-	return (this->_response);
-}
+//std::string	Server::getResponse() const
+//{
+//	return (this->_response);
+//}
 
 /*
 *  @brief	method accepter.
@@ -112,9 +112,9 @@ void	Server::handler()
 	long reading = read(this->_new_socket, tmp, 30000);
 	if (reading >= 0)
 	{
-		this->_request = std::string(tmp);
+		this->_request.setRequest(std::string(tmp));
 		std::cout << "** request read... **" << std::endl;
-		std::cout << this->_request << std::endl;
+		std::cout << this->_request.getRequest() << std::endl;
 	}
 	else
 		std::cout << " ** No bytes are there to read... **" << std::endl;
@@ -129,10 +129,11 @@ void	Server::handler()
 */
 void	Server::responder()
 {
-	std::string	rep = "---> response from Server...\n\nrequest send to server;\n";
-	this->_response = rep + this->_request;
+//	std::string	rep = "---> response from Server...\n\nrequest send to server;\n";
+//	this->_response = rep + this->_request;
+	std::string	rep = this->_response.getResponse() + this->_request.getRequest();
 	// to delete with implementation
-	write(this->_new_socket, this->_response.c_str(), this->_response.size());
+	write(this->_new_socket, rep.c_str(), rep.size());
 	close(this->_new_socket);
 }
 

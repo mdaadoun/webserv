@@ -12,7 +12,7 @@
 
 #include "../../inc/main.hpp"
 
-void	socketTest()
+void	socketTest()  // propose to become a main for testing
 {
 	std::cout << "---BindSocket--- :" << std::endl;
 	try

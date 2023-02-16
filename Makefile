@@ -42,6 +42,8 @@ SRCDIR	= src
 SRCNAME	= main.cpp \
 		  parsing/parsing.cpp \
 		  server/Server.class.cpp \
+		  request/Request.class.cpp \
+		  response/Response.class.cpp \
 		  sockets/BindSocket.class.cpp \
 		  sockets/ClientSocket.class.cpp \
 		  sockets/ISocket.class.cpp \

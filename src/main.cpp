@@ -13,7 +13,7 @@
 #include "../inc/main.hpp"
 
 //includes files tests .cpp
-#include "test/socketTest.cpp"
+#include "test/socket.test.cpp" // propose to move it as a main and compile it with make test_socket
 #include "../Parsing_Test.cpp"
 
 int main()
