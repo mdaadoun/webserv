@@ -6,7 +6,7 @@
 /*   By: tlafont <tlafont@student.42angouleme.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 12:06:39 by tlafont           #+#    #+#             */
-/*   Updated: 2023/02/13 11:13:01 by tlafont          ###   ########.fr       */
+/*   Updated: 2023/02/14 11:17:16 by tlafont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ void	ISocket::testConnection(int data)
 *  @param	void
 *  @return	int
 */
-int	ISocket::getSocket() const
+int	ISocket::getSocketFd() const
 {
 	return (this->_sock_fd);
 }

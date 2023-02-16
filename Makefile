@@ -6,7 +6,7 @@
 #    By: fleblanc <fleblanc@student.42angoulem      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/15 16:04:29 by fleblanc          #+#    #+#              #
-#    Updated: 2023/02/15 16:06:22 by fleblanc         ###   ########.fr        #
+#    Updated: 2023/02/16 10:31:39 by tlafont          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,7 +41,7 @@ SRCDIR	= src
 
 SRCNAME	= main.cpp \
 		  parsing/parsing.cpp \
-		  server/AServer.class.cpp \
+		  server/Server.class.cpp \
 		  sockets/BindSocket.class.cpp \
 		  sockets/ClientSocket.class.cpp \
 		  sockets/ISocket.class.cpp \
