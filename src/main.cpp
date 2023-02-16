@@ -71,21 +71,6 @@ int main(int ac, char **av)
         std::cout << "Error::./webserv <FILE>" << std::endl;
         return (-1);
     }
-    std::string arg = av[1];
-    if (arg == "socket")
-        Socket_Test(8080);
-    else
-    {
-        try
-        {
-            Parsing parser(arg);
-            parser.printMap();
-            Socket_Test(std::atoi(parser.getPort().c_str()));
-        }
-        catch (std::exception &e)
-        {
-            std::cout << e.what() << std::endl;
-        }
-    }
+    Parsing_Test(av[1]);
     return 0;
 }

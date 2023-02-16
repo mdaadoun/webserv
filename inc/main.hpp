@@ -23,4 +23,7 @@
 #include "sockets/ListenSocket.class.hpp"
 #include "parsing/parsing.hpp"
 
+// test
+#include "../Parsing_Test.cpp"
+
 #endif
