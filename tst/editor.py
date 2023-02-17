@@ -1,6 +1,7 @@
 from . import config
 from colorama import Fore, Back, Style
 from prettytable import PrettyTable
+from . import data
 
 
 def get_request(line):
@@ -70,19 +71,19 @@ def start():
             file = build_table(filename, table)
         # clear terminal ?
         print(table)
-        print("""
-1. add a test
-2. silent/activate a test
-3. remove a test
-4. quit
+        print(f"""
+{data.editor_keys['exit'][0]}. quit ({data.editor_keys['exit'][1]})
+{data.editor_keys['add'][0]}. add a test ({data.editor_keys['add'][1]})
+{data.editor_keys['silent'][0]}. silent/activate a test ({data.editor_keys['silent'][1]})
+{data.editor_keys['remove'][0]}. remove a test ({data.editor_keys['silent'][1]})
 """)
-        ans = input("default=4 quit > ")
-        if ans == "1":
+        ans = input("(default=quit) > ")
+        if ans.strip() == '' or ans in data.editor_keys['exit']:
+            editor_running = False
+        elif ans in data.editor_keys['add']:
             print("add a test")
-        elif ans == "2":
+        elif ans in data.editor_keys['silent']:
             tid = input("TEST INDEX > ")
             activate_test(file, tid)
-        elif ans == "3":
+        elif ans in data.editor_keys['silent']:
             print("remove a test")
-        else:
-            editor_running = False

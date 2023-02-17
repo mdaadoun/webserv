@@ -17,7 +17,27 @@ menu = """ [bold yellow]MENU[/bold yellow]
 
 menu_keys = {
     "exit": ['0', 'q'],
-    "help": ['1', 'h']
+    "help": ['1', 'h'],
+    "app": ['5', 'a'],
+    "editor": ['2', 'e'],
+    "config": ['3', 'c'],
+    "pyserv": ['41', 'p'],
+    "webserv": ['42', 'w'],
+    "remote": ['4', 'r']
+}
+
+editor_keys = {
+    "exit": ['0', 'q'],
+    "add": ['1', 'a'],
+    "silent": ['2', 's'],
+    "remove": ['3', 'r']
+}
+
+config_keys = {
+    "exit": ['0', 'q'],
+    "add": ['1', 'a'],
+    "select": ['2', 's'],
+    "remove": ['3', 'r']
 }
 
 help = """ [bold yellow]HELP[/bold yellow]

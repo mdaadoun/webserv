@@ -44,7 +44,14 @@ def build_content():
 def editor():
     printr("[bold yellow]Config file generator:[/bold yellow]")
     console = Console()
-    ans = console.input("""
+    table = []
+    print(table)
+
+    ans = console.input(f"""
+{data.config_keys['exit'][0]}. quit ({data.config_keys['exit'][1]})
+{data.config_keys['add'][0]}. add a test ({data.config_keys['add'][1]})
+{data.config_keys['select'][0]}. select a config ({data.config_keys['select'][1]})
+{data.config_keys['remove'][0]}. remove a test ({data.config_keys['silent'][1]})
 Do you want to generate a quick default config_default.ini file ?
 [bold green]y/yes[/bold green]: generate quick default config_default.ini file.
 [bold red]n/no[/bold red]: generate config_default.ini with question and answers.
