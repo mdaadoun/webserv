@@ -56,12 +56,13 @@ private:
     void    check_key_value(std::string &key, std::string &value);
 	void	config_to_map(std::string path);
     std::string     getStringPort();
-	void	checkIP(void);
-	void	checkRoot(void);
-	void	checkName(void);
-	void	checkIndex(void);
-	void	checkClientBodyLimit(void);
-	void	checkErrorPages(void);
+	void	checkIP();
+    void    checkListen(std::string &value);
+	void	checkRoot(std::string &value);
+	void	checkName(std::string &value);
+	void	checkIndex(std::string &value);
+	void	checkClientBodyLimit(std::string &value);
+	void	checkErrorPages();
 };
 
 #endif

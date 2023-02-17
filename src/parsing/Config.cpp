@@ -98,10 +98,28 @@ void Config::check_key_value(std::string &key, std::string &value)
                             "location_/",
                             "location_/content",
                             "location_/cgi"};
+    void    (*fct[18])(std::string &value) = {checkName,
+                                              checkListen,
+                                              checkRoot,
+                                              checkIndex,
+                                              NULL,
+                                              NULL,
+                                              NULL,
+                                              NULL,
+                                              NULL,
+                                              NULL,
+                                              NULL,
+                                              NULL,
+                                              NULL,
+                                              NULL,
+                                              NULL,
+                                              NULL,
+                                              NULL,
+                                              NULL};
     for (int i = 0; i < 18; i++)
     {
         if (key == params[i])
-            std::cout << "Key check." << std::endl;
+            fct[i](value);
     }
     (void)value;
 }
@@ -149,11 +167,6 @@ int Config::getPort()
     return (std::atoi(this->getStringPort().c_str()));
 }
 
-std::string	Config::getStringPort()
-{
-    return (&(this->config.find("listen")->second.at(this->config.find("listen")->second.find(':'))) + 1);
-}
-
 std::string	Config::getRoot()
 {
     return (this->config.find("root")->second);
@@ -199,15 +212,30 @@ void	Config::checkIP()
         std::cerr << "port out of bounds" << std::endl; //THROW here pls
 }
 
-void	Config::checkName()
+void Config::checkListen(std::string &value)
 {
-    if (this->getServerName().empty())
-        this->config.find("server_name")->second = "default";
+    std:std::string port = &(this->config.find("listen")->second.at(this->config.find("listen")->second.find(':'))) + 1;
+    this->config.insert(it, std::pair<std::string, std::string>("port", port));
+    this->it = this->config.end();
+
+    size_t     colon;
+    std::string ip = value;
+    colon = ip.find(':');
+    while (ip.size() != colon)
+        ip.erase(ip.length() - 1);
+    this->config.insert(it, std::pair<std::string, std::string>("ip", ip));
+    this->it = this->config.end();
 }
 
-void	Config::checkIndex()
+void	Config::checkName(std::string &value)
 {
-    std::string index = this->getRoot() + this->getIndex();
+    if (value.empty())
+        value = "default";
+}
+
+void	Config::checkIndex(std::string &value)
+{
+    std::string index = this->getRoot() + value;
     std::ifstream file;
 
     file.open(index.c_str());
@@ -216,7 +244,7 @@ void	Config::checkIndex()
     file.close();
 }
 
-void	Config::checkClientBodyLimit()
+void	Config::checkClientBodyLimit(std::string &value)
 {
     if (std::atoi(this->getClientBodyLimit().c_str()) <= 0)
         std::cerr << "invalid client body limit" << std::endl; //THROW here pls
