@@ -1,18 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing.test.cpp                                   :+:      :+:    :+:   */
+/*   test.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fleblanc <fleblanc@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/17 10:37:52 by fleblanc          #+#    #+#             */
-/*   Updated: 2023/02/17 10:38:57 by fleblanc         ###   ########.fr       */
+/*   Created: 2023/02/16 15:41:09 by fleblanc          #+#    #+#             */
+/*   Updated: 2023/02/17 10:39:48 by fleblanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "test.hpp"
+#ifndef TEST_HPP
+#define TEST_HPP
 
-void	parsingTest(void)
-{
-	std::cout << "\033[0;34m # Parsing test # \033[0;0m" << std::endl;
-}
+#include <iostream>
+#include <exception>
+#include <string>
+#include <cstdlib>
+
+#include "sockets/BindSocket.class.hpp"
+#include "sockets/ClientSocket.class.hpp"
+#include "sockets/ISocket.class.hpp"
+#include "sockets/ListenSocket.class.hpp"
+
+void	socketTest(void);
+void	responseTest(void);
+void	parsingTest(void);
+
+
+#endif

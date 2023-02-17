@@ -6,11 +6,11 @@
 /*   By: tlafont <tlafont@student.42angouleme.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 14:30:23 by tlafont           #+#    #+#             */
-/*   Updated: 2023/02/13 11:43:56 by tlafont          ###   ########.fr       */
+/*   Updated: 2023/02/17 12:16:32 by tlafont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/sockets/ClientSocket.class.hpp"
+#include "sockets/ClientSocket.class.hpp"
 
 /*
 *  @brief   Overload constructor.
@@ -24,7 +24,7 @@ ISocket(dom, serv, protoc, port, interf)
 	//establish the connection to network and test
 	this->_connec = connectToNetwork(this->_sock_fd, this->_addr);
 	std::cout << _connec << "\n";
-	testConnection(this->_connec);
+	testConnection(this->_connec, std::string("Error: start connection socket."));
 }
 
 /*

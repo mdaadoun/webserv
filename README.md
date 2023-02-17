@@ -8,12 +8,37 @@
 > * Construire les requêtes HTTP et les réponses nécessaires, lire et envoyer le fichier demandé et délivrer une page web HTML.
 > * (Optionnel) gérer les cookies et la gestion de session, ainsi que différents CGI.
 
-```
-$> make
-$> ./webserv [OPTION] [CONFIG_FILE]
-```
+## Compilation et utilisation
 
-* Voir le guide lié a ce projet (actuellement toujours en cours de redaction): https://paxfabrica.notion.site/Webserv-et-ft_irc-un-guide-d-introduction-la-programmation-r-seau-c8b09cc0b49340ecbc639ef60d0876c3
+### Compilation
+
+```
+make OU make all
+```
+Pour compiler le projet et le main de test unitaires
+
+```
+make serv
+```
+Pour compiler uniquement le projet (le serveur)
+
+```
+make test
+```
+Pour compiler uniquement le main de tests unitaires
+
+### Utilisation
+
+```
+./webserv [OPTION] [CONFIG_FILE]
+```
+Pour utiliser le serveur
+
+```
+./webserv_test
+```
+Pour utiliser le programme de tests unitaires
+
 
 ## Sommaire
 

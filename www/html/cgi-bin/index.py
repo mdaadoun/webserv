@@ -1,0 +1,1 @@
+print("<h1>python cgi script ok!</h1>")

@@ -4,7 +4,7 @@ import click
 import threading
 
 from rich import print
-from tst import server, tester, config, editor
+from tst import server, tester, config, editor, data
 
 
 def run_webserv(testfile):
@@ -14,7 +14,7 @@ def run_webserv(testfile):
     for test in testfile:
         conf = config.start(test)
         print(conf)
-        break #debug
+        break  # debug
     print("./webserv test")
 
 
@@ -40,7 +40,7 @@ def run_pyserv(testfile):
         if conf is None:
             continue
         else:
-            print("\n========================\n", "TEST", t+1, "\n========================")
+            print("\n========================\n", "TEST", t + 1, "\n========================")
         server_thread = threading.Thread(target=server.start, args=(conf,))
         server_thread.start()
         while not server.SERVER_RUNNING:
@@ -54,11 +54,17 @@ def run_pyserv(testfile):
         # break #only one test
 
 
-def run_editor():
+def run_test_editor():
     editor.start()
+
+
+def run_config_editor():
+    config.editor()
+
 
 def run_all(testfile):
     print("TODO: all server testing.")
+
 
 @click.command()
 @click.option('-h', '--help', is_flag=True, help='Display help')
@@ -77,57 +83,47 @@ def start(help, editor, conf, remote, pyserv, webserv, all):
         elif webserv:
             run_webserv(testfile)
         elif editor:
-            run_editor()
+            run_test_editor()
         elif all:
             run_all(testfile)
         elif conf:
-            config.generate_file()
+            run_config_editor()
         elif help:
             display_help()
         else:
+            display_menu()
+
+
+def display_menu():
+    ans = ''
+    while ans not in data.menu_keys['exit']:
+        print(data.menu)
+        ans = input("\n(default=app) > ")
+        if ans in data.menu_keys['help']:
             display_help()
+        elif ans in data.menu_keys['editor']:
+            run_test_editor()
+        elif ans in data.menu_keys['config']:
+            run_config_editor()
+        elif ans in data.menu_keys['remote']:
+            with open("tst/tests.txt", "r") as testfile:
+                run_remote(testfile)
+        elif ans in data.menu_keys['pyserv']:
+            with open("tst/tests.txt", "r") as testfile:
+                run_pyserv(testfile)
+        elif ans in data.menu_keys['webserv']:
+            with open("tst/tests.txt", "r") as testfile:
+                run_webserv(testfile)
+        elif ans.strip() == '' or ans in data.menu_keys['app']:
+            from tst.app import app
+            app.app.run()
+        print()
 
 
 def display_help():
-    print("""[bold yellow]
-=============
-Tester usage:
-=============
-[/bold yellow]
-    * [bold yellow]default[/bold yellow] (./run.py) without option display this help. 
-        * [italic](option -h and --help will work too)[/italic]
-        
-    * [bold yellow]tests editor[/bold yellow]:
-        display, add, delete, activate or deactivate tests.
-            * [bold magenta]./run.py -e or --editor[/bold magenta]
-    
-    * [bold yellow]config file[/bold yellow]: 
-        will generate a [bold green]config.json[/bold green] file with default or manual questions/answers parameters.
-            * [bold magenta]./run.py -c or --conf[/bold magenta]
-    
-    * [bold yellow]test cpp server (webserv)[/bold yellow]: 
-        will test [bold green]CPP WEBSERV[/bold green] with ./webserv <CONFIG_FILE>.
-            * [bold magenta]./run.py -w or --webserv[/bold magenta]
-    
-    * [bold yellow]test remote server[/bold yellow]: 
-        will test [bold green]REMOTE[/bold green] server (NGINX’s server if possible). (8080 port only)
-            * [bold magenta]./run.py -r or --remote[/bold magenta]
-            * [italic]Configure your remote port to listen 8080.[/italic]
-    
-    * [bold yellow]test local python server[/bold yellow]: 
-        will test local [bold green]PYTHON[/bold green] HTTP web server.
-            * [bold magenta]./run.py -p or --pyserv[/bold magenta]
-    
-    * [bold yellow]test all servers[/bold yellow]: 
-        will test the 3 servers and compare results (REMOTE, PYTHON and C++).
-            * [bold magenta]./run.py -a or --all[/bold magenta]
-    
-    * notes:
-        [italic white]* for -w the tester will generate multiple config files and run multiple time ./webserv config.ini
-        * don't add tests manually to ./tst/tests.txt, use -t, the tests editor.
-        * for remote and the --all option, the port is 8080 by default and will ignore the tests ports.[/italic white]
-""")
+    print(data.help)
 
 
 if __name__ == "__main__":
+    print(data.title)
     start()

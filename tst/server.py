@@ -43,11 +43,11 @@ def handle_request(request):
     # print('response:', response)
     return response
 
-def start(CONFIG):
+def start(request):
     global SERVER_RUNNING
     print("SERVER IN")
-    SERVER_HOST = CONFIG["request"]["host"]
-    SERVER_PORT = CONFIG["request"]["port"]
+    SERVER_HOST = request["host"]
+    SERVER_PORT = request["port"]
     SERVER_RUNNING = True
     try:
         server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
