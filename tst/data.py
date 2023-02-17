@@ -17,7 +17,28 @@ menu = """ [bold yellow]MENU[/bold yellow]
 
 menu_keys = {
     "exit": ['0', 'q'],
-    "help": ['1', 'h']
+    "help": ['1', 'h'],
+    "app": ['5', 'a'],
+    "editor": ['2', 'e'],
+    "config": ['3', 'c'],
+    "pyserv": ['41', 'p'],
+    "webserv": ['42', 'w'],
+    "remote": ['4', 'r']
+}
+
+editor_keys = {
+    "exit": ['0', 'q'],
+    "add": ['1', 'a'],
+    "silent": ['2', 's'],
+    "remove": ['3', 'r']
+}
+
+config_keys = {
+    "exit": ['0', 'q'],
+    "default": ['1', 'd'],
+    "add": ['2', 'a'],
+    "select": ['3', 's'],
+    "remove": ['4', 'r']
 }
 
 help = """ [bold yellow]HELP[/bold yellow]
@@ -30,7 +51,7 @@ help = """ [bold yellow]HELP[/bold yellow]
             * [bold magenta]./run.py -e or --editor[/bold magenta]
     
     * [bold yellow]config file[/bold yellow]: 
-        will generate a [bold green]config.json[/bold green] file with default or manual questions/answers parameters.
+        will generate a [bold green]conf/config_*.ini[/bold green] files with default or manual add/delete/select questions/answers parameters.
             * [bold magenta]./run.py -c or --conf[/bold magenta]
     
     * [bold yellow]test cpp server (webserv)[/bold yellow]: 
@@ -58,8 +79,8 @@ help = """ [bold yellow]HELP[/bold yellow]
 """
 
 config = {
-    "server": {
-        "server_name": "webserv",
+    "1": {
+        "server_name": "webserv1",
         "listen": "0.0.0.0:4242",
         "root": "./www/html",
         "index": "index.html",
@@ -83,10 +104,42 @@ config = {
             "/content": {
                 "allow_methods": "GET"
             },
-            "/cgi": {
+            "/cgi-bin": {
                 "allow_methods": "GET POST DELETE"
             }
         }
+    },
+    "2": {
+        "server_name": "webserv2",
+        "listen": "0.0.0.0:2244",
+        "root": "./www/html",
+        "index": "index.html",
+        "autoindex": "on",
+        "client_body_limit": "4096",
+        "location": {
+            "/cgi-bin": {
+                "root": "www/html/cgi-bin",
+                "upload_dir": "www/html/content",
+                "cgi_extensions": ["python"],
+                "disabled_methods": [""],
+                "max_client_body_size":2500000,
+            },
+            "/": {
+                "allow_methods": "GET"
+            },
+            "/content": {
+                "allow_methods": "GET POST"
+            }
+        }
+    },
+    "3": {
+        "server_name": "webserv3",
+        "listen": "0.0.0.0:2424",
+        "root": "./www/html",
+        "index": "index.html",
+        "autoindex": "on",
+        "client_body_limit": "256",
+        "disabled_methods": ["POST", "DELETE", "GET"]
     },
 }
 

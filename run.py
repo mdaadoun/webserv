@@ -14,7 +14,7 @@ def run_webserv(testfile):
     for test in testfile:
         conf = config.start(test)
         print(conf)
-        break #debug
+        break  # debug
     print("./webserv test")
 
 
@@ -40,7 +40,7 @@ def run_pyserv(testfile):
         if conf is None:
             continue
         else:
-            print("\n========================\n", "TEST", t+1, "\n========================")
+            print("\n========================\n", "TEST", t + 1, "\n========================")
         server_thread = threading.Thread(target=server.start, args=(conf,))
         server_thread.start()
         while not server.SERVER_RUNNING:
@@ -57,11 +57,14 @@ def run_pyserv(testfile):
 def run_test_editor():
     editor.start()
 
+
 def run_config_editor():
     config.editor()
 
+
 def run_all(testfile):
     print("TODO: all server testing.")
+
 
 @click.command()
 @click.option('-h', '--help', is_flag=True, help='Display help')
@@ -88,30 +91,34 @@ def start(help, editor, conf, remote, pyserv, webserv, all):
         elif help:
             display_help()
         else:
-            ## Display menu and run flask web app in a thread
-            # run_webapp()
             display_menu()
+
 
 def display_menu():
     ans = ''
     while ans not in data.menu_keys['exit']:
         print(data.menu)
-        ans = input("\n(default=9) > ")
-        if ans == '1':
+        ans = input("\n(default=app) > ")
+        if ans in data.menu_keys['help']:
             display_help()
-        elif ans.strip() == '' or ans == '9':
+        elif ans in data.menu_keys['editor']:
+            run_test_editor()
+        elif ans in data.menu_keys['config']:
+            run_config_editor()
+        elif ans in data.menu_keys['remote']:
+            with open("tst/tests.txt", "r") as testfile:
+                run_remote(testfile)
+        elif ans in data.menu_keys['pyserv']:
+            with open("tst/tests.txt", "r") as testfile:
+                run_pyserv(testfile)
+        elif ans in data.menu_keys['webserv']:
+            with open("tst/tests.txt", "r") as testfile:
+                run_webserv(testfile)
+        elif ans.strip() == '' or ans in data.menu_keys['app']:
             from tst.app import app
             app.app.run()
         print()
 
-def display_menu():
-    ans = ''
-    while ans != '0' and ans != 'q':
-        if ans == '1':
-            display_help()
-        print(data.menu)
-        ans = input("\n(default=9) > ")
-        print()
 
 def display_help():
     print(data.help)

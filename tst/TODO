@@ -2,7 +2,7 @@
 
 ## CONFIG GENERATOR
 * Editeur et générateur de config.
-* La mise en place d'un sélecteur de config, choisir le fichier qui sera lancé avec ./webser
+* La mise en place d'un sélecteur de config, choisir le fichier qui sera lancé avec ./webserv
 * Différencier les tests requests/responses des tests config_files,
     utiliser les mêmes méthode que tests.txt, faire des config_*.ini et construire de multiples configs
     qui peuvent être sélectionnée pour les tests (incluant la version par défaut)
