@@ -6,7 +6,7 @@
 /*   By: tlafont <tlafont@student.42angouleme.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 08:31:33 by tlafont           #+#    #+#             */
-/*   Updated: 2023/02/16 09:53:26 by tlafont          ###   ########.fr       */
+/*   Updated: 2023/02/17 11:21:35 by tlafont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 //includes
 #include <unistd.h> //for read/write (to delete after other implementation)
 #include <exception>
+#include <vector>
+#include <string>
 #include "../sockets/ListenSocket.class.hpp"
 #include "../request/Request.class.hpp"
 #include "../response/Response.class.hpp"
@@ -29,7 +31,7 @@ class Server
 		//---- canonical form ----//
 			// constructors //
 				// overload constructor
-		Server(int dom, int serv, int protoc, int port, u_long interf, int bcklg);
+		Server(int config);
 			// destructor //
 		~Server();
 		//---- getter methods ----//
@@ -46,10 +48,22 @@ class Server
 	private:
 		//---- member objects ----//
 		ListenSocket	*_socket;
-		std::string		_buffer;
-		int				_new_socket;
-		Request		    _request;
-		Response	    _response;
+
+		//dans la map du parsing
+		int							_port;
+		std::string					_host;
+		std::string					_auto_index;
+		std::vector<std::string>	_indexes;
+		std::string					_root;
+		std::string					_server_name;
+		u_long						_max_size;
+		std::vector<std::string>	_locations;
+		// autre
+		std::string					_buffer;
+		std::string					_error_file;
+		int							_new_socket;
+		Request		    			_request;
+		Response	    			_response;
 
 		//---- canonical form ----//
 				// default constructor

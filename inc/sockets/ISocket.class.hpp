@@ -6,7 +6,7 @@
 /*   By: tlafont <tlafont@student.42angouleme.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 11:37:07 by tlafont           #+#    #+#             */
-/*   Updated: 2023/02/14 11:17:00 by tlafont          ###   ########.fr       */
+/*   Updated: 2023/02/17 12:18:12 by tlafont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,9 @@
 
 #include <iostream>
 #include <sys/socket.h>
+#include <sys/types.h>
 #include <netinet/in.h>
+#include <cerrno>
 #include <cstring>
 #include <exception>
 
@@ -49,14 +51,8 @@ class ISocket
 		virtual int	connectToNetwork(int sock, struct sockaddr_in addr) const = 0;
 
 				// connection test establishment
-		void	testConnection(int to_test);
+		void	testConnection(int to_test, std::string const &err);
 
-		//---- exception class ----//
-		class ErrorConnection : public std::exception
-		{
-			public:
-				char const	*what() const throw();
-		};
 	protected:
 		int					_sock_fd;
 		int					_connec;
