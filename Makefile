@@ -40,7 +40,7 @@ SRCDIR	= src
 # List of source files
 
 SRCNAME	= main.cpp \
-		  parsing/parsing.cpp \
+		  parsing/Config.cpp \
 		  server/Server.class.cpp \
 		  request/Request.class.cpp \
 		  response/Response.class.cpp \
