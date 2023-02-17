@@ -6,7 +6,7 @@
 /*   By: tlafont <tlafont@student.42angouleme.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 10:03:15 by tlafont           #+#    #+#             */
-/*   Updated: 2023/02/17 10:08:36 by fleblanc         ###   ########.fr       */
+/*   Updated: 2023/02/17 10:34:40 by fleblanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 void	socketTest()  // propose to become a main for testing
 {
+	std::cout << "\033[0;34m # Socket test # \033[0;0m" << std::endl;
 	std::cout << "---BindSocket--- :" << std::endl;
 	try
 	{

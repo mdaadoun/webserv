@@ -6,7 +6,7 @@
 /*   By: fleblanc <fleblanc@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 15:41:09 by fleblanc          #+#    #+#             */
-/*   Updated: 2023/02/16 19:43:58 by fleblanc         ###   ########.fr       */
+/*   Updated: 2023/02/17 10:39:48 by fleblanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,5 +24,7 @@
 #include "sockets/ListenSocket.class.hpp"
 
 void	socketTest(void);
+void	responseTest(void);
+void	parsingTest(void);
 
 #endif
