@@ -6,11 +6,11 @@
 /*   By: tlafont <tlafont@student.42angouleme.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 08:29:59 by tlafont           #+#    #+#             */
-/*   Updated: 2023/02/13 11:36:56 by tlafont          ###   ########.fr       */
+/*   Updated: 2023/02/17 12:15:05 by tlafont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/sockets/ListenSocket.class.hpp"
+#include "sockets/ListenSocket.class.hpp"
 
 /*
 *	@brief	Overload constructor of the class ListenSocket.
@@ -23,7 +23,7 @@ BindSocket(dom, serv, protoc, port, interf)
 {
 	this->_backlog = bcklog;
 	this->_listen = startListen();
-	testConnection(this->_listen);
+	testConnection(this->_listen, std::string("Error: waiting connection to socket."));
 }
 
 /*

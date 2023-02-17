@@ -6,11 +6,11 @@
 /*   By: tlafont <tlafont@student.42angouleme.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 08:29:43 by tlafont           #+#    #+#             */
-/*   Updated: 2023/02/16 09:54:33 by tlafont          ###   ########.fr       */
+/*   Updated: 2023/02/17 12:39:53 by tlafont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/server/Server.class.hpp"
+#include "server/Server.class.hpp"
 
 /*
 *  @brief	Default constructor of the class Server.
@@ -25,13 +25,21 @@ Server::Server()
 /*
 *  @brief	Overload constructor of the class ISocket.
 *           Initialize the server with parameters
-*  @param	int, int, int, int, unsigned long, int
+*  @param	int
 *  @return	void
 */
-Server::Server(int dom, int serv, int protoc, int port, u_long interf, int bcklg)
+Server::Server(int config): _port(2424),
+							_host("0.0.0.0"),
+							_auto_index("off"),
+							_indexes(),
+							_root("./www/html"),
+							_server_name("webserv"),
+							_max_size(1000000),
+							_locations(),
+							_error_file("error.html")
 {
-	this->_socket = new ListenSocket(dom, serv, protoc, port, interf, bcklg);
-
+	this->_socket = new ListenSocket(PF_INET, SOCK_STREAM, 0, this->_port, INADDR_ANY, config);
+	// bcklog = 10; for test config =  10 but still replace by map config
 }
 
 /*
@@ -154,6 +162,8 @@ void	Server::launch()
 			handler();
 			responder();
 			std::cout << "*======== !DONE! =========*" << std::endl;
+			// to supp after debug
+			break;
 		}
 		catch(std::exception &e)
 		{

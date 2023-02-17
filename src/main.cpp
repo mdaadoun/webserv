@@ -6,7 +6,7 @@
 /*   By: amorel <amorel@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 10:31:27 by tlafont           #+#    #+#             */
-/*   Updated: 2023/02/14 17:33:38 by amorel           ###   ########.fr       */
+/*   Updated: 2023/02/17 17:53:55 by amorel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int main()
 	std::cout << "*******************\n\n";
 	}//end of test Sockets
 
-	Server	serv(AF_INET, SOCK_STREAM, 0, 2424, INADDR_ANY, 10);
+	Server	serv(10);
 	serv.launch();
     return 0;
 }

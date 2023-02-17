@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   test.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fleblanc <fleblanc@student.42angoulem      +#+  +:+       +#+        */
+/*   By: amorel <amorel@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 15:41:09 by fleblanc          #+#    #+#             */
-/*   Updated: 2023/02/16 19:43:58 by fleblanc         ###   ########.fr       */
+/*   Updated: 2023/02/17 17:50:13 by amorel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@
 #include "parsing/Config.hpp"
 
 void	socketTest(void);
-void    parsingTest(std::string file);
+void	responseTest(void);
+void	parsingTest(std::string file);
+
 
 #endif

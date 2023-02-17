@@ -6,7 +6,7 @@
 /*   By: amorel <amorel@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 12:47:09 by fleblanc          #+#    #+#             */
-/*   Updated: 2023/02/17 17:18:37 by amorel           ###   ########.fr       */
+/*   Updated: 2023/02/17 17:52:33 by amorel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,18 +36,15 @@ int main(int argc, char **argv)
 	switch (atoi(input.c_str()))
 	{
 		case 1:
-			std::cout << "\033[0;34m # Socket test # \033[0;0m" << std::endl;
 			socketTest();
 			break;
         case 2:
-            std::cout << "\033[0;34m # Parsing test # \033[0;0m" << std::endl;
             parsingTest("conf/config_default.ini");
             break;
 		case 9:
-			std::cout << "\033[0;34m # Socket test # \033[0;0m" << std::endl;
 			socketTest();
-            std::cout << "\033[0;34m # Parsing test # \033[0;0m" << std::endl;
-            parsingTest("conf/config_default.ini");
+			parsingTest("conf/config_default.ini");
+			responseTest();
 			break;
 		default:
 			std::cout << "Good Bye !" << std::endl;

@@ -6,7 +6,7 @@
 #    By: amorel <amorel@student.42angouleme.fr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/15 16:04:29 by fleblanc          #+#    #+#              #
-#    Updated: 2023/02/17 17:28:13 by amorel           ###   ########.fr        #
+#    Updated: 2023/02/17 17:54:32 by amorel           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -54,6 +54,7 @@ SRCCLASS = server/Server.class.cpp \
 SRCTEST	= test/main.test.cpp \
 		  test/socket.test.cpp \
 		  test/parsing.test.cpp \
+		  test/response.test.cpp
 
 SRCNAME += $(SRCCLASS)
 

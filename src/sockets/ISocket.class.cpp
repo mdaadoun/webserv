@@ -6,11 +6,11 @@
 /*   By: tlafont <tlafont@student.42angouleme.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 12:06:39 by tlafont           #+#    #+#             */
-/*   Updated: 2023/02/14 11:17:16 by tlafont          ###   ########.fr       */
+/*   Updated: 2023/02/17 12:36:18 by tlafont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/sockets/ISocket.class.hpp"
+#include "sockets/ISocket.class.hpp"
 
 /*
 *  @brief	Default constructor of the class ISocket.
@@ -34,10 +34,14 @@ ISocket::ISocket(int dom, int serv, int protoc, int port, u_long interf)
 	this->_addr.sin_family = dom;
 		//set octets in order for nertwork (htons, htonl)
 	this->_addr.sin_port = htons(port);
+// if interf is string addr.sin_addr.s_addr = inet_addr(_host.c_str())
 	this->_addr.sin_addr.s_addr = htonl(interf);
 	//establish the socket and test
 	this->_sock_fd = socket(dom, serv, protoc);
-	testConnection(this->_sock_fd);
+	testConnection(this->_sock_fd, std::string("Error: fd socket."));
+	int x = 1;
+	int opt = setsockopt(this->_sock_fd, SOL_SOCKET, SO_REUSEPORT, &x, sizeof(x));
+	testConnection(opt, std::string("Error: set option socket."));
 }
 
 /*
@@ -68,11 +72,11 @@ ISocket  &ISocket::operator=(const ISocket& rhs)
 *           set the msg in case of exception
 *  @param	void
 *  @return	char *
-*/
+
 char const  *ISocket::ErrorConnection::what() const throw()
 {
 	return ("Socket: error connection...");
-}
+}*/
 
 /*
 *  @brief	Test _sock_fd or _connec.
@@ -80,11 +84,12 @@ char const  *ISocket::ErrorConnection::what() const throw()
 *  @param	int
 *  @return	void
 */
-void	ISocket::testConnection(int data)
+void	ISocket::testConnection(int data, std::string const &err)
 {
 	if (data < 0)
 	{
-		throw ISocket::ErrorConnection();
+		std::cout << err << std::endl;
+		throw std::runtime_error(strerror(errno));
 	}
 }
 

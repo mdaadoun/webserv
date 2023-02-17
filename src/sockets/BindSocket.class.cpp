@@ -6,11 +6,11 @@
 /*   By: tlafont <tlafont@student.42angouleme.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 14:30:23 by tlafont           #+#    #+#             */
-/*   Updated: 2023/02/13 11:17:33 by tlafont          ###   ########.fr       */
+/*   Updated: 2023/02/17 12:13:52 by tlafont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/sockets/BindSocket.class.hpp"
+#include "sockets/BindSocket.class.hpp"
 
 /*
 *  @brief   Overload constructor.
@@ -23,7 +23,7 @@ ISocket(dom, serv, protoc, port, interf)
 {
 	//establish the connection to network and test
 	this->_connec = connectToNetwork(this->_sock_fd, this->_addr);
-	testConnection(this->_connec);
+	testConnection(this->_connec, std::string("Error: name affectation socket."));
 }
 
 /*
