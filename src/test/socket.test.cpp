@@ -6,12 +6,9 @@
 /*   By: tlafont <tlafont@student.42angouleme.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 10:03:15 by tlafont           #+#    #+#             */
-/*   Updated: 2023/02/16 20:14:12 by fleblanc         ###   ########.fr       */
+/*   Updated: 2023/02/17 10:08:36 by fleblanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#include <iostream>
-#include <exception>
 
 #include "test.hpp"
 
