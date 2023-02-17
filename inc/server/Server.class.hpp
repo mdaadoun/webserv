@@ -17,6 +17,8 @@
 #include <unistd.h> //for read/write (to delete after other implementation)
 #include <exception>
 #include "../sockets/ListenSocket.class.hpp"
+#include "../request/Request.class.hpp"
+#include "../response/Response.class.hpp"
 
 //typedef
 typedef unsigned long	u_long;
@@ -32,7 +34,7 @@ class Server
 		~Server();
 		//---- getter methods ----//
 		ListenSocket	*getSocket() const;
-		std::string		getResponse() const;
+//		std::string		getResponse() const;
 		//---- member methods ----//
 		void	launch();
 		//---- exception class ----//
@@ -46,8 +48,8 @@ class Server
 		ListenSocket	*_socket;
 		std::string		_buffer;
 		int				_new_socket;
-		std::string		_request;
-		std::string		_response;
+		Request		    _request;
+		Response	    _response;
 
 		//---- canonical form ----//
 				// default constructor
