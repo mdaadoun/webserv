@@ -64,6 +64,34 @@ def activate_test(file, tid):
     else:
         print("Not a correct index")
 
+def add_test():
+    test = '\n'
+    ans = input("SET COMMAND ? (default GET) > ")
+    if ans.strip() == '':
+        ans = 'GET'
+    test += ans + ','
+
+    ans = input("SET PATH ? (default /) > ")
+    if ans.strip() == '':
+        ans = '/'
+    test += ans + ','
+
+    ans = input("SET ADDRESS ? (default 0.0.0.0) > ")
+    if ans.strip() == '':
+        ans = '0.0.0.0'
+    test += ans + ','
+
+    ans = input("SET PORT ? (default 4242) > ")
+    if ans.strip() == '':
+        ans = '4242'
+    test += ans + ','
+
+    ans = input("SET PROTOCOL ? (default HTTP/1.1) > ")
+    if ans.strip() == '':
+        ans = 'HTTP/1.1'
+    test += ans + ':'
+    with open("tst/tests.txt", "a") as f:
+        f.write(test)
 
 def start():
     printr("[bold yellow]Tests editor:[/bold yellow]")
@@ -85,7 +113,7 @@ def start():
         if ans.strip() == '' or ans in data.editor_keys['exit']:
             editor_running = False
         elif ans in data.editor_keys['add']:
-            print("add a test")
+            add_test()
         elif ans in data.editor_keys['silent']:
             tid = console.input("[bold green]TEST INDEX > [/bold green]")
             activate_test(file, tid)
