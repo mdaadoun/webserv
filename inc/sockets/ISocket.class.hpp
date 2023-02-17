@@ -6,7 +6,7 @@
 /*   By: tlafont <tlafont@student.42angouleme.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 11:37:07 by tlafont           #+#    #+#             */
-/*   Updated: 2023/02/17 12:18:12 by tlafont          ###   ########.fr       */
+/*   Updated: 2023/02/17 13:56:28 by tlafont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 #include <sys/socket.h>
 #include <sys/types.h>
 #include <netinet/in.h>
+#include <arpa/inet.h>
 #include <cerrno>
 #include <cstring>
 #include <exception>
@@ -36,7 +37,7 @@ class ISocket
 	    //---- canonical form ----//
 			// constructors //
 				// overload constructor
-		ISocket(int dom, int serv, int protoc, int port, u_long interf);
+		ISocket(int dom, int serv, int protoc, int port, std::string &host);
 			// destructor //
 	    virtual ~ISocket(void);
 			

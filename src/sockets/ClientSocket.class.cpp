@@ -6,7 +6,7 @@
 /*   By: tlafont <tlafont@student.42angouleme.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 14:30:23 by tlafont           #+#    #+#             */
-/*   Updated: 2023/02/17 12:16:32 by tlafont          ###   ########.fr       */
+/*   Updated: 2023/02/17 13:49:59 by tlafont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@
 *  @param   int, int, int, int , unsigned long
 *  @return  void
 */
-ClientSocket::ClientSocket(int dom, int serv, int protoc, int port, u_long interf):
-ISocket(dom, serv, protoc, port, interf)
+ClientSocket::ClientSocket(int dom, int serv, int protoc, int port, std::string &host):
+ISocket(dom, serv, protoc, port, host)
 {
 	//establish the connection to network and test
 	this->_connec = connectToNetwork(this->_sock_fd, this->_addr);

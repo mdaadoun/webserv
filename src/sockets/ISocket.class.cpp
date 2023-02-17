@@ -6,7 +6,7 @@
 /*   By: tlafont <tlafont@student.42angouleme.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 12:06:39 by tlafont           #+#    #+#             */
-/*   Updated: 2023/02/17 12:36:18 by tlafont          ###   ########.fr       */
+/*   Updated: 2023/02/17 13:48:50 by tlafont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,17 @@ ISocket::ISocket()
 *  @param	int , int , int , int , unsigned long
 *  @return	void
 */
-ISocket::ISocket(int dom, int serv, int protoc, int port, u_long interf)
+ISocket::ISocket(int dom, int serv, int protoc, int port, std::string &host)
 {
 	//set values in address struct for connection
 	this->_addr.sin_family = dom;
 		//set octets in order for nertwork (htons, htonl)
 	this->_addr.sin_port = htons(port);
-// if interf is string addr.sin_addr.s_addr = inet_addr(_host.c_str())
-	this->_addr.sin_addr.s_addr = htonl(interf);
+	// set host address
+	if (host != "0.0.0.0")
+		this->_addr.sin_addr.s_addr = inet_addr(host.c_str());
+	else
+		this->_addr.sin_addr.s_addr = htonl(INADDR_ANY);
 	//establish the socket and test
 	this->_sock_fd = socket(dom, serv, protoc);
 	testConnection(this->_sock_fd, std::string("Error: fd socket."));

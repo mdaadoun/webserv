@@ -6,7 +6,7 @@
 /*   By: tlafont <tlafont@student.42angouleme.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 08:29:43 by tlafont           #+#    #+#             */
-/*   Updated: 2023/02/17 12:39:53 by tlafont          ###   ########.fr       */
+/*   Updated: 2023/02/17 13:39:46 by tlafont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ Server::Server(int config): _port(2424),
 							_locations(),
 							_error_file("error.html")
 {
-	this->_socket = new ListenSocket(PF_INET, SOCK_STREAM, 0, this->_port, INADDR_ANY, config);
+	this->_socket = new ListenSocket(PF_INET, SOCK_STREAM, 0, this->_port, this->_host, config);
 	// bcklog = 10; for test config =  10 but still replace by map config
 }
 
