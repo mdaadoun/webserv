@@ -104,6 +104,15 @@ def display_menu():
             app.app.run()
         print()
 
+def display_menu():
+    ans = ''
+    while ans != '0' and ans != 'q':
+        if ans == '1':
+            display_help()
+        print(data.menu)
+        ans = input("\n(default=9) > ")
+        print()
+
 def display_help():
     print(data.help)
 

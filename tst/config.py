@@ -9,6 +9,7 @@ def start(config):
         return None
     output = config.split(":")[1]
     conf = input.split(",")
+
     data.request["command"] = conf[0]
     data.request["path"] = conf[1]
     data.request["host"] = conf[2]
@@ -34,8 +35,7 @@ def build_content():
                 content += c + '_' + e + "=" + data.config['server'][c][e] + '\n'
         elif c == "location":
             for l in data.config['server'][c]:
-                content += c + '_' + l + "=" + 'allow_methods:' + str(
-                    data.config['server'][c][l]['allow_methods']) + '\n'
+                content += c + '_' + l + "=" + 'allow_methods:' + str(data.config['server'][c][l]['allow_methods']) + '\n'
         else:
             content += c + "=" + str(data.config['server'][c]) + '\n'
     return content

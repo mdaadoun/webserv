@@ -51,6 +51,7 @@ help = """ [bold yellow]HELP[/bold yellow]
             * [bold magenta]./run.py -a or --all[/bold magenta]
     
     * notes:
+
         [italic white]* for -w the tester will generate multiple config files and run multiple time ./webserv config_default.ini
         * don't add tests manually to ./tst/tests.txt, use -t, the tests editor.
         * for remote and the --all option, the port is 8080 by default and will ignore the tests ports.[/italic white]
