@@ -29,6 +29,7 @@ public:
     Config();
     ~Config();
 
+    std::vector<std::map<std::string, std::string> >    getList() const;
     std::map<std::string, std::string>	*getMap();
     std::string							getIP();
     std::string							getIPP();
@@ -38,7 +39,7 @@ public:
     std::string							getServerName();
     std::string							getClientBodyLimit();
 
-    void	printMap(void);
+    void	printMap(std::vector<std::map<std::string, std::string> >::iterator it);
 
     class ErrorFileException : public std::exception
     {

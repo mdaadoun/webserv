@@ -49,15 +49,30 @@ void	Config::config_to_map(std::string path)
         getline(file, key, '=');
         getline(file, value);
         if (key.empty() || value.empty())
+        {
+            std::map<std::string, std::string>  tmp = config;
+            _list.push_back(tmp);
             break;
+        }
+        if (key == "[server]")
+        {
+            if (config.size() == 0)
+                continue;
+            std::map<std::string, std::string>  tmp = config;
+            _list.push_back(tmp);
+            config.clear();
+            continue;
+        }
         this->config.insert(it, std::pair<std::string, std::string>(key, value));
         this->it = this->config.end();
     }
     file.close();
 }
 
-void    Config::printMap()
+void    Config::printMap(std::vector<std::map<std::string, std::string> >::iterator it)
 {
+    //std::map<std::string, std::string>  map = _list.;
+    (void)it;
     std::cout << "-------------------------------" << std::endl;
     for (this->it = this->config.begin(); this->it != this->config.end(); it++)
         std::cout << this->it->first << ":" << this->it->second << std::endl;
@@ -67,6 +82,11 @@ void    Config::printMap()
 /*
 ** getters
 */
+std::vector<std::map<std::string, std::string> > Config::getList() const
+{
+    return (_list);
+}
+
 std::map<std::string, std::string>	*Config::getMap()
 {
     return (&(this->config));

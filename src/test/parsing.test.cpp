@@ -5,12 +5,12 @@ void    Parsing_Test(std::string file)
     try
     {
         Config parser(file);
-        std::cout << "Print Map Parser" << std::endl;
-        parser.printMap();
-        std::cout << "Print IP Parser" << std::endl;
-        std::cout << parser.getIP() << std::endl;
-        std::cout << "Print port Parser" << std::endl;
-        std::cout << parser.getPort() << std::endl;
+        std::vector<std::map<std::string, std::string> > list = parser.getList();
+        std::vector<std::map<std::string, std::string> >::iterator it;
+        std::cout << "Vector Size" << std::endl;
+        std::cout << list.size() << std::endl;
+        it = list.begin();
+
     }
     catch (std::exception &e)
     {
