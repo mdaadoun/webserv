@@ -3,6 +3,7 @@ from rich import print as printr
 from rich.console import Console
 from . import data
 
+
 def start(config):
     input = config.split(":")[0]
     if input[0][0] == "#":
@@ -34,13 +35,14 @@ def build_content():
                 content += c + '_' + e + "=" + data.config['server'][c][e] + '\n'
         elif c == "location":
             for l in data.config['server'][c]:
-                content += c + '_' + l + "=" + 'allow_methods:' + str(data.config['server'][c][l]['allow_methods']) + '\n'
+                content += c + '_' + l + "=" + 'allow_methods:' + str(
+                    data.config['server'][c][l]['allow_methods']) + '\n'
         else:
             content += c + "=" + str(data.config['server'][c]) + '\n'
     return content
 
 
-def generate_file():
+def editor():
     printr("[bold yellow]Config file generator:[/bold yellow]")
     console = Console()
     ans = console.input("""
@@ -58,5 +60,6 @@ Do you want to generate a quick default config_default.ini file ?
     else:
         print("Not a valid answer, doing nothing.")
 
+
 if __name__ == '__main__':
-    generate_file()
+    editor()

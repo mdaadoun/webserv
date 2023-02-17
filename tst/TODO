@@ -28,7 +28,6 @@
 * Multiple servers
 * Multiplexing, build test with threading multiples client doing multiples requests to nginx and make pyserv make tests work
 
-
 ## TESTER CLIENT
 * improve client, work on better request clarity and testing on local pyserv and remote nginx
 * compare requests with chrome/firefox

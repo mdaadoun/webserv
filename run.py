@@ -58,7 +58,7 @@ def run_test_editor():
     editor.start()
 
 def run_config_editor():
-    config.generate_file()
+    config.editor()
 
 def run_all(testfile):
     print("TODO: all server testing.")
@@ -92,10 +92,9 @@ def start(help, editor, conf, remote, pyserv, webserv, all):
             # run_webapp()
             display_menu()
 
-
 def display_menu():
     ans = ''
-    while ans != '0' and ans != 'q':
+    while ans not in data.menu_keys['exit']:
         print(data.menu)
         ans = input("\n(default=9) > ")
         if ans == '1':
