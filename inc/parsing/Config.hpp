@@ -62,7 +62,7 @@ private:
 	static void	checkIP(std::string &value);
     static void checkListen(std::string &value);
 	static void	checkName(std::string &value);
-	static void	checkIndex(std::map<std::string, std::string> map);
+	bool		checkIndex(std::map<std::string, std::string> map);
 	static void	checkClientBodyLimit(std::string &value);
 	static void	checkErrorPages(std::map<std::string, std::string> *config);
 };

@@ -50,7 +50,8 @@ void	Config::config_to_map(std::string path)
         getline(file, line, '\n');
         if (line.empty())
         {
-            checkIndex(config);
+            if (!checkIndex(config))
+                config.insert(std::pair<std::string, std::string>("error", "yes"));
             checkErrorPages(&config);
             std::map<std::string, std::string>  tmp = config;
             _list.push_back(tmp);
@@ -61,7 +62,8 @@ void	Config::config_to_map(std::string path)
         {
             if (config.size() == 0)
                 continue;
-            checkIndex(config);
+            if (!checkIndex(config))
+                config.insert(std::pair<std::string, std::string>("error", "yes"));
             checkErrorPages(&config);
             std::map<std::string, std::string>  tmp = config;
             _list.push_back(tmp);
@@ -116,8 +118,13 @@ void Config::check_key_value(std::string &key, std::string &value)
 void    Config::printMap(std::vector<std::map<std::string, std::string> >::iterator it)
 {
     std::cout << "-------------------------------" << std::endl;
-    for (this->it = it->begin(); this->it != it->end(); this->it++)
-        std::cout << this->it->first << ":" << this->it->second << std::endl;
+    if (it->find("error") != it->end())
+        std::cout << "Error on server " << it->find("server_name")->second << std::endl;
+    else
+    {
+        for (this->it = it->begin(); this->it != it->end(); this->it++)
+            std::cout << this->it->first << ":" << this->it->second << std::endl;
+    }
     std::cout << "-------------------------------" << std::endl;
 }
 
@@ -248,10 +255,10 @@ void	Config::checkName(std::string &value)
         value = "default";
 }
 
-void	Config::checkIndex(std::map<std::string, std::string> map)
+bool	Config::checkIndex(std::map<std::string, std::string> map)
 {
     if (map.find("root") == map.end() || map.find("index") == map.end())
-        throw(Config::ErrorFileException());
+        return false;
     std::string index = map.find("root")->second + "/" + map.find("index")->second;
     if (index.find("//") < index.size())
         index.erase(index.find("//"), 1);
@@ -259,8 +266,9 @@ void	Config::checkIndex(std::map<std::string, std::string> map)
 
     file.open(index.c_str());
     if (file.fail())
-        throw(Config::ErrorFileException());
+        return false;
     file.close();
+        return true;
 }
 
 void	Config::checkClientBodyLimit(std::string &value)
@@ -277,8 +285,10 @@ void	Config::checkErrorPages(std::map<std::string, std::string> *map)
 
     for (int i = 0; i < 9; i++)
     {
-        if (map->find("root") == map->end() || map->find("error_page_" + errors[i]) == map->end())
+        if (map->find("root") == map->end())
             std::cout << "NOPE" << std::endl;
+        else if (map->find("error_page_" + errors[i]) == map->end())
+            map->insert(std::pair<std::string, std::string>("error_page_" + errors[i], errors[i] + ".html"));
         else
         {
             filepath =  map->find("root")->second + "/" + map->find("error_page_" + errors[i])->second;

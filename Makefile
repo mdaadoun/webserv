@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: fleblanc <fleblanc@student.42angoulem      +#+  +:+       +#+         #
+#    By: amorel <amorel@student.42angouleme.fr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/15 16:04:29 by fleblanc          #+#    #+#              #
-#    Updated: 2023/02/16 20:20:01 by fleblanc         ###   ########.fr        #
+#    Updated: 2023/02/17 17:28:13 by amorel           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -96,6 +96,15 @@ all:	serv test
 serv:	$(NAME)
 
 test:	$(NAME_T)
+
+parsing: test
+		@printf $(CR)$(GREEN)"✓ starting parsing tests in 3 seconds\n"$(EOC)
+		@printf $(CR)$(GREEN)"3..."; sleep 1
+		@printf $(CR)$(YELLOW)"2..."; sleep 1
+		@printf $(CR)$(RED)"1..."; sleep 1
+		@printf $(CR)$(WHITE)
+		clear
+		@valgrind --leak-check=full --show-leak-kinds=all ./webserv_test 2
 
 $(NAME):	$(OBJ)
 		@$(CC) $(WFLAGS) $(OFLAGS) $(OBJ) -o $(NAME)
