@@ -30,14 +30,14 @@ public:
     ~Config();
 
     std::vector<std::map<std::string, std::string> >    getList() const;
-    std::map<std::string, std::string>	*getMap();
-    std::string							getIP();
-    std::string							getIPP();
-    int     							getPort();
-    std::string							getRoot();
-    std::string							getIndex();
-    std::string							getServerName();
-    std::string							getClientBodyLimit();
+    std::map<std::string, std::string>	*getMap(int n);
+    std::string							getIP(int n);
+    std::string							getListen(int n);
+    std::string 						getPort(int n);
+    std::string							getRoot(int n);
+    std::string							getIndex(int n);
+    std::string							getServerName(int n);
+    std::string							getClientBodyLimit(int n);
 
     void	printMap(std::vector<std::map<std::string, std::string> >::iterator it);
 
@@ -55,14 +55,16 @@ private:
 
     void    check_key_value(std::string &key, std::string &value);
 	void	config_to_map(std::string path);
-    std::string     getStringPort();
-	void	checkIP();
-    void    checkListen(std::string &value);
-	void	checkRoot(std::string &value);
-	void	checkName(std::string &value);
-	void	checkIndex(std::string &value);
-	void	checkClientBodyLimit(std::string &value);
-	void	checkErrorPages();
+    std::string getStringPort();
+    std::string parse_listen_ip(std::string listen);
+    std::string parse_listen_port(std::string listen);
+    static void	checkPort(std::string &value);
+	static void	checkIP(std::string &value);
+    static void checkListen(std::string &value);
+	static void	checkName(std::string &value);
+	static void	checkIndex(std::map<std::string, std::string> map);
+	static void	checkClientBodyLimit(std::string &value);
+	static void	checkErrorPages(std::map<std::string, std::string> *config);
 };
 
 #endif
