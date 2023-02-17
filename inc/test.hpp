@@ -22,7 +22,9 @@
 #include "sockets/ClientSocket.class.hpp"
 #include "sockets/ISocket.class.hpp"
 #include "sockets/ListenSocket.class.hpp"
+#include "parsing/Config.hpp"
 
 void	socketTest(void);
+void    Parsing_Test(std::string file);
 
 #endif

@@ -1,4 +1,4 @@
-#include "../../inc/main.hpp"
+#include "test.hpp"
 
 void    Parsing_Test(std::string file)
 {
@@ -10,7 +10,11 @@ void    Parsing_Test(std::string file)
         std::cout << "Vector Size" << std::endl;
         std::cout << list.size() << std::endl;
         it = list.begin();
-
+        while (it != list.end())
+        {
+            parser.printMap(it);
+            it++;
+        }
     }
     catch (std::exception &e)
     {

@@ -41,7 +41,6 @@ SRCDIR	= src
 # List of source files
 
 SRCNAME	= main.cpp \
-		  parsing/Config.cpp \
 
 SRCCLASS = server/Server.class.cpp \
 		   request/Request.class.cpp \
@@ -49,10 +48,12 @@ SRCCLASS = server/Server.class.cpp \
 		   sockets/BindSocket.class.cpp \
 		   sockets/ClientSocket.class.cpp \
 		   sockets/ISocket.class.cpp \
-		   sockets/ListenSocket.class.cpp
+		   sockets/ListenSocket.class.cpp \
+		   parsing/Config.cpp \
 
 SRCTEST	= test/main.test.cpp \
-		  test/socket.test.cpp
+		  test/socket.test.cpp \
+		  test/parsing.test.cpp \
 
 SRCNAME += $(SRCCLASS)
 

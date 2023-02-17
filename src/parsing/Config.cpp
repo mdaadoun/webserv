@@ -48,7 +48,7 @@ void	Config::config_to_map(std::string path)
     {
         getline(file, key, '=');
         getline(file, value);
-        if (key.empty() || value.empty())
+        if (key.empty() && value.empty())
         {
             std::map<std::string, std::string>  tmp = config;
             _list.push_back(tmp);
@@ -71,10 +71,8 @@ void	Config::config_to_map(std::string path)
 
 void    Config::printMap(std::vector<std::map<std::string, std::string> >::iterator it)
 {
-    //std::map<std::string, std::string>  map = _list.;
-    (void)it;
     std::cout << "-------------------------------" << std::endl;
-    for (this->it = this->config.begin(); this->it != this->config.end(); it++)
+    for (this->it = it->begin(); this->it != it->end(); this->it++)
         std::cout << this->it->first << ":" << this->it->second << std::endl;
     std::cout << "-------------------------------" << std::endl;
 }
