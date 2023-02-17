@@ -52,7 +52,8 @@ private:
     std::vector<std::map<std::string, std::string> >    _list;
 	std::map<std::string, std::string>				config;
     std::map<std::string, std::string>::iterator	it;
-	
+
+    void    check_key_value(std::string &key, std::string &value);
 	void	config_to_map(std::string path);
     std::string     getStringPort();
 	void	checkIP(void);

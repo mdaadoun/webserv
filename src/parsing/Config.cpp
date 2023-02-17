@@ -70,11 +70,40 @@ void	Config::config_to_map(std::string path)
         {
             key = line.substr(0, pos);
             value = line.substr(pos + 1);
+            this->check_key_value(key, value);
         }
         this->config.insert(it, std::pair<std::string, std::string>(key, value));
         this->it = this->config.end();
     }
     file.close();
+}
+
+void Config::check_key_value(std::string &key, std::string &value)
+{
+    std::string params[18] = {"server_name",
+                            "listen",
+                            "root=",
+                            "index",
+                            "autoindex",
+                            "client_body_limit",
+                            "error_page_400",
+                            "error_page_401",
+                            "error_page_403",
+                            "error_page_404",
+                            "error_page_405",
+                            "error_page_410",
+                            "error_page_413",
+                            "error_page_500",
+                            "error_page_503",
+                            "location_/",
+                            "location_/content",
+                            "location_/cgi"};
+    for (int i = 0; i < 18; i++)
+    {
+        if (key == params[i])
+            std::cout << "Key check." << std::endl;
+    }
+    (void)value;
 }
 
 void    Config::printMap(std::vector<std::map<std::string, std::string> >::iterator it)
