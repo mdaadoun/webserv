@@ -25,6 +25,6 @@
 #include "parsing/Config.hpp"
 
 void	socketTest(void);
-void    Parsing_Test(std::string file);
+void    parsingTest(std::string file);
 
 #endif

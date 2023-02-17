@@ -35,6 +35,7 @@ Config::~Config()
 void	Config::config_to_map(std::string path)
 {
     std::ifstream file;
+    std::string line;
     std::string key;
     std::string value;
 
@@ -46,15 +47,15 @@ void	Config::config_to_map(std::string path)
     this->it = this->config.begin();
     while (true)
     {
-        getline(file, key, '=');
-        getline(file, value);
-        if (key.empty() && value.empty())
+        getline(file, line, '\n');
+        if (line.empty())
         {
             std::map<std::string, std::string>  tmp = config;
             _list.push_back(tmp);
             break;
         }
-        if (key == "[server]")
+
+        if (line == "[server]")
         {
             if (config.size() == 0)
                 continue;
@@ -62,6 +63,13 @@ void	Config::config_to_map(std::string path)
             _list.push_back(tmp);
             config.clear();
             continue;
+        }
+
+        std::string::size_type pos = line.find('=');
+        if (pos != std::string::npos)
+        {
+            key = line.substr(0, pos);
+            value = line.substr(pos + 1);
         }
         this->config.insert(it, std::pair<std::string, std::string>(key, value));
         this->it = this->config.end();

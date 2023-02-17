@@ -1,6 +1,6 @@
 #include "test.hpp"
 
-void    Parsing_Test(std::string file)
+void    parsingTest(std::string file)
 {
     try
     {

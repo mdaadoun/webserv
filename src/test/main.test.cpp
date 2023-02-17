@@ -36,13 +36,13 @@ int main(void)
 			break;
         case 2:
             std::cout << "\033[0;34m # Parsing test # \033[0;0m" << std::endl;
-            Parsing_Test("conf.config_default.ini");
+            parsingTest("conf/config_default.ini");
             break;
 		case 9:
 			std::cout << "\033[0;34m # Socket test # \033[0;0m" << std::endl;
 			socketTest();
             std::cout << "\033[0;34m # Parsing test # \033[0;0m" << std::endl;
-            Parsing_Test("conf/config_default.ini");
+            parsingTest("conf/config_default.ini");
 			break;
 		default:
 			std::cout << "Good Bye !" << std::endl;
