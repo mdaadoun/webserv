@@ -3,6 +3,7 @@ cmake-build-debug
 CMakeLists.txt
 __pycache__
 webserv
+webserv_test
 *.o
 .idea
 .vscode
