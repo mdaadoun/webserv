@@ -20,6 +20,7 @@
 #include <fstream>
 #include <sstream>
 #include <filesystem>
+#include <vector>
 
 class Config
 {
@@ -47,6 +48,7 @@ public:
     };
 
 private:
+    std::vector<std::map<std::string, std::string> >    _list;
 	std::map<std::string, std::string>				config;
     std::map<std::string, std::string>::iterator	it;
 	
