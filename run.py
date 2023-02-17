@@ -104,7 +104,6 @@ def display_menu():
             app.app.run()
         print()
 
-
 def display_help():
     print(data.help)
 

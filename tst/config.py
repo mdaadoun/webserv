@@ -3,7 +3,6 @@ from rich import print as printr
 from rich.console import Console
 from . import data
 
-
 def start(config):
     input = config.split(":")[0]
     if input[0][0] == "#":
