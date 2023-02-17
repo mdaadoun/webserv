@@ -2,6 +2,7 @@
 import time
 import click
 import threading
+import subprocess
 
 from rich import print
 from tst import server, tester, config, editor, data
@@ -12,10 +13,22 @@ def run_webserv(testfile):
     print("COMPARE PYTHON server and CPP WEBSERV.")
 
     for test in testfile:
+        print("./webserv confile")
         conf = config.start(test)
+        if conf is None:
+            continue
         print(conf)
-        break  # debug
-    print("./webserv test")
+
+        program = "./webserv"
+        confile = ''
+        with open("tst/config.txt", "r") as conffile:
+            confile = conffile.readline()
+            print(confile)
+        subprocess.Popen([program, confile])
+        time.sleep(1)
+        tester.start(conf)
+        time.sleep(1)
+        # break  # debug
 
 
 def run_remote(testfile):
