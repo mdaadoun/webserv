@@ -2,6 +2,8 @@
 from rich import print as printr
 from rich.console import Console
 from . import data
+from colorama import Fore, Back, Style
+from prettytable import PrettyTable
 
 def start(config):
     input = config.split(":")[0]
@@ -25,6 +27,23 @@ def create_file(content):
     with open("conf/config_default.ini", "w") as file:
         file.write(content)
 
+def build_table(t):
+    # new_file = ''
+    t.field_names = [Fore.CYAN + "CONFIG ID", "FILENAME" + Style.RESET_ALL]
+    # line = f.readline()
+    tid = 1
+    # get all the file in the folder conf and build table
+    for i in range(4):
+        # new_file += line
+        # conf = get_request(line)
+        color = Fore.GREEN
+        # if conf["active"] == 'no':
+        #     color = Fore.RED
+        t.add_row([Fore.YELLOW + str(tid) + Style.RESET_ALL, color + "filename" + Style.RESET_ALL])
+        # line = f.readline()
+        tid += 1
+    # return new_file
+
 
 def build_content():
     content = '[server]\n'
@@ -42,29 +61,28 @@ def build_content():
 
 
 def editor():
-    printr("[bold yellow]Config file generator:[/bold yellow]")
+    printr("[bold yellow]Configs editor:[/bold yellow]")
     console = Console()
-    table = []
-    print(table)
+    editor_running = True
 
-    ans = console.input(f"""
-{data.config_keys['exit'][0]}. quit ({data.config_keys['exit'][1]})
-{data.config_keys['add'][0]}. add a test ({data.config_keys['add'][1]})
-{data.config_keys['select'][0]}. select a config ({data.config_keys['select'][1]})
-{data.config_keys['remove'][0]}. remove a test ({data.config_keys['silent'][1]})
-Do you want to generate a quick default config_default.ini file ?
-[bold green]y/yes[/bold green]: generate quick default config_default.ini file.
-[bold red]n/no[/bold red]: generate config_default.ini with question and answers.
+    while editor_running:
+        table = PrettyTable()
+        build_table(table)
+        print(table)
 
-[green](default=yes)[/green] > """)
-    print(ans)
-    if ans in ['n', 'no']:
-        print("QUESTIONS")
-    elif ans in ['y', 'yes', '']:
-        conf = build_content()
-        create_file(conf)
-    else:
-        print("Not a valid answer, doing nothing.")
+        ans = console.input(f"""
+    {data.config_keys['exit'][0]}. quit ({data.config_keys['exit'][1]})
+    {data.config_keys['default'][0]}. generate the default config ({data.config_keys['default'][1]})
+    {data.config_keys['add'][0]}. add a manual config ({data.config_keys['add'][1]})
+    {data.config_keys['select'][0]}. select a config ({data.config_keys['select'][1]})
+    {data.config_keys['remove'][0]}. remove a config ({data.config_keys['remove'][1]})
+    
+    [bold yellow](default=generate default file) > [/bold yellow]""")
+        if ans in data.config_keys['exit']:
+            editor_running = False
+        elif ans.strip() == '' or ans in data.config_keys['default']:
+            conf = build_content()
+            create_file(conf)
 
 
 if __name__ == '__main__':

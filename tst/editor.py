@@ -1,6 +1,8 @@
 from . import config
 from colorama import Fore, Back, Style
 from prettytable import PrettyTable
+from rich import print as printr
+from rich.console import Console
 from . import data
 
 
@@ -64,7 +66,9 @@ def activate_test(file, tid):
 
 
 def start():
+    printr("[bold yellow]Tests editor:[/bold yellow]")
     editor_running = True
+    console = Console()
     while editor_running:
         table = PrettyTable()
         with open("tst/tests.txt", "r") as filename:
@@ -77,13 +81,13 @@ def start():
 {data.editor_keys['silent'][0]}. silent/activate a test ({data.editor_keys['silent'][1]})
 {data.editor_keys['remove'][0]}. remove a test ({data.editor_keys['silent'][1]})
 """)
-        ans = input("(default=quit) > ")
+        ans = console.input("[bold yellow](default=quit) > [/bold yellow]")
         if ans.strip() == '' or ans in data.editor_keys['exit']:
             editor_running = False
         elif ans in data.editor_keys['add']:
             print("add a test")
         elif ans in data.editor_keys['silent']:
-            tid = input("TEST INDEX > ")
+            tid = console.input("[bold green]TEST INDEX > [/bold green]")
             activate_test(file, tid)
         elif ans in data.editor_keys['silent']:
             print("remove a test")

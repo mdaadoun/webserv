@@ -35,9 +35,10 @@ editor_keys = {
 
 config_keys = {
     "exit": ['0', 'q'],
-    "add": ['1', 'a'],
-    "select": ['2', 's'],
-    "remove": ['3', 'r']
+    "default": ['1', 'd'],
+    "add": ['2', 'a'],
+    "select": ['3', 's'],
+    "remove": ['4', 'r']
 }
 
 help = """ [bold yellow]HELP[/bold yellow]
@@ -50,7 +51,7 @@ help = """ [bold yellow]HELP[/bold yellow]
             * [bold magenta]./run.py -e or --editor[/bold magenta]
     
     * [bold yellow]config file[/bold yellow]: 
-        will generate a [bold green]config.json[/bold green] file with default or manual questions/answers parameters.
+        will generate a [bold green]conf/config_*.ini[/bold green] files with default or manual add/delete/select questions/answers parameters.
             * [bold magenta]./run.py -c or --conf[/bold magenta]
     
     * [bold yellow]test cpp server (webserv)[/bold yellow]: 
