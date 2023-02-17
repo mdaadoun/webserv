@@ -20,13 +20,13 @@ def test_get_request(url):
         print(f'Error: {err}')
 
 
-def start(CONFIG):
+def start(request):
     print("CLIENT IN")
-    host = CONFIG["request"]["host"]
-    port = CONFIG["request"]["port"]
-    path = CONFIG["request"]["path"]
+    host = request["host"]
+    port = request["port"]
+    path = request["path"]
     url = "http://" + host + ":" + port + path
-    if CONFIG["request"]["command"] == "GET":
+    if request["command"] == "GET":
         print("[bold sky_blue2]CLIENT connection to:[/bold sky_blue2]", url)
         test_get_request(url)
     print("CLIENT OUT")
