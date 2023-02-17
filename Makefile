@@ -6,7 +6,7 @@
 #    By: fleblanc <fleblanc@student.42angoulem      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/15 16:04:29 by fleblanc          #+#    #+#              #
-#    Updated: 2023/02/16 10:31:39 by tlafont          ###   ########.fr        #
+#    Updated: 2023/02/16 20:20:01 by fleblanc         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,6 +14,7 @@
 # Names
 
 NAME	= webserv
+NAME_T	= webserv_test
 
 # **************************************************************************** #
 # Compilation
@@ -41,19 +42,29 @@ SRCDIR	= src
 
 SRCNAME	= main.cpp \
 		  parsing/parsing.cpp \
-		  server/Server.class.cpp \
-		  request/Request.class.cpp \
-		  response/Response.class.cpp \
-		  sockets/BindSocket.class.cpp \
-		  sockets/ClientSocket.class.cpp \
-		  sockets/ISocket.class.cpp \
-		  sockets/ListenSocket.class.cpp
+
+SRCCLASS = server/Server.class.cpp \
+		   request/Request.class.cpp \
+		   response/Response.class.cpp \
+		   sockets/BindSocket.class.cpp \
+		   sockets/ClientSocket.class.cpp \
+		   sockets/ISocket.class.cpp \
+		   sockets/ListenSocket.class.cpp
+
+SRCTEST	= test/main.test.cpp \
+		  test/socket.test.cpp
+
+SRCNAME += $(SRCCLASS)
+
+SRCTEST += $(SRCCLASS)
 
 # **************************************************************************** #
 # Variables where are listed source and object files
 
 OBJ	= $(addprefix $(OBJDIR)/, $(SRCNAME:.cpp=.o))
 SRC	= $(addprefix $(SRCDIR)/, $(SRCNAME))
+TSTS	= $(addprefix $(SRCDIR)/, $(SRCTEST))
+TSTO	= $(addprefix $(OBJDIR)/, $(SRCTEST:.cpp=.o))
 
 # **************************************************************************** #
 # Extra
@@ -79,11 +90,19 @@ $(OBJDIR)/%.o:	$(SRCDIR)/%.cpp
 		@$(CC) $(WFLAGS) $(OFLAGS) $(IFLAGS) -c $< -o $@
 		@printf $(CR)"[ $(BASENAME)/%s ]"$(CLEAR) $@
 
-all:	$(NAME)
+all:	serv test
+
+serv:	$(NAME)
+
+test:	$(NAME_T)
 
 $(NAME):	$(OBJ)
 		@$(CC) $(WFLAGS) $(OFLAGS) $(OBJ) -o $(NAME)
 		@printf $(CR)$(GREEN)"✓ $(NAME) is created\n"$(EOC)
+
+$(NAME_T):		$(TSTO)
+		@$(CC) $(WFLAGS) $(OFLAGS) $(IFLAGS) $(TSTO) -o $(NAME_T)
+		@printf $(CR)$(GREEN)"✓ $(NAME_T) is created\n"$(EOC)
 
 clean:
 		@if [ -d $(OBJDIR) ]; then \
@@ -97,7 +116,11 @@ fclean:	clean
 			$(RM) $(NAME) \
 			&& printf $(CR)$(RED)"✗ $(NAME) is cleaned\n"$(EOC); \
 		fi
+		@if [ -e $(NAME_T) ]; then \
+			$(RM) $(NAME_T) \
+			&& printf $(CR)$(RED)"✗ $(NAME_T) is cleaned\n"$(EOC); \
+		fi
 
 re:	fclean all
-
-.PHONY:	all clean fclean re
+	
+.PHONY:	all clean fclean re test serv

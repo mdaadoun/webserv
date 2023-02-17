@@ -1,3 +1,25 @@
+# TODO
+Deux gros point, la récupération des réponses de nginx et adaptation de pyserv
+La mise en place d'un sélecteur de config
+
+* Lire et comparer les testeurs python
+* Envoyer les tests et récupérer les réponses nginx, sauvegarder ces réponses dans tests.txt
+* Adapter pyserv pour être vert avec responses dans tests.txt
+* Lancer webserv pour être au vert avec tests.txt
+* Quand ajouter un test, se connecter à nginx pour construire réponses dans tests.txt sinon message erreur
+* Ajouter des options de fichier de config à partir des fichiers nginx
+* Ajouter fichiers par défaut, config.ini, error.html, vérifier comportement nginx
+* Mini Flask app pour éditer les tests, sélectionner une config serveur et les lancer.
+* Différencier les tests requests/responses des tests config_files,
+    utiliser les mêmes méthode que tests.txt, faire des configs.csv et construire de multiples configs
+    qui peuvent être sélectionnée pour les tests (incluant la version par défaut)
+
+* Editeur et générateur de config.
+* Ajouter un test à tests.txt, éditeur en ligne de commande les tests, ajouter, supprimer, récupérer démarrer les tests en parallèle et comparer les réponses nginx et pyserv, vérifier différence dans nav entre les deux, et caler pyserv sur nginx
+* Pour créer un test il faut un serveur nginx fonctionnel pour récupérer la partie output expected.
+* Ensuite lancer le all et comparer les résultats des tests entre pyserv et webserv
+* Supprimer le -a car en fait c'est -w qui compare
+
 ## general tester
 add a menu when no option, so it can stay alive
 
@@ -13,3 +35,9 @@ display the full request for each test
 adapt the pyserv response when comparing with nginx and get the same results
 
 ## Multiplexing, build test with threading multiples client doing multiples requests to nginx and make pyserv make tests work
+
+## Web APP
+* 3 sections
+    * config, select/add/edit/remove configs
+    * tests, add/silent/activate (need nginx server working to add)
+    * run tests (pyserv, webserv)
