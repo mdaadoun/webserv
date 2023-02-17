@@ -1,16 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   socketTest.cpp                                     :+:      :+:    :+:   */
+/*   socket.test.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tlafont <tlafont@student.42angouleme.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 10:03:15 by tlafont           #+#    #+#             */
-/*   Updated: 2023/02/16 10:04:43 by tlafont          ###   ########.fr       */
+/*   Updated: 2023/02/16 20:14:12 by fleblanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/main.hpp"
+#include <iostream>
+#include <exception>
+
+#include "test.hpp"
 
 void	socketTest()  // propose to become a main for testing
 {
