@@ -10,12 +10,15 @@ menu = """ [bold yellow]MENU[/bold yellow]
     1. display help (h)
     2. tests editor (e)
     3. configs editor (c)
-    4. run test with remote (nginx) on port 8080 (r)
-    5. run the tests on pyserv (p)
-    6. run the tests on webserv (w)
-    7. (todo) run the parsing config file and request unit-tests (makefile ?)
-    8. (todo) run the server unit-tests (makefile ?)
-    9. (todo) run the tester web application (will be default)"""
+    4. run tests with remote (nginx) on port 8080 (r)
+        41. run the tests bloquants on pyserv (p)
+        42. run the tests bloquants on webserv (w)
+    5. (todo) run the tester web application (will be default)"""
+
+menu_keys = {
+    "exit": ['0', 'q'],
+    "help": ['1', 'h']
+}
 
 help = """ [bold yellow]HELP[/bold yellow]
 
@@ -48,11 +51,10 @@ help = """ [bold yellow]HELP[/bold yellow]
             * [bold magenta]./run.py -a or --all[/bold magenta]
     
     * notes:
-        [italic white]* for -w the tester will generate multiple config files and run multiple time ./webserv config.ini
+        [italic white]* for -w the tester will generate multiple config files and run multiple time ./webserv config_default.ini
         * don't add tests manually to ./tst/tests.txt, use -t, the tests editor.
         * for remote and the --all option, the port is 8080 by default and will ignore the tests ports.[/italic white]
 """
-
 
 config = {
     "server": {
@@ -85,12 +87,16 @@ config = {
             }
         }
     },
-    "request": {
-        "command": "GET",
-        "path": "/",
-        "host": "0.0.0.0",
-        "port": "4242",
-        "protocol": "HTTP/1.1"
-    },
-    "response": {}
+}
+
+request = {
+    "command": "GET",
+    "path": "/",
+    "host": "0.0.0.0",
+    "port": "4242",
+    "protocol": "HTTP/1.1"
+}
+
+response = {
+
 }

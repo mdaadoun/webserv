@@ -54,8 +54,11 @@ def run_pyserv(testfile):
         # break #only one test
 
 
-def run_editor():
+def run_test_editor():
     editor.start()
+
+def run_config_editor():
+    config.generate_file()
 
 def run_all(testfile):
     print("TODO: all server testing.")
@@ -77,11 +80,11 @@ def start(help, editor, conf, remote, pyserv, webserv, all):
         elif webserv:
             run_webserv(testfile)
         elif editor:
-            run_editor()
+            run_test_editor()
         elif all:
             run_all(testfile)
         elif conf:
-            config.generate_file()
+            run_config_editor()
         elif help:
             display_help()
         else:
@@ -93,11 +96,15 @@ def start(help, editor, conf, remote, pyserv, webserv, all):
 def display_menu():
     ans = ''
     while ans != '0' and ans != 'q':
-        if ans == '1':
-            display_help()
         print(data.menu)
         ans = input("\n(default=9) > ")
+        if ans == '1':
+            display_help()
+        elif ans.strip() == '' or ans == '9':
+            from tst.app import app
+            app.app.run()
         print()
+
 
 def display_help():
     print(data.help)
