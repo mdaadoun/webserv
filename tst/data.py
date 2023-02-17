@@ -72,14 +72,15 @@ help = """ [bold yellow]HELP[/bold yellow]
             * [bold magenta]./run.py -a or --all[/bold magenta]
     
     * notes:
+
         [italic white]* for -w the tester will generate multiple config files and run multiple time ./webserv config_default.ini
         * don't add tests manually to ./tst/tests.txt, use -t, the tests editor.
         * for remote and the --all option, the port is 8080 by default and will ignore the tests ports.[/italic white]
 """
 
 config = {
-    "server": {
-        "server_name": "webserv",
+    "1": {
+        "server_name": "webserv1",
         "listen": "0.0.0.0:4242",
         "root": "./www/html",
         "index": "index.html",
@@ -103,10 +104,42 @@ config = {
             "/content": {
                 "allow_methods": "GET"
             },
-            "/cgi": {
+            "/cgi-bin": {
                 "allow_methods": "GET POST DELETE"
             }
         }
+    },
+    "2": {
+        "server_name": "webserv2",
+        "listen": "0.0.0.0:2244",
+        "root": "./www/html",
+        "index": "index.html",
+        "autoindex": "on",
+        "client_body_limit": "4096",
+        "location": {
+            "/cgi-bin": {
+                "root": "www/html/cgi-bin",
+                "upload_dir": "www/html/content",
+                "cgi_extensions": ["python"],
+                "disabled_methods": [""],
+                "max_client_body_size":2500000,
+            },
+            "/": {
+                "allow_methods": "GET"
+            },
+            "/content": {
+                "allow_methods": "GET POST"
+            }
+        }
+    },
+    "3": {
+        "server_name": "webserv3",
+        "listen": "0.0.0.0:2424",
+        "root": "./www/html",
+        "index": "index.html",
+        "autoindex": "on",
+        "client_body_limit": "256",
+        "disabled_methods": ["POST", "DELETE", "GET"]
     },
 }
 

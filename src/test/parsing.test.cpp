@@ -1,5 +1,18 @@
-#include "../../inc/main.hpp"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parsing.test.cpp                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fleblanc <fleblanc@student.42angoulem      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/02/17 10:37:52 by fleblanc          #+#    #+#             */
+/*   Updated: 2023/02/17 10:38:57 by fleblanc         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-int main() {
-    std::cout << "test parsing";
+#include "test.hpp"
+
+void	parsingTest(void)
+{
+	std::cout << "\033[0;34m # Parsing test # \033[0;0m" << std::endl;
 }
