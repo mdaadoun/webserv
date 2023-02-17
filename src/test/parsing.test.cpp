@@ -4,8 +4,11 @@ void    Parsing_Test(std::string file)
 {
     try
     {
-        Parsing parser(file);
+        Config parser(file);
+        std::cout << "Print Map Parser" << std::endl;
         parser.printMap();
+        std::cout << "Print IP Parser" << std::endl;
+        std::cout << parser.getIP() << std::endl;
         std::cout << "Print port Parser" << std::endl;
         std::cout << parser.getPort() << std::endl;
     }

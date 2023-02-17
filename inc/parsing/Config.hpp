@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing.hpp                                        :+:      :+:    :+:   */
+/*   Config.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amorel <amorel@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PARSING_HPP
-#define PARSING_HPP
+#ifndef CONFIG_HPP
+#define CONFIG_HPP
 
 #include <iostream>
 #include <map>
@@ -21,12 +21,12 @@
 #include <sstream>
 #include <filesystem>
 
-class Parsing
+class Config
 {
 public:
-    Parsing(const std::string& path);
-    Parsing();
-    ~Parsing();
+    Config(const std::string& path);
+    Config();
+    ~Config();
 
     std::map<std::string, std::string>	*getMap();
     std::string							getIP();

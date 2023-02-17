@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing.cpp                                        :+:      :+:    :+:   */
+/*   Config.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amorel <amorel@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,29 +10,29 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/parsing/parsing.hpp"
+#include "../inc/parsing/Config.hpp"
 
 /*
 ** [de/con]structors
 */
-Parsing::Parsing()
+Config::Config()
 {
     config_to_map("config_default.ini");
 }
 
-Parsing::Parsing(const std::string &path)
+Config::Config(const std::string &path)
 {
     config_to_map(path);
 }
 
-Parsing::~Parsing()
+Config::~Config()
 {
 }
 
 /*
 ** private functions
 */
-void	Parsing::config_to_map(std::string path)
+void	Config::config_to_map(std::string path)
 {
     std::ifstream file;
     std::string key;
@@ -41,7 +41,7 @@ void	Parsing::config_to_map(std::string path)
     file.open(path.c_str());
     if (file.fail())
     {
-        throw(Parsing::ErrorFileException());
+        throw(Config::ErrorFileException());
     }
     this->it = this->config.begin();
     while (true)
@@ -56,7 +56,7 @@ void	Parsing::config_to_map(std::string path)
     file.close();
 }
 
-void    Parsing::printMap()
+void    Config::printMap()
 {
     std::cout << "-------------------------------" << std::endl;
     for (this->it = this->config.begin(); this->it != this->config.end(); it++)
@@ -67,17 +67,17 @@ void    Parsing::printMap()
 /*
 ** getters
 */
-std::map<std::string, std::string>	*Parsing::getMap()
+std::map<std::string, std::string>	*Config::getMap()
 {
     return (&(this->config));
 }
 
-std::string	Parsing::getIPP()
+std::string	Config::getIPP()
 {
     return (this->config.find("listen")->second);
 }
 
-std::string	Parsing::getIP()
+std::string	Config::getIP()
 {
     std::string ip;
     size_t     colon;
@@ -89,32 +89,32 @@ std::string	Parsing::getIP()
     return (ip);
 }
 
-int Parsing::getPort()
+int Config::getPort()
 {
     return (std::atoi(this->getStringPort().c_str()));
 }
 
-std::string	Parsing::getStringPort()
+std::string	Config::getStringPort()
 {
     return (&(this->config.find("listen")->second.at(this->config.find("listen")->second.find(':'))) + 1);
 }
 
-std::string	Parsing::getRoot()
+std::string	Config::getRoot()
 {
     return (this->config.find("root")->second);
 }
 
-std::string	Parsing::getIndex()
+std::string	Config::getIndex()
 {
     return (this->config.find("index")->second);
 }
 
-std::string	Parsing::getServerName()
+std::string	Config::getServerName()
 {
     return (this->config.find("server_name")->second);
 }
 
-std::string	Parsing::getClientBodyLimit()
+std::string	Config::getClientBodyLimit()
 {
     return (this->config.find("client_body_limit")->second);
 }
@@ -123,7 +123,7 @@ std::string	Parsing::getClientBodyLimit()
 ** checking
 */
 
-void	Parsing::checkIP()
+void	Config::checkIP()
 {
     std::stringstream   ip(this->getIP());
     std::string         tmp;
@@ -144,34 +144,41 @@ void	Parsing::checkIP()
         std::cerr << "port out of bounds" << std::endl; //THROW here pls
 }
 
-void	Parsing::checkName()
+void	Config::checkName()
 {
     if (this->getServerName().empty())
         this->config.find("server_name")->second = "default";
 }
 
-void	Parsing::checkIndex()
+void	Config::checkIndex()
 {
     std::string index = this->getRoot() + this->getIndex();
     std::ifstream file;
 
     file.open(index.c_str());
     if (file.fail())
-        throw(Parsing::ErrorFileException());
+        throw(Config::ErrorFileException());
     file.close();
 }
 
-void	Parsing::checkClientBodyLimit()
+void	Config::checkClientBodyLimit()
 {
     if (std::atoi(this->getClientBodyLimit().c_str()) <= 0)
         std::cerr << "invalid client body limit" << std::endl; //THROW here pls
 }
 
-void	Parsing::checkErrorPages()
+void	Config::checkErrorPages()
 {
+    std::string index = this->config.find("error_page_400")->second;
+    std::ifstream file;
+
+    file.open(index.c_str());
+    if (file.fail())
+        throw(Config::ErrorFileException());
+    file.close();
 }
 
-const char *Parsing::ErrorFileException::what() const throw()
+const char *Config::ErrorFileException::what() const throw()
 {
     return ("Error::Failed open file");
 }
