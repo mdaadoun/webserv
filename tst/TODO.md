@@ -1,5 +1,7 @@
 # TODO
 
+Mettre a jour dans le README la partie relative au testeur python.
+
 ## CONFIG GENERATOR
 * Editeur et générateur de config.
 * La mise en place d'un sélecteur de config, choisir le fichier qui sera lancé avec ./webserv
