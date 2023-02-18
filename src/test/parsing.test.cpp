@@ -3,16 +3,33 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.test.cpp                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fleblanc <fleblanc@student.42angoulem      +#+  +:+       +#+        */
+/*   By: amorel <amorel@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/17 10:37:52 by fleblanc          #+#    #+#             */
-/*   Updated: 2023/02/17 10:38:57 by fleblanc         ###   ########.fr       */
+/*   Created: 2023/02/17 17:53:06 by dlaidet           #+#    #+#             */
+/*   Updated: 2023/02/17 17:53:30 by amorel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "test.hpp"
 
-void	parsingTest(void)
+void    parsingTest(std::string file)
 {
-	std::cout << "\033[0;34m # Parsing test # \033[0;0m" << std::endl;
+    try
+    {
+        Config parser(file);
+        std::vector<std::map<std::string, std::string> > list = parser.getList();
+        std::vector<std::map<std::string, std::string> >::iterator it;
+        std::cout << "Vector Size" << std::endl;
+        std::cout << list.size() << std::endl;
+        it = list.begin();
+        while (it != list.end())
+        {
+            parser.printMap(it);
+            it++;
+        }
+    }
+    catch (std::exception &e)
+    {
+        std::cout << e.what() << std::endl;
+    }
 }
