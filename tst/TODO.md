@@ -1,8 +1,10 @@
 # TODO
 
+Mettre a jour dans le README la partie relative au testeur python.
+
 ## CONFIG GENERATOR
 * Editeur et générateur de config.
-* La mise en place d'un sélecteur de config, choisir le fichier qui sera lancé avec ./webser
+* La mise en place d'un sélecteur de config, choisir le fichier qui sera lancé avec ./webserv
 * Différencier les tests requests/responses des tests config_files,
     utiliser les mêmes méthode que tests.txt, faire des config_*.ini et construire de multiples configs
     qui peuvent être sélectionnée pour les tests (incluant la version par défaut)
@@ -23,6 +25,7 @@
 * Lancer webserv pour être au vert avec tests.txt
 * Ajouter des options de fichier de config à partir des fichiers nginx
 * Ensuite lancer le all et comparer les résultats des tests entre pyserv et webserv
+
 
 ### Advanced PYSERV
 * Multiple servers

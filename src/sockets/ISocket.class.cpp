@@ -6,7 +6,7 @@
 /*   By: tlafont <tlafont@student.42angouleme.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 12:06:39 by tlafont           #+#    #+#             */
-/*   Updated: 2023/02/17 13:48:50 by tlafont          ###   ########.fr       */
+/*   Updated: 2023/02/20 07:52:35 by tlafont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,17 +69,6 @@ ISocket  &ISocket::operator=(const ISocket& rhs)
 	(void)rhs;
 	return (*this);
 }
-
-/*
-*  @brief	error message for exception.
-*           set the msg in case of exception
-*  @param	void
-*  @return	char *
-
-char const  *ISocket::ErrorConnection::what() const throw()
-{
-	return ("Socket: error connection...");
-}*/
 
 /*
 *  @brief	Test _sock_fd or _connec.

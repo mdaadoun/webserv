@@ -6,18 +6,16 @@
 /*   By: tlafont <tlafont@student.42angouleme.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 10:03:15 by tlafont           #+#    #+#             */
-/*   Updated: 2023/02/17 13:55:28 by tlafont          ###   ########.fr       */
+/*   Updated: 2023/02/20 07:50:19 by tlafont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#include <iostream>
-#include <exception>
 
 #include "test.hpp"
 
 void	socketTest()  // propose to become a main for testing
 {
 	std::string	host("0.0.0.0");
+	std::cout << "\033[0;34m # Socket test # \033[0;0m" << std::endl;
 	std::cout << "---BindSocket--- :" << std::endl;
 	try
 	{
