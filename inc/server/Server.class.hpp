@@ -6,12 +6,12 @@
 /*   By: tlafont <tlafont@student.42angouleme.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 08:31:33 by tlafont           #+#    #+#             */
-/*   Updated: 2023/02/20 09:47:25 by tlafont          ###   ########.fr       */
+/*   Updated: 2023/02/20 16:15:43 by tlafont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef ASERVER_HPP
-# define ASERVER_HPP
+#ifndef SERVER_HPP
+# define SERVER_HPP
 
 //includes
 #include <unistd.h> //for read/write (to delete after other implementation)
@@ -38,9 +38,10 @@ class Server
 		~Server();
 		//---- getter methods ----//
 		ListenSocket	*getSocket() const;
+		int				getSocketFd() const;
 //		std::string		getResponse() const;
 		//---- member methods ----//
-		void	launch();
+		void	launch(); // a modifier pour lancer la socket uniquement
 		//---- exception class ----//
 		class ErrorAccept : public std::exception
 		{

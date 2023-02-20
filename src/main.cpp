@@ -6,7 +6,7 @@
 /*   By: amorel <amorel@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 10:31:27 by tlafont           #+#    #+#             */
-/*   Updated: 2023/02/20 09:35:29 by tlafont          ###   ########.fr       */
+/*   Updated: 2023/02/20 11:43:40 by tlafont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,16 +21,28 @@ int main(int ac, char **av)
 			case 0: { return (1); break; }
 			case 1:
 			{	
-				Config config("conf/config_default.ini");
-				Server	serv(config, 1);
-				serv.launch();
+				try
+				{
+					Config config("conf/config_default.ini");
+					// construction du Manager
+					// lancement du manager
+					Server	serv(config, 1);
+					serv.launch();
+				}
+				catch (std::execption &e)
+					std::cout << e.what() << std::endl;
 				break;
 			}
 			case 2:
 			{
-				Config config(av[1]);
-				Server serv(config, 1);
-				serv.launch();
+				try
+				{
+					Config config(av[1]);
+					Server serv(config, 1);
+					serv.launch();
+				}
+				catch (std::exeption &e)
+					std::cout << e.what() << std::endl;
 				break;
 			}
 			default : return (1); break;

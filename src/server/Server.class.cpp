@@ -6,7 +6,7 @@
 /*   By: tlafont <tlafont@student.42angouleme.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 08:29:43 by tlafont           #+#    #+#             */
-/*   Updated: 2023/02/20 10:15:28 by tlafont          ###   ########.fr       */
+/*   Updated: 2023/02/20 16:10:38 by tlafont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,17 @@ Server	&Server::operator=(Server const &rhs)
 ListenSocket	*Server::getSocket() const
 {
 	return (this->_socket);
+}
+
+/*
+*  @brief	Getter file descriptor socket.
+*           Access to the fd of the socket 
+*  @param	void
+*  @return	int
+*/
+int	Server::getSocketFd() const
+{
+return (this->_new_socket);
 }
 
 /*

@@ -6,7 +6,7 @@
 /*   By: amorel <amorel@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 15:14:07 by amorel            #+#    #+#             */
-/*   Updated: 2023/02/15 16:35:09 by amorel           ###   ########.fr       */
+/*   Updated: 2023/02/20 13:35:45 by tlafont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,7 @@ public:
     Config();
     ~Config();
 
-    std::vector<std::map<std::string, std::string> >    getList() const;
-    std::map<std::string, std::string>	*getMap(int n);
+
     std::string							getIP(int n);
     std::string							getListen(int n);
     std::string 						getPort(int n);
