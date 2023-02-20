@@ -6,7 +6,7 @@
 /*   By: tlafont <tlafont@student.42angouleme.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 08:31:33 by tlafont           #+#    #+#             */
-/*   Updated: 2023/02/17 11:21:35 by tlafont          ###   ########.fr       */
+/*   Updated: 2023/02/20 09:47:25 by tlafont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,9 @@
 #include <exception>
 #include <vector>
 #include <string>
+#include <cstdlib>
 #include "../sockets/ListenSocket.class.hpp"
+#include "../parsing/Config.class.hpp"
 #include "../request/Request.class.hpp"
 #include "../response/Response.class.hpp"
 
@@ -31,7 +33,7 @@ class Server
 		//---- canonical form ----//
 			// constructors //
 				// overload constructor
-		Server(int config);
+		Server(Config &config, int n_serv);
 			// destructor //
 		~Server();
 		//---- getter methods ----//
@@ -53,7 +55,7 @@ class Server
 		int							_port;
 		std::string					_host;
 		std::string					_auto_index;
-		std::vector<std::string>	_indexes;
+		std::string					_index;
 		std::string					_root;
 		std::string					_server_name;
 		u_long						_max_size;

@@ -6,7 +6,7 @@
 /*   By: tlafont <tlafont@student.42angouleme.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 08:29:43 by tlafont           #+#    #+#             */
-/*   Updated: 2023/02/20 07:54:58 by tlafont          ###   ########.fr       */
+/*   Updated: 2023/02/20 10:15:28 by tlafont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,15 @@
 *  @param	void
 *  @return	void
 */
-Server::Server()
+Server::Server():	_port(2424),
+					_host("0.0.0.0"),
+					_auto_index("off"),
+					_index(),
+					_root("./www/html"),
+					_server_name("webserv"),
+					_max_size(1000000),
+					_locations(),
+					_error_file("error.html")
 {
 }
 
@@ -28,17 +36,17 @@ Server::Server()
 *  @param	int
 *  @return	void
 */
-Server::Server(int config): _port(2424),
-							_host("0.0.0.0"),
-							_auto_index("off"),
-							_indexes(),
-							_root("./www/html"),
-							_server_name("webserv"),
-							_max_size(1000000),
-							_locations(),
-							_error_file("error.html")
+Server::Server(Config &config, int n_serv): _port(atoi(config.getPort(n_serv).c_str())),
+											_host(config.getIP(n_serv)),
+											_auto_index("off"),
+											_index(config.getIndex(n_serv)),
+											_root(config.getRoot(n_serv)),
+											_server_name(config.getServerName(n_serv)),
+											_max_size(1000000),
+											_locations(),
+											_error_file("error.html")
 {
-	this->_socket = new ListenSocket(PF_INET, SOCK_STREAM, 0, this->_port, this->_host, config);
+	this->_socket = new ListenSocket(PF_INET, SOCK_STREAM, 0, this->_port, this->_host, 10);
 	// bcklog = 10; for test config =  10 but still replace by map config
 }
 

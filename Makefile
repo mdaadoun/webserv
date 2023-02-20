@@ -6,7 +6,7 @@
 #    By: amorel <amorel@student.42angouleme.fr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/15 16:04:29 by fleblanc          #+#    #+#              #
-#    Updated: 2023/02/17 17:54:32 by amorel           ###   ########.fr        #
+#    Updated: 2023/02/20 08:49:04 by tlafont          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -49,7 +49,7 @@ SRCCLASS = server/Server.class.cpp \
 		   sockets/ClientSocket.class.cpp \
 		   sockets/ISocket.class.cpp \
 		   sockets/ListenSocket.class.cpp \
-		   parsing/Config.cpp \
+		   parsing/Config.class.cpp \
 
 SRCTEST	= test/main.test.cpp \
 		  test/socket.test.cpp \

@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Config.cpp                                        :+:      :+:    :+:   */
+/*   Config.class.cpp                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amorel <amorel@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 15:12:25 by amorel            #+#    #+#             */
-/*   Updated: 2023/02/15 17:05:49 by amorel           ###   ########.fr       */
+/*   Updated: 2023/02/20 08:46:12 by tlafont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/parsing/Config.hpp"
+#include "../inc/parsing/Config.class.hpp"
 
 /*
 ** [de/con]structors
