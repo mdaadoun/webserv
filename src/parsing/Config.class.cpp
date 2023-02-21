@@ -326,6 +326,11 @@ void	Config::checkPort(std::string &value)
         std::cerr << "port out of bounds" << std::endl; //THROW here pls
 }
 
+/*
+*  @brief	Verify if ip value is correct.
+*  @param	std::string value
+*  @return	void
+*/
 void	Config::checkIP(std::string &value)
 {
     std::stringstream   ip(value);
@@ -344,12 +349,22 @@ void	Config::checkIP(std::string &value)
     }
 }
 
+/*
+*  @brief	Verify if server_name is not empty, if empty set it with "default" name.
+*  @param	std::string value
+*  @return	void
+*/
 void	Config::checkName(std::string &value)
 {
     if (value.empty())
         value = "default";
 }
 
+/*
+*  @brief	Combine index with root and verify if index can be open, if not return false.
+*  @param	std::map<std::string, std::string> map
+*  @return	bool
+*/
 bool	Config::checkIndex(std::map<std::string, std::string> map)
 {
     if (map.find("root") == map.end() || map.find("index") == map.end())
@@ -366,12 +381,22 @@ bool	Config::checkIndex(std::map<std::string, std::string> map)
         return true;
 }
 
+/*
+*  @brief	Verify if client_body_limit is a valid value.
+*  @param	std::string value
+*  @return	void
+*/
 void	Config::checkClientBodyLimit(std::string &value)
 {
     if (std::atoi(value.c_str()) <= 0)
         std::cerr << "invalid client body limit" << std::endl; //THROW here pls
 }
 
+/*
+*  @brief	Combine error_page_<value> with root and verify if it can be open, if not reset with default file <value> + ".html".
+*  @param	std::string value
+*  @return	void
+*/
 void	Config::checkErrorPages(std::map<std::string, std::string> *map)
 {
     std::string errors[9] = {"400", "401", "403", "404", "405", "410", "431", "500", "503"};
@@ -398,7 +423,9 @@ void	Config::checkErrorPages(std::map<std::string, std::string> *map)
 }
 
 /*
-** Exception
+*  @brief	Return "Error::Failed open file".
+*  @param	void
+*  @return	char *
 */
 const char *Config::ErrorFileException::what() const throw()
 {
