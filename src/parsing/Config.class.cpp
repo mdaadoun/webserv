@@ -54,13 +54,15 @@ void	Config::config_to_map(const std::string& path)
     std::string line;
     std::string key;
     std::string value;
+    std::map<std::string, std::string>				config;
+    std::map<std::string, std::string>::iterator	it;
 
     file.open(path.c_str());
     if (file.fail())
     {
         throw(Config::ErrorFileException());
     }
-    this->it = this->config.begin();
+    it = config.begin();
     while (true)
     {
         getline(file, line, '\n');
@@ -98,17 +100,17 @@ void	Config::config_to_map(const std::string& path)
                 std::string listenkey = "ip";
                 std::string listenvalue = parse_listen_ip(value);
                 Config::check_key_value(listenkey, listenvalue);
-                this->config.insert(it, std::pair<std::string, std::string>(listenkey, listenvalue));
-                this->it = this->config.end();
+                config.insert(it, std::pair<std::string, std::string>(listenkey, listenvalue));
+                it = config.end();
                 listenkey = "port";
                 listenvalue = parse_listen_port(value);
                 Config::check_key_value(listenkey, listenvalue);
-                this->config.insert(it, std::pair<std::string, std::string>(listenkey, listenvalue));
-                this->it = this->config.end();
+                config.insert(it, std::pair<std::string, std::string>(listenkey, listenvalue));
+                it = config.end();
             }
         }
-        this->config.insert(it, std::pair<std::string, std::string>(key, value));
-        this->it = this->config.end();
+        config.insert(it, std::pair<std::string, std::string>(key, value));
+        it = config.end();
     }
     file.close();
 }
@@ -148,13 +150,14 @@ std::string Config::parse_listen_port(std::string listen)
 */
 void    Config::printMap(std::vector<std::map<std::string, std::string> >::iterator it)
 {
+    std::map<std::string, std::string>::iterator	itm;
     std::cout << "-------------------------------" << std::endl;
     if (it->find("error") != it->end())
         std::cout << "Error on server " << it->find("server_name")->second << std::endl;
     else
     {
-        for (this->it = it->begin(); this->it != it->end(); this->it++)
-            std::cout << this->it->first << ":" << this->it->second << std::endl;
+        for (itm = it->begin(); itm != it->end(); itm++)
+            std::cout << itm->first << ":" << itm->second << std::endl;
     }
     std::cout << "-------------------------------" << std::endl;
 }

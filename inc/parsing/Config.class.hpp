@@ -46,6 +46,7 @@ public:
     //Utils Method
     void	printMap(std::vector<std::map<std::string, std::string> >::iterator it);
 
+    //Exception class
     class ErrorFileException : public std::exception
     {
     public:
@@ -55,8 +56,6 @@ public:
 
 private:
     std::vector<std::map<std::string, std::string> >    _list;
-	std::map<std::string, std::string>				config;
-    std::map<std::string, std::string>::iterator	it;
 
 	void	config_to_map(const std::string& path);
     static std::string parse_listen_ip(const std::string& listen);
