@@ -92,17 +92,17 @@ void	Config::config_to_map(const std::string& path)
         {
             key = line.substr(0, pos);
             value = line.substr(pos + 1);
-            this->check_key_value(key, value);
+            Config::check_key_value(key, value);
             if (key == "listen")
             {
                 std::string listenkey = "ip";
                 std::string listenvalue = parse_listen_ip(value);
-                this->check_key_value(listenkey, listenvalue);
+                Config::check_key_value(listenkey, listenvalue);
                 this->config.insert(it, std::pair<std::string, std::string>(listenkey, listenvalue));
                 this->it = this->config.end();
                 listenkey = "port";
                 listenvalue = parse_listen_port(value);
-                this->check_key_value(listenkey, listenvalue);
+                Config::check_key_value(listenkey, listenvalue);
                 this->config.insert(it, std::pair<std::string, std::string>(listenkey, listenvalue));
                 this->it = this->config.end();
             }
