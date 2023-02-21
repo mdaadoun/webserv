@@ -6,7 +6,7 @@
 /*   By: tlafont <tlafont@student.42angouleme.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 11:45:00 by tlafont           #+#    #+#             */
-/*   Updated: 2023/02/20 16:37:27 by tlafont          ###   ########.fr       */
+/*   Updated: 2023/02/21 09:31:16 by tlafont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@
 #include <unistd.h>
 #include <map>
 #include <vector>
-//#include <exception>
+#include <algorithm>
+#include <exception>
 //#include <string>
 //#include <cstdlib>	
 #include "../server/Server.class.hpp"
@@ -40,6 +41,8 @@ class Manager
 		
 		//---- member methods ----//
 		void	initConnections();
+			// manage alls connections
+		void	managementProcess();
 
 	private:
 		//---- member objects ----//
@@ -64,8 +67,6 @@ class Manager
 		void	signalQuit(int val);
 			// exit the program //
 		void	stopProgram();
-			// manage alls connections //
-		void	managementProcess();
 };
 
 #endif

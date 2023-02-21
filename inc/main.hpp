@@ -6,7 +6,7 @@
 /*   By: tlafont <tlafont@student.42angouleme.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 10:11:36 by tlafont           #+#    #+#             */
-/*   Updated: 2023/02/20 08:57:09 by tlafont          ###   ########.fr       */
+/*   Updated: 2023/02/21 08:31:35 by tlafont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,5 +27,8 @@
 
 // Server class
 #include "server/Server.class.hpp"
+
+// manager
+#include "manager/Manager.class.hpp"
 
 #endif

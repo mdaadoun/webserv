@@ -6,7 +6,7 @@
 /*   By: tlafont <tlafont@student.42angouleme.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 11:45:44 by tlafont           #+#    #+#             */
-/*   Updated: 2023/02/20 16:36:22 by tlafont          ###   ########.fr       */
+/*   Updated: 2023/02/21 11:39:51 by tlafont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,6 @@ void	Manager::initConnections()
 	}
 	g_this = this;
 	signal(SIGINT, this->signalQuit);
-	this->managementProcess();
 }
 
 /*
@@ -130,6 +129,45 @@ void	stopProgram()
 	//set to ZERO fds?
 	std::cout << "Webserv properly closed...!" <<  std::endl;
 }
+
+/*
+*	@brief	Management all program.
+*			manage all connections/servers for process
+*	@param	void
+*	@return	void
+*/
+void	managementProcess()
+{
+	while (true)
+	{
+		std::cout << "*============ WAITING REQUEST ============*" << std::endl;
+		// cpy fds tmp in list for working
+		this->_read_fds = this->_tmp_read_fds;
+		this->_write_fds = this->_tmp_write_fds;
+		// allows the program to monitor multiple fds
+		std::map<int, int>::iterator	it_max;
+		it_max = std::max_element(this->_connections.begin(), this->_connections.end);
+		int max_fd = (*it_max).second + 1;
+		if (select(max_fd, &this->_read_fds, &this->_write_fds) == -1)
+			throw(std::runtime_error(strerror(errno)));
+		// check_and_work for all server
+		std::vector<Server *>::iterator	it = this->_servers.begin();
+		std::vector<Server *>::iterator	ite = this->_servers.end();
+		for (; it != ite; it++)
+		{
+			Server	*serv = *it;
+			// create  new communication socket in the server if hes fd is set
+			if (FD_ISSET(serv->getSocketFd(), &this->_read_fds))
+			{
+				int	com_fd = serv->createNewCom();
+				this->_connections[com_fd] = com_fd;
+				FD_SET(com_fd, &this->_tmp_read_fds);
+			}
+			serv->comManagement(*this);
+		}
+	}
+}
+
 /*
 *	@brief	Destructor of the class Manager.
 *			Destroy the Manager object

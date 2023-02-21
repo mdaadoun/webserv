@@ -6,7 +6,7 @@
 /*   By: tlafont <tlafont@student.42angouleme.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 12:06:39 by tlafont           #+#    #+#             */
-/*   Updated: 2023/02/20 07:52:35 by tlafont          ###   ########.fr       */
+/*   Updated: 2023/02/21 12:27:55 by tlafont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ ISocket::ISocket(int dom, int serv, int protoc, int port, std::string &host)
 		//set octets in order for nertwork (htons, htonl)
 	this->_addr.sin_port = htons(port);
 	// set host address
-	if (host != "0.0.0.0")
+	if (host != "0.0.0.0" || host != "localhost")
 		this->_addr.sin_addr.s_addr = inet_addr(host.c_str());
 	else
 		this->_addr.sin_addr.s_addr = htonl(INADDR_ANY);

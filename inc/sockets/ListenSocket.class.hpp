@@ -6,7 +6,7 @@
 /*   By: tlafont <tlafont@student.42angouleme.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 08:23:08 by tlafont           #+#    #+#             */
-/*   Updated: 2023/02/17 14:23:14 by tlafont          ###   ########.fr       */
+/*   Updated: 2023/02/21 12:33:21 by tlafont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 
 // includes
 #include "BindSocket.class.hpp"
-#include <fcntl.h>
 
 class ListenSocket : public BindSocket
 {
@@ -28,6 +27,7 @@ class ListenSocket : public BindSocket
 		~ListenSocket();
 		//---- getter methods ----//
 		int	getBcklog() const;
+			// getter for fd listenSocket
 		int	getListen() const;
 		//---- member methods ----//
 		int	startListen();

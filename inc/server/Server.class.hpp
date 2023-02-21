@@ -6,7 +6,7 @@
 /*   By: tlafont <tlafont@student.42angouleme.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 08:31:33 by tlafont           #+#    #+#             */
-/*   Updated: 2023/02/20 16:15:43 by tlafont          ###   ########.fr       */
+/*   Updated: 2023/02/21 12:39:31 by tlafont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 # define SERVER_HPP
 
 //includes
-#include <unistd.h> //for read/write (to delete after other implementation)
+#include <unistd.h>
+#include <<fcntl.h>
 #include <exception>
 #include <vector>
 #include <string>
@@ -32,8 +33,12 @@ class Server
 	public:
 		//---- canonical form ----//
 			// constructors //
+				// copy constructor
+		Server(Server const &rhs);
 				// overload constructor
 		Server(Config &config, int n_serv);
+			// assignment operator //
+		Server	&operator=(Server const &rhs);
 			// destructor //
 		~Server();
 		//---- getter methods ----//
@@ -41,7 +46,9 @@ class Server
 		int				getSocketFd() const;
 //		std::string		getResponse() const;
 		//---- member methods ----//
-		void	launch(); // a modifier pour lancer la socket uniquement
+		void	launch();
+		int		createNewCom();
+		void	comManagement(Manager &manager);
 		//---- exception class ----//
 		class ErrorAccept : public std::exception
 		{
@@ -71,10 +78,6 @@ class Server
 		//---- canonical form ----//
 				// default constructor
 		Server();
-				// copy constructor
-		Server(Server const &rhs);
-				// assignment operator
-		Server	&operator=(Server const &rhs);
 
 		//---- private member methods ----//
 		void	accepter();

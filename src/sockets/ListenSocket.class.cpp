@@ -6,7 +6,7 @@
 /*   By: tlafont <tlafont@student.42angouleme.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 08:29:59 by tlafont           #+#    #+#             */
-/*   Updated: 2023/02/20 07:51:20 by tlafont          ###   ########.fr       */
+/*   Updated: 2023/02/21 12:34:57 by tlafont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,6 @@ BindSocket(dom, serv, protoc, port, host)
 	this->_backlog = bcklog;
 	this->_listen = startListen();
 	testConnection(this->_listen, std::string("Error: waiting connection to socket."));
-	// set non_bolcking the socket //todo when select or epoll functional
-//	int setting = fcntl(this->_sock_fd, F_SETFL, O_NONBLOCK);
-//	testConnection(setting, std::string("Error: setting non-blocking socket."));
 }
 
 /*

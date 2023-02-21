@@ -6,7 +6,7 @@
 /*   By: tlafont <tlafont@student.42angouleme.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 08:29:43 by tlafont           #+#    #+#             */
-/*   Updated: 2023/02/20 16:10:38 by tlafont          ###   ########.fr       */
+/*   Updated: 2023/02/21 12:43:59 by tlafont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,6 @@ Server::Server(Config &config, int n_serv): _port(atoi(config.getPort(n_serv).c_
 											_locations(),
 											_error_file("error.html")
 {
-	this->_socket = new ListenSocket(PF_INET, SOCK_STREAM, 0, this->_port, this->_host, 10);
-	// bcklog = 10; for test config =  10 but still replace by map config
 }
 
 /*
@@ -69,7 +67,19 @@ Server::Server(Server const &rhs)
 */
 Server	&Server::operator=(Server const &rhs)
 {
-	(void)rhs;
+	this->_port = rhs._port;
+	this->_host = rhs._host;
+	this->_auto_index = rhs._auto_index;
+	this->_index = rhs._index;
+	this->_root = rhs._root;
+	this->_server_name = rhs._server_name;
+	this->_max_size = rhs._max_size;
+	this->_locations = rhs._locations;
+	this->_error_file = rhs._error_file;
+	this->_buffer = rhs._buffer;
+	this->_new_socket = rhs._new_socket;
+	this->_request = rhs._request;
+	this->_response = rhs._response;
 	return (*this);
 }
 
@@ -172,24 +182,25 @@ void	Server::responder()
 */
 void	Server::launch()
 {
-	while (true)
+	this->_socket = new ListenSocket(PF_INET, SOCK_STREAM, 0, this->_port, this->_host, 10);
+	// set non_bolcking the socket
+	int setting = fcntl(this->_sock_fd, F_SETFL, O_NONBLOCK);
+	if (setting == -1)
 	{
-		std::cout << "*==== WAITING REQUEST ====*" << std::endl;
-		try
-		{
-			accepter();
-			handler();
-			responder();
-			std::cout << "*======== !DONE! =========*" << std::endl;
-			// to supp after debug
-			break;
-		}
-		catch(std::exception &e)
-		{
-			std::cout << e.what() << std::endl;
-		}
-
+		std::cerr << "Error: set non-blocking socket: " << this->_server_name << std::endl;
+		throw std::runtime_error(strerror(errno));
 	}
+}
+
+/*
+*  @brief	Create a ComSocket object.
+*           create ComSocket form server socket fd and add in array of communications
+*  @param	int
+*  @return	int
+*/
+int	Server::createNewCom()
+{
+	
 }
 
 /*
