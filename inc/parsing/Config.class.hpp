@@ -16,7 +16,7 @@
 #include <iostream>
 #include <map>
 #include <string>
-#include <stdlib.h>
+#include <cstdlib>
 #include <fstream>
 #include <sstream>
 #include <filesystem>

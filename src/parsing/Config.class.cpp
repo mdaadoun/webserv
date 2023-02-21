@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/parsing/Config.hpp"
+#include "../inc/parsing/Config.class.hpp"
 
 /*
 *  @brief	Default constructor of the class Config.
