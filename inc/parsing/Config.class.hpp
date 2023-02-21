@@ -43,6 +43,9 @@ public:
     std::string							                getServerName(int n);
     std::string						                	getClientBodyLimit(int n);
     std::string                                         getErrorPage(int n, const std::string& error);
+    std::string                                         getLocAllowMethod(int n);
+    std::string                                         getLocContentAllowMethod(int n);
+    std::string                                         getLocCgiAllowMethod(int n);
 
     //Utils Method
     void	printMap(std::vector<std::map<std::string, std::string> >::iterator it);

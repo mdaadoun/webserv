@@ -296,6 +296,45 @@ std::string Config::getErrorPage(int n, const std::string& error)
 }
 
 /*
+*  @brief	Return content of "location_/_allow_methods" in map at n position of vector _list.
+*  @param	int n
+*  @return	std::string
+*/
+std::string Config::getLocAllowMethod(int n)
+{
+    std::vector<std::map<std::string, std::string> >::iterator  it = this->_list.begin();
+    while (n-- > 1)
+        it++;
+    return (it->find("location_/_allow_methods")->second);
+}
+
+/*
+*  @brief	Return content of "location_/content_allow_methods" in map at n position of vector _list.
+*  @param	int n
+*  @return	std::string
+*/
+std::string Config::getLocContentAllowMethod(int n)
+{
+    std::vector<std::map<std::string, std::string> >::iterator  it = this->_list.begin();
+    while (n-- > 1)
+        it++;
+    return (it->find("location_/content_allow_methods")->second);
+}
+
+/*
+*  @brief	Return content of "location_/cgi-bin_allow_methods" in map at n position of vector _list.
+*  @param	int n
+*  @return	std::string
+*/
+std::string Config::getLocCgiAllowMethod(int n)
+{
+    std::vector<std::map<std::string, std::string> >::iterator  it = this->_list.begin();
+    while (n-- > 1)
+        it++;
+    return (it->find("location_/cgi-bin_allow_methods")->second);
+}
+
+/*
 *  @brief	Identify key value for call check Method for value.
 *  @param	std::string key, std::string value
 *  @return	void
