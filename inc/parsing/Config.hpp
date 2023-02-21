@@ -41,7 +41,7 @@ public:
     std::string							getIndex(int n);
     std::string							getServerName(int n);
     std::string							getClientBodyLimit(int n);
-    std::string                         getErrorPage(int n, std::string error);
+    std::string                         getErrorPage(int n, const std::string& error);
 
     //Utils Method
     void	printMap(std::vector<std::map<std::string, std::string> >::iterator it);
@@ -58,14 +58,14 @@ private:
 	std::map<std::string, std::string>				config;
     std::map<std::string, std::string>::iterator	it;
 
-	void	config_to_map(std::string path);
-    std::string parse_listen_ip(std::string listen);
-    std::string parse_listen_port(std::string listen);
-    void    check_key_value(std::string &key, std::string &value);
+	void	config_to_map(const std::string& path);
+    static std::string parse_listen_ip(const std::string& listen);
+    static std::string parse_listen_port(std::string listen);
+    static void    check_key_value(std::string &key, std::string &value);
     static void	checkPort(std::string &value);
 	static void	checkIP(std::string &value);
 	static void	checkName(std::string &value);
-	bool		checkIndex(std::map<std::string, std::string> map);
+	static bool		checkIndex(std::map<std::string, std::string> map);
 	static void	checkClientBodyLimit(std::string &value);
 	static void	checkErrorPages(std::map<std::string, std::string> *config);
 };

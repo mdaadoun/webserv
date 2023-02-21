@@ -48,7 +48,7 @@ Config::~Config()
 *  @param	string path
 *  @return	void
 */
-void	Config::config_to_map(std::string path)
+void	Config::config_to_map(const std::string& path)
 {
     std::ifstream file;
     std::string line;
@@ -76,7 +76,7 @@ void	Config::config_to_map(std::string path)
 
         if (line == "[server]")
         {
-            if (config.size() == 0)
+            if (config.empty())
                 continue;
             if (!checkIndex(config))
                 config.insert(std::pair<std::string, std::string>("error", "yes"));
@@ -118,7 +118,7 @@ void	Config::config_to_map(std::string path)
 *  @param	string listen
 *  @return	string
 */
-std::string Config::parse_listen_ip(std::string listen)
+std::string Config::parse_listen_ip(const std::string& listen)
 {
     std::string res;
     size_t     colon;
@@ -278,7 +278,7 @@ std::string	Config::getClientBodyLimit(int n)
 *  @param	int n, std::string error
 *  @return	std::string
 */
-std::string Config::getErrorPage(int n, std::string error)
+std::string Config::getErrorPage(int n, const std::string& error)
 {
     std::string str = "error_page_" + error;
     std::vector<std::map<std::string, std::string> >::iterator  it = this->_list.begin();
