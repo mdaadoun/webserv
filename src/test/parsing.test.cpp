@@ -120,6 +120,8 @@ void    parsingTest()
             break;
         case 9:
             Def_Parsing();
+            Over_Parsing();
+            Copy_Parsing();
             break;
         default:
             std::cout << "Good Bye !" << std::endl;
