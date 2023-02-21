@@ -89,6 +89,41 @@ static void  Copy_Parsing()
     }
 }
 
+static void  Getter_Parsing()
+{
+    try
+    {
+        std::cout << "===Default Constructor and use getter===" << std::endl;
+        Config  parser;
+        int     i = 1;
+        std::string errors[9] = {"400", "401", "403", "404", "405", "410", "431", "500", "503"};
+        std::vector<std::map<std::string, std::string> > list = parser.getList();
+        std::vector<std::map<std::string, std::string> >::iterator it;
+        it = list.begin();
+        while (it != list.end())
+        {
+            std::cout << "getMap: " << parser.getMap(i) << std::endl;
+            std::cout << "getIp: " << parser.getIP(i) << std::endl;
+            std::cout << "getListen: " << parser.getListen(i) << std::endl;
+            std::cout << "getPort: " << parser.getPort(i) << std::endl;
+            std::cout << "getRoot: " << parser.getRoot(i) << std::endl;
+            std::cout << "getIndex: " << parser.getIndex(i) << std::endl;
+            std::cout << "getServerName: " << parser.getServerName(i) << std::endl;
+            std::cout << "getClientBodyLimit: " << parser.getClientBodyLimit(i) << std::endl;
+            for (int j = 0; j < 9; j++)
+            {
+                std::cout << "getErrorPage" << errors[j] << ": " << parser.getErrorPage(i,errors[j]) << std::endl;
+            }
+            it++;
+            i++;
+        }
+    }
+    catch (std::exception &e)
+    {
+        std::cout << e.what() << std::endl;
+    }
+}
+
 void    parsingTest()
 {
     std::string	input;
@@ -98,6 +133,7 @@ void    parsingTest()
     std::cout << "1 - Default Constructor and print content of map" << std::endl;
     std::cout << "2 - Overload Constructor and print content of map" << std::endl;
     std::cout << "3 - Copy Constructor and print content of map" << std::endl;
+    std::cout << "4 - Default Constructor and use getter" << std::endl;
     std::cout << "9 - All tests" << std::endl;
 
     std::cout << "Command : ";
@@ -118,10 +154,14 @@ void    parsingTest()
         case 3:
             Copy_Parsing();
             break;
+        case 4:
+            Getter_Parsing();
+            break;
         case 9:
             Def_Parsing();
             Over_Parsing();
             Copy_Parsing();
+            Getter_Parsing();
             break;
         default:
             std::cout << "Good Bye !" << std::endl;
