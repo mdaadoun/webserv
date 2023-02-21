@@ -169,6 +169,11 @@ std::vector<std::map<std::string, std::string> > Config::getList() const
     return (_list);
 }
 
+/*
+*  @brief	Return map at n position of vector _list.
+*  @param	int n
+*  @return	std::map<std::string, std::string>
+*/
 std::map<std::string, std::string>	*Config::getMap(int n)
 {
     std::vector<std::map<std::string, std::string> >::iterator  it = this->_list.begin();
@@ -177,6 +182,11 @@ std::map<std::string, std::string>	*Config::getMap(int n)
     return (&(*it));
 }
 
+/*
+*  @brief	Return content of "listen" in map at n position of vector _list.
+*  @param	int n
+*  @return	std::string
+*/
 std::string	Config::getListen(int n)
 {
     std::vector<std::map<std::string, std::string> >::iterator  it = this->_list.begin();
@@ -185,6 +195,11 @@ std::string	Config::getListen(int n)
     return (it->find("listen")->second);
 }
 
+/*
+*  @brief	Return content of "ip" in map at n position of vector _list.
+*  @param	int n
+*  @return	std::string
+*/
 std::string	Config::getIP(int n)
 {
     std::vector<std::map<std::string, std::string> >::iterator  it = this->_list.begin();
@@ -193,6 +208,11 @@ std::string	Config::getIP(int n)
     return (it->find("ip")->second);
 }
 
+/*
+*  @brief	Return content of "port" in map at n position of vector _list.
+*  @param	int n
+*  @return	std::string
+*/
 std::string Config::getPort(int n)
 {
     std::vector<std::map<std::string, std::string> >::iterator  it = this->_list.begin();
@@ -201,7 +221,11 @@ std::string Config::getPort(int n)
     return (it->find("port")->second);
 }
 
-
+/*
+*  @brief	Return content of "root" in map at n position of vector _list.
+*  @param	int n
+*  @return	std::string
+*/
 std::string	Config::getRoot(int n)
 {
     std::vector<std::map<std::string, std::string> >::iterator  it = this->_list.begin();
@@ -210,6 +234,11 @@ std::string	Config::getRoot(int n)
     return (it->find("root")->second);
 }
 
+/*
+*  @brief	Return content of "index" in map at n position of vector _list.
+*  @param	int n
+*  @return	std::string
+*/
 std::string	Config::getIndex(int n)
 {
     std::vector<std::map<std::string, std::string> >::iterator  it = this->_list.begin();
@@ -218,6 +247,11 @@ std::string	Config::getIndex(int n)
     return (it->find("index")->second);
 }
 
+/*
+*  @brief	Return content of "server_name" in map at n position of vector _list.
+*  @param	int n
+*  @return	std::string
+*/
 std::string	Config::getServerName(int n)
 {
     std::vector<std::map<std::string, std::string> >::iterator  it = this->_list.begin();
@@ -226,6 +260,11 @@ std::string	Config::getServerName(int n)
     return (it->find("server_name")->second);
 }
 
+/*
+*  @brief	Return content of "client_body_limit" in map at n position of vector _list.
+*  @param	int n
+*  @return	std::string
+*/
 std::string	Config::getClientBodyLimit(int n)
 {
     std::vector<std::map<std::string, std::string> >::iterator  it = this->_list.begin();
@@ -234,6 +273,11 @@ std::string	Config::getClientBodyLimit(int n)
     return (it->find("client_body_limit")->second);
 }
 
+/*
+*  @brief	Return content of ("error_page_" + error) in map at n position of vector _list.
+*  @param	int n, std::string error
+*  @return	std::string
+*/
 std::string Config::getErrorPage(int n, std::string error)
 {
     std::string str = "error_page_" + error;
@@ -242,10 +286,6 @@ std::string Config::getErrorPage(int n, std::string error)
         it++;
     return (it->find(str)->second);
 }
-
-/*
-** checking
-*/
 
 void Config::check_key_value(std::string &key, std::string &value)
 {
