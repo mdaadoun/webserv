@@ -114,6 +114,9 @@ static void  Getter_Parsing()
             {
                 std::cout << "getErrorPage" << errors[j] << ": " << parser.getErrorPage(i,errors[j]) << std::endl;
             }
+            std::cout << "getLocAllowMethod: " << parser.getLocAllowMethod(i) << std::endl;
+            std::cout << "getLocContentAllowMethod: " << parser.getLocContentAllowMethod(i) << std::endl;
+            std::cout << "getLocCgiAllowMethod: " << parser.getLocCgiAllowMethod(i) << std::endl;
             it++;
             i++;
         }
