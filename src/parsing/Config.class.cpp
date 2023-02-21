@@ -20,7 +20,12 @@
 */
 Config::Config()
 {
-    config_to_map("config_default.ini");
+    config_to_map("conf/config_default.ini");
+}
+
+Config::Config(const Config &copy) : _list(copy.getList())
+{
+    return ;
 }
 
 /*

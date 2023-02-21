@@ -39,11 +39,11 @@ int main(int argc, char **argv)
 			socketTest();
 			break;
         case 2:
-            parsingTest("conf/config_default.ini");
+            parsingTest();
             break;
 		case 9:
 			socketTest();
-			parsingTest("conf/config_default.ini");
+			parsingTest();
 			responseTest();
 			break;
 		default:

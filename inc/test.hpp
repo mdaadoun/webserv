@@ -26,7 +26,7 @@
 
 void	socketTest(void);
 void	responseTest(void);
-void	parsingTest(std::string file);
+void	parsingTest();
 
 
 #endif
