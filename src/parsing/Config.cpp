@@ -13,24 +13,40 @@
 #include "../inc/parsing/Config.hpp"
 
 /*
-** [de/con]structors
+*  @brief	Default constructor of the class Config.
+*           Initialize the config with default file "config_default.ini".
+*  @param	void
+*  @return	void
 */
 Config::Config()
 {
     config_to_map("config_default.ini");
 }
 
+/*
+*  @brief	Overload constructor of the class Config.
+*           Initialize the config with path file.
+*  @param	string &path
+*  @return	void
+*/
 Config::Config(const std::string &path)
 {
     config_to_map(path);
 }
 
+/*
+*  @brief	Default deconstructor of the class Config.
+*  @param	void
+*  @return	void
+*/
 Config::~Config()
 {
 }
 
 /*
-** private functions
+*  @brief	Method to parse and check file into map.
+*  @param	string path
+*  @return	void
 */
 void	Config::config_to_map(std::string path)
 {
@@ -97,37 +113,11 @@ void	Config::config_to_map(std::string path)
     file.close();
 }
 
-void Config::check_key_value(std::string &key, std::string &value)
-{
-    std::string params[4] = {"server_name",
-                            "ip",
-                            "port",
-                            "client_body_limit"};
-    void    (*fct[4])(std::string &value) = {Config::checkName,
-                                              Config::checkIP,
-                                              Config::checkPort,
-                                              Config::checkClientBodyLimit};
-    for (int i = 0; i < 4; i++)
-    {
-        if (key == params[i])
-            fct[i](value);
-    }
-    (void)value;
-}
-
-void    Config::printMap(std::vector<std::map<std::string, std::string> >::iterator it)
-{
-    std::cout << "-------------------------------" << std::endl;
-    if (it->find("error") != it->end())
-        std::cout << "Error on server " << it->find("server_name")->second << std::endl;
-    else
-    {
-        for (this->it = it->begin(); this->it != it->end(); this->it++)
-            std::cout << this->it->first << ":" << this->it->second << std::endl;
-    }
-    std::cout << "-------------------------------" << std::endl;
-}
-
+/*
+*  @brief	Parse listen and return only the IP part.
+*  @param	string listen
+*  @return	string
+*/
 std::string Config::parse_listen_ip(std::string listen)
 {
     std::string res;
@@ -141,13 +131,38 @@ std::string Config::parse_listen_ip(std::string listen)
     return (res);
 }
 
+/*
+*  @brief	Parse listen and return only the port part.
+*  @param	string listen
+*  @return	string
+*/
 std::string Config::parse_listen_port(std::string listen)
 {
     return (&listen.at(listen.find(':') + 1));
 }
 
 /*
-** getters
+*  @brief	Print all map content.
+*  @param	std::vector<std::map<std::string, std::string> >::iterator it
+*  @return	void
+*/
+void    Config::printMap(std::vector<std::map<std::string, std::string> >::iterator it)
+{
+    std::cout << "-------------------------------" << std::endl;
+    if (it->find("error") != it->end())
+        std::cout << "Error on server " << it->find("server_name")->second << std::endl;
+    else
+    {
+        for (this->it = it->begin(); this->it != it->end(); this->it++)
+            std::cout << this->it->first << ":" << this->it->second << std::endl;
+    }
+    std::cout << "-------------------------------" << std::endl;
+}
+
+/*
+*  @brief	Return vector _list.
+*  @param	void
+*  @return	std::vector<std::map<std::string, std::string> >
 */
 std::vector<std::map<std::string, std::string> > Config::getList() const
 {
@@ -219,9 +234,36 @@ std::string	Config::getClientBodyLimit(int n)
     return (it->find("client_body_limit")->second);
 }
 
+std::string Config::getErrorPage(int n, std::string error)
+{
+    std::string str = "error_page_" + error;
+    std::vector<std::map<std::string, std::string> >::iterator  it = this->_list.begin();
+    while (n-- > 1)
+        it++;
+    return (it->find(str)->second);
+}
+
 /*
 ** checking
 */
+
+void Config::check_key_value(std::string &key, std::string &value)
+{
+    std::string params[4] = {"server_name",
+                             "ip",
+                             "port",
+                             "client_body_limit"};
+    void    (*fct[4])(std::string &value) = {Config::checkName,
+                                             Config::checkIP,
+                                             Config::checkPort,
+                                             Config::checkClientBodyLimit};
+    for (int i = 0; i < 4; i++)
+    {
+        if (key == params[i])
+            fct[i](value);
+    }
+    (void)value;
+}
 
 void	Config::checkPort(std::string &value)
 {
@@ -302,6 +344,9 @@ void	Config::checkErrorPages(std::map<std::string, std::string> *map)
     }
 }
 
+/*
+** Exception
+*/
 const char *Config::ErrorFileException::what() const throw()
 {
     return ("Error::Failed open file");
