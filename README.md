@@ -142,11 +142,14 @@ Pour utiliser le programme de tests unitaires
 ## 4) Le testeur python
 
 ```
+  dans un environnement virtuel
   > python3 -m venv venv
   > source venv/bin/activate
   > pip3 install -r requirements.txt
   > python3 run.py
-  ou
+  
+  ou alors simplement
+  > pip3 install -r requirements.txt
   > chmod +x run.py
   > ./run.py
 ```

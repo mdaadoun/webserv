@@ -48,18 +48,19 @@ def build_content():
     content = ''
     id = 1
     to = len(data.config) + 1
-    print(to)
     while id < to:
         content += '[server]\n'
         for c in data.config[str(id)]:
             if c == "error_page":
                 for e in data.config[str(id)][c]:
                     content += c + '_' + e + "=" + data.config[str(id)][c][e] + '\n'
-            # elif c == "location":
-                # for l in data.config[str(id)][c]:
-                #     content += c + '_' + l + "=" + 'allow_methods:' + str(data.config[str(id)][c][l]['allow_methods']) + '\n'
-            # else:
-            content += c + "=" + str(data.config[str(id)][c]) + '\n'
+            elif c == "location":
+                for l in data.config[str(id)][c]:
+                    value = c + '_' + l + '_'
+                    for k in data.config[str(id)][c][l]:
+                        content += value + k + "=" + str(data.config[str(id)][c][l][k]) + '\n'
+            else:
+                content += c + "=" + str(data.config[str(id)][c]) + '\n'
         id += 1
     return content
 
