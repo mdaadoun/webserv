@@ -287,6 +287,11 @@ std::string Config::getErrorPage(int n, const std::string& error)
     return (it->find(str)->second);
 }
 
+/*
+*  @brief	Identify key value for call check Method for value.
+*  @param	std::string key, std::string value
+*  @return	void
+*/
 void Config::check_key_value(std::string &key, std::string &value)
 {
     std::string params[4] = {"server_name",
@@ -305,6 +310,11 @@ void Config::check_key_value(std::string &key, std::string &value)
     (void)value;
 }
 
+/*
+*  @brief	Verify if port value is correct.
+*  @param	std::string value
+*  @return	void
+*/
 void	Config::checkPort(std::string &value)
 {
     int port = std::atoi(value.c_str());
