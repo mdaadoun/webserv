@@ -48,7 +48,7 @@ Result:	Write Error message but continue exec
 
 File:	config_no_end_empty_line.ini
 Line:
-Result:	Infinite loop
+Result:	Now working normally, no loop
 
 File:	config_empty_line_in_file.ini
 Line:
