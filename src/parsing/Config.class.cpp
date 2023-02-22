@@ -23,6 +23,12 @@ Config::Config()
     config_to_map("conf/config_default.ini");
 }
 
+/*
+*  @brief	Copy constructor of the class Config.
+*           Initialize the config with config received as argument.
+*  @param	Config &copy
+*  @return	void
+*/
 Config::Config(const Config &copy) : _list(copy.getList())
 {
     return ;
