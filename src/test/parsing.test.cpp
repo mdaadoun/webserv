@@ -127,9 +127,33 @@ static void  Getter_Parsing()
     }
 }
 
+static void  Spec_Parsing(std::string file)
+{
+    try
+    {
+        std::cout << "===Test Specific config file in directory conf===" << std::endl;
+        Config parser(file);
+        std::vector<std::map<std::string, std::string> > list = parser.getList();
+        std::vector<std::map<std::string, std::string> >::iterator it;
+        std::cout << "Vector Size" << std::endl;
+        std::cout << list.size() << std::endl;
+        it = list.begin();
+        while (it != list.end())
+        {
+            parser.printMap(it);
+            it++;
+        }
+    }
+    catch (std::exception &e)
+    {
+        std::cout << e.what() << std::endl;
+    }
+}
+
 void    parsingTest()
 {
     std::string	input;
+    std::string file;
 
     std::cout << "===Welcome in parsing test===" << std::endl;
     std::cout << "Select your tests :" << std::endl;
@@ -137,6 +161,7 @@ void    parsingTest()
     std::cout << "2 - Overload Constructor and print content of map" << std::endl;
     std::cout << "3 - Copy Constructor and print content of map" << std::endl;
     std::cout << "4 - Default Constructor and use getter" << std::endl;
+    std::cout << "8 - Test Specific config file in directory conf" << std::endl;
     std::cout << "9 - All tests" << std::endl;
 
     std::cout << "Command : ";
@@ -159,6 +184,17 @@ void    parsingTest()
             break;
         case 4:
             Getter_Parsing();
+            break;
+        case 8:
+            std::cout << "FileName : ";
+            std::getline(std::cin, file);
+            file = "conf/" + file;
+            if (std::cin.eof())
+            {
+                std::cout << std::endl;
+                return ;
+            }
+            Spec_Parsing(file);
             break;
         case 9:
             Def_Parsing();

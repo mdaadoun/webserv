@@ -1,0 +1,36 @@
+=============
+	Test
+=============
+
+File:	config_no_server_tag.ini
+Result:	Ignore and create a server
+
+File:	config_no_ip.ini
+Result:	catch string erase error
+
+File:	config_no_index.ini
+Result:	catch error on server
+
+File:	config_no_root.ini
+Result:	catch error on server
+
+File:	config_no_port.ini
+Result:	catch string erase error
+
+File:	config_large_ip.ini
+Result:	Write Error message but continue exec
+
+File:	config_large_port.ini
+Result:	Write Error message but continue exec
+
+File:	config_negate_ip.ini
+Result:	Write Error message but continue exec
+
+File:	config_negate_port.ini
+Result:	Write Error message but continue exec
+
+File:	config_tiny_ip.ini
+Result:	No error message or catch
+
+File:	config_tiny_port.ini
+Result:	Write Error message but continue exec
