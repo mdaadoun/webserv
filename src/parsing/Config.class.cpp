@@ -77,27 +77,27 @@ void	Config::config_to_map(const std::string& path)
     while (true)
     {
         getline(file, line, '\n');
-        if (line.empty())
+        if (line.empty() || file.eof())
         {
             if (!checkIndex(config))
                 config.insert(std::pair<std::string, std::string>("error", "yes"));
             checkErrorPages(&config);
             std::map<std::string, std::string>  tmp = config;
             _list.push_back(tmp);
-            break;
+            break ;
         }
 
         if (line == "[server]")
         {
             if (config.empty())
-                continue;
+                continue ;
             if (!checkIndex(config))
                 config.insert(std::pair<std::string, std::string>("error", "yes"));
             checkErrorPages(&config);
             std::map<std::string, std::string>  tmp = config;
             _list.push_back(tmp);
             config.clear();
-            continue;
+            continue ;
         }
 
         std::string::size_type pos = line.find('=');
@@ -418,7 +418,7 @@ void	Config::checkName(std::string &value)
 bool	Config::checkIndex(std::map<std::string, std::string> map)
 {
     if (map.find("root") == map.end() || map.find("index") == map.end())
-        return false;
+        return (false);
     std::string index = map.find("root")->second + "/" + map.find("index")->second;
     if (index.find("//") < index.size())
         index.erase(index.find("//"), 1);
@@ -426,9 +426,9 @@ bool	Config::checkIndex(std::map<std::string, std::string> map)
 
     file.open(index.c_str());
     if (file.fail())
-        return false;
+        return (false);
     file.close();
-        return true;
+        return (true);
 }
 
 /*
