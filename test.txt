@@ -45,3 +45,7 @@ Result:	No error message or catch
 File:	config_tiny_port.ini
 Line:   listen=0.0.0.0:1
 Result:	Write Error message but continue exec
+
+File:	config_no_end_empty_line.ini
+Line:
+Result:	Infinite loop
