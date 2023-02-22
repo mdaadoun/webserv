@@ -4,7 +4,7 @@
 
 File:	config_no_server_tag.ini
 Line:
-Result:	Ignore and create a server
+Result:	Ignore and continue
 
 File:	config_no_ip.ini
 Line:   listen=4242
@@ -12,11 +12,11 @@ Result:	catch string erase error
 
 File:	config_no_index.ini
 Line:
-Result:	catch error on server
+Result:	error key added to map
 
 File:	config_no_root.ini
 Line:
-Result:	catch error on server
+Result:	error key added to map
 
 File:	config_no_port.ini
 Line:   listen=0.0.0.0
