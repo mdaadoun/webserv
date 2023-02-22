@@ -3,34 +3,45 @@
 =============
 
 File:	config_no_server_tag.ini
+Line:
 Result:	Ignore and create a server
 
 File:	config_no_ip.ini
+Line:   listen=4242
 Result:	catch string erase error
 
 File:	config_no_index.ini
+Line:
 Result:	catch error on server
 
 File:	config_no_root.ini
+Line:
 Result:	catch error on server
 
 File:	config_no_port.ini
+Line:   listen=0.0.0.0
 Result:	catch string erase error
 
 File:	config_large_ip.ini
+Line:   listen=512.0.0.0:4242
 Result:	Write Error message but continue exec
 
 File:	config_large_port.ini
+Line:   listen=0.0.0.0:99876876
 Result:	Write Error message but continue exec
 
 File:	config_negate_ip.ini
+Line:   listen=0.-1.0.0:4242
 Result:	Write Error message but continue exec
 
 File:	config_negate_port.ini
+Line:   listen=0.0.0.0:-4242
 Result:	Write Error message but continue exec
 
 File:	config_tiny_ip.ini
+Line:   listen=0.0..0:4242
 Result:	No error message or catch
 
 File:	config_tiny_port.ini
+Line:   listen=0.0.0.0:1
 Result:	Write Error message but continue exec
