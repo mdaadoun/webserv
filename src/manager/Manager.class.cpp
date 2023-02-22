@@ -6,7 +6,7 @@
 /*   By: tlafont <tlafont@student.42angouleme.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 11:45:44 by tlafont           #+#    #+#             */
-/*   Updated: 2023/02/21 11:39:51 by tlafont          ###   ########.fr       */
+/*   Updated: 2023/02/22 12:42:54 by tlafont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,50 @@ Manager::Manager(Config const &conf):	_read_fds(), _write_fds(),
 	FD_ZERO(&this->_write_fds);
 	FD_ZERO(&this->_tmp_read_fds);
 	FD_ZERO(&this->_tmp_write_fds);
+}
+
+/*
+*	@brief	getter for _read_fds.
+*			return a ptr of list read fd
+*	@param	void
+*	@return	fd_set
+*/
+fd_set  *Manager::getListReadFd() const
+{
+	return (&this->_read_fds);
+}
+
+/*
+*	@brief	getter for _tmp_read_fds.
+*			return a ptr of list read fd
+*	@param	void
+*	@return	fd_set
+*/
+fd_set  *Manager::getListTmpReadFd() const
+{
+	return (&this->_tmp_read_fds);
+}
+
+/*
+*	@brief	getter for _write_fds.
+*			return a ptr of list read fd
+*	@param	void
+*	@return	fd_set
+*/
+fd_set  *Manager::getListWriteFd() const
+{
+	return (&this->_write_fds);
+}
+
+/*
+*	@brief	getter for _tmp_write_fds.
+*			return a ptr of list read fd
+*	@param	void
+*	@return	fd_set
+*/
+fd_set  *Manager::getListTmpWriteFd() const
+{
+	return (&this->_tmp_write_fds);
 }
 
 // variable globale pour exit avec ctrl+c
@@ -160,6 +204,7 @@ void	managementProcess()
 			if (FD_ISSET(serv->getSocketFd(), &this->_read_fds))
 			{
 				int	com_fd = serv->createNewCom();
+				// set fd in array of connections
 				this->_connections[com_fd] = com_fd;
 				FD_SET(com_fd, &this->_tmp_read_fds);
 			}

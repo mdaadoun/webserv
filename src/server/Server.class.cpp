@@ -6,7 +6,7 @@
 /*   By: tlafont <tlafont@student.42angouleme.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 08:29:43 by tlafont           #+#    #+#             */
-/*   Updated: 2023/02/21 12:43:59 by tlafont          ###   ########.fr       */
+/*   Updated: 2023/02/22 12:56:30 by tlafont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ ListenSocket	*Server::getSocket() const
 */
 int	Server::getSocketFd() const
 {
-return (this->_new_socket);
+	return (this->_socket->getSocketFd());
 }
 
 /*
@@ -117,64 +117,6 @@ return (this->_new_socket);
 //}
 
 /*
-*  @brief	method accepter.
-*           grabs the connection request and creates a new socket for that connection
-*  @param	void
-*  @return	void
-*/
-void    Server::accepter()
-{
-	struct sockaddr_in	addr = this->getSocket()->getAddress();
-	int					addr_len = sizeof(addr);
-	this->_new_socket = accept(this->getSocket()->getSocketFd(),
-							(struct sockaddr *)&addr, (socklen_t *)&addr_len);
-	if (this->_new_socket < 0)
-		throw Server::ErrorAccept();
-	else
-		std::cout << "* new request accepted *" << std::endl;
-}
-
-/*
-*  @brief	method handler.
-*           read the receive messages 
-*  @param	void
-*  @return	void
-*/
-void	Server::handler()
-{
-	// to delete with implementation
-	char *tmp = new char[30000];
-	for (size_t i = 0; i < 30000; i++)
-		tmp[i] = '\0';
-	long reading = read(this->_new_socket, tmp, 30000);
-	if (reading >= 0)
-	{
-		this->_request.setRequest(std::string(tmp));
-		std::cout << "** request read... **" << std::endl;
-		std::cout << this->_request.getRequest() << std::endl;
-	}
-	else
-		std::cout << " ** No bytes are there to read... **" << std::endl;
-	delete[] tmp;
-}
-
-/*
-*  @brief	method responder.
-*           send the response messages 
-*  @param	void
-*  @return	void
-*/
-void	Server::responder()
-{
-//	std::string	rep = "---> response from Server...\n\nrequest send to server;\n";
-//	this->_response = rep + this->_request;
-	std::string	rep = this->_response.getResponse() + this->_request.getRequest();
-	// to delete with implementation
-	write(this->_new_socket, rep.c_str(), rep.size());
-	close(this->_new_socket);
-}
-
-/*
 *  @brief	methode launch.
 *           launch the methods accepter, handler and responder for communication 
 *  @param	void
@@ -187,7 +129,7 @@ void	Server::launch()
 	int setting = fcntl(this->_sock_fd, F_SETFL, O_NONBLOCK);
 	if (setting == -1)
 	{
-		std::cerr << "Error: set non-blocking socket: " << this->_server_name << std::endl;
+		std::cerr << "Error: set non-blocking ListenSocket: " << this->_server_name << std::endl;
 		throw std::runtime_error(strerror(errno));
 	}
 }
@@ -200,7 +142,30 @@ void	Server::launch()
 */
 int	Server::createNewCom()
 {
-	
+	ComSocket	*newCom = new ComSocket(this->_new_socket, this->_server_name);
+	this->_all_com.push_back(newCom);
+	return (newCom.getFdSocket());
+}
+
+/*
+*  @brief	Management communication.
+*           Manage the communications for the server
+*  @param	void
+*  @return	void
+*/
+void	Server::comManagement(Manager &manager)
+{
+	std::vector<ComSocket *>::iterator	it = this->_all_com.begin();
+	std::vector<ComSocket *>::iterator	ite = this->_all_com.end();
+	for (; it != ite; it++)
+	{
+		ComSocket	*com = *it;
+		// check fd comSocket is in fds list
+		if (FD_ISSET((*it)->getSocketFd(), manager.getListReadFd()))
+		{
+			
+		}
+	}
 }
 
 /*

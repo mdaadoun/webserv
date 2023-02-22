@@ -6,7 +6,7 @@
 /*   By: tlafont <tlafont@student.42angouleme.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 08:31:33 by tlafont           #+#    #+#             */
-/*   Updated: 2023/02/21 12:39:31 by tlafont          ###   ########.fr       */
+/*   Updated: 2023/02/22 12:22:19 by tlafont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,11 @@
 #include <string>
 #include <cstdlib>
 #include "../sockets/ListenSocket.class.hpp"
+#include "../sockets/ComSocket.class.hpp"
 #include "../parsing/Config.class.hpp"
 #include "../request/Request.class.hpp"
 #include "../response/Response.class.hpp"
+#include "../manager/Manager.class.hpp"
 
 //typedef
 typedef unsigned long	u_long;
@@ -57,7 +59,8 @@ class Server
 		};
 	private:
 		//---- member objects ----//
-		ListenSocket	*_socket;
+		ListenSocket				*_socket;
+		std::vector<ComSocket *>	_all_com;
 
 		//dans la map du parsing
 		int							_port;

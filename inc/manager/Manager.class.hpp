@@ -6,7 +6,7 @@
 /*   By: tlafont <tlafont@student.42angouleme.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 11:45:00 by tlafont           #+#    #+#             */
-/*   Updated: 2023/02/21 09:31:16 by tlafont          ###   ########.fr       */
+/*   Updated: 2023/02/22 12:33:25 by tlafont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,11 @@ class Manager
 		~Manager();
 		
 		//---- getter methods ----//
-		
+		fd_set	*getListReadFd() const;
+		fd_set	*getListTmpReadFd() const;
+		fd_set	*getListWriteFd() const;
+		fd_set	*getListTmpWriteFd() const;
+
 		//---- member methods ----//
 		void	initConnections();
 			// manage alls connections
