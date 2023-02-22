@@ -49,3 +49,7 @@ Result:	Write Error message but continue exec
 File:	config_no_end_empty_line.ini
 Line:
 Result:	Infinite loop
+
+File:	config_empty_line_in_file.ini
+Line:
+Result:	Write error message but continue exec
