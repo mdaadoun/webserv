@@ -58,6 +58,20 @@ public:
         virtual const char* what() const throw();
     };
 
+    class ErrorIpOutOfBoundException : public std::exception
+    {
+    public:
+
+        virtual const char* what() const throw();
+    };
+
+    class ErrorPortOutOfBoundException : public std::exception
+    {
+    public:
+
+        virtual const char* what() const throw();
+    };
+
 private:
     std::vector<std::map<std::string, std::string> >    _list;
 

@@ -70,14 +70,11 @@ void	Config::config_to_map(const std::string& path)
 
     file.open(path.c_str());
     if (file.fail())
-    {
         throw(Config::ErrorFileException());
-    }
     it = config.begin();
     while (true)
     {
         getline(file, line, '\n');
-        //if (line.empty() || file.eof())
         if (file.eof())
         {
             if (!checkIndex(config))
@@ -87,7 +84,7 @@ void	Config::config_to_map(const std::string& path)
             _list.push_back(tmp);
             break ;
         }
-
+        // If find "[server]" tag, push map to vector and create new map for collect new config.
         if (line == "[server]")
         {
             if (config.empty())
@@ -106,7 +103,14 @@ void	Config::config_to_map(const std::string& path)
         {
             key = line.substr(0, pos);
             value = line.substr(pos + 1);
-            Config::check_key_value(key, value);
+            try
+            {
+                Config::check_key_value(key, value);
+            }
+            catch (std::exception &e)
+            {
+                std::cout << e.what() << std::endl;
+            }
             if (key == "listen")
             {
                 std::string listenkey = "ip";
@@ -361,7 +365,6 @@ void Config::check_key_value(std::string &key, std::string &value)
         if (key == params[i])
             fct[i](value);
     }
-    (void)value;
 }
 
 /*
@@ -374,7 +377,7 @@ void	Config::checkPort(std::string &value)
     int port = std::atoi(value.c_str());
 
     if (port < 1023 || port > 65325)
-        std::cerr << "port out of bounds" << std::endl; //THROW here pls
+        throw(ErrorPortOutOfBoundException());
 }
 
 /*
@@ -396,7 +399,7 @@ void	Config::checkIP(std::string &value)
     for (int i = 0; i < 4; i++)
     {
         if (ipMembers[i] < 0 || ipMembers[i] > 255)
-            std::cerr << "ip out of bounds" << std::endl; //THROW here pls
+            throw(ErrorIpOutOfBoundException());
     }
 }
 
@@ -481,4 +484,24 @@ void	Config::checkErrorPages(std::map<std::string, std::string> *map)
 const char *Config::ErrorFileException::what() const throw()
 {
     return ("Error::Failed open file");
+}
+
+/*
+*  @brief	Return "Error::Ip out of bound".
+*  @param	void
+*  @return	char *
+*/
+const char *Config::ErrorIpOutOfBoundException::what() const throw()
+{
+    return ("Error::Ip out of bound");
+}
+
+/*
+*  @brief	Return "Error::Port out of bound".
+*  @param	void
+*  @return	char *
+*/
+const char *Config::ErrorPortOutOfBoundException::what() const throw()
+{
+    return ("Error::Port out of bound");
 }
