@@ -6,7 +6,7 @@
 /*   By: tlafont <tlafont@student.42angouleme.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 14:30:23 by tlafont           #+#    #+#             */
-/*   Updated: 2023/02/22 09:12:17 by tlafont          ###   ########.fr       */
+/*   Updated: 2023/02/23 10:40:59 by tlafont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 *  @param   int
 *  @return  void
 */
-ComSocket::ComSocket(int fd, std::string serverName): _addr(), _fd_com()
+ComSocket::ComSocket(int fd, std::string serverName): _addr(), _fd_com(), _is_open(true)
 {
 	// Accept a connection on a socket
 	this->fd = accept(fd, (struct sockaddr*)&addr, &size);
@@ -83,6 +83,111 @@ int	ComSocket::getFdSocket() const
 {
 	return (this->_fd_com);
 }
+
+/*
+*  @brief	Getter for _is_open.
+*           Get the comsocket is open or not
+*  @param	void
+*  @return	bool
+*/
+void	ComSocket::setIsOpen(bool open) const
+{
+	return (this->_is_open);
+}
+
+
+/*
+*  @brief	Setter for _is_open.
+*           set the comsocket at open or not
+*  @param	bool
+*  @return	void
+*/
+void	ComSocket::setIsOpen(bool open)
+{
+	this->_is_open = open;
+}
+
+/*
+*  @brief	tester reception request.
+*           Confirm  if request is received
+*  @param	void
+*  @return	bool
+*/
+bool ComSocket::isReceived()
+{
+	char	buffer[10001];
+	int		isRec = 0;
+	int		ret = 0;
+
+	// reception of request
+	bzero(buffer, 10000);
+	do
+	{
+		ret = recv(this->_fd_com, buffer, 10000, 0);
+		if (ret < 0)
+			break;
+		buffer[ret] = '\0';
+		this->_received += buffer;
+		isRec++;
+	} while (ret > 0);
+	// test for failed reception request
+	if (ret == -1 || !isRec)
+	{
+		this->_is_open = false;
+		return (false);
+	}
+	return (true);
+}
+
+/*
+*  @brief	calling for parsing request.
+*           
+*  @param	void
+*  @return	void
+*/
+void	ComSocket::parseRequest()
+{
+	this->_request.parsing(this->_received);
+}
+
+/*
+*  @brief	set the response.
+*           prepare the response
+*  @param	void
+*  @return	void
+*/
+void	setResponse()
+{
+	this->_response.setResponse(/*param to set*/);
+}
+
+/*
+*  @brief	sent the response.
+*           sent the response to the client
+*  @param	void
+*  @return	void
+*/
+void	sendResponse()
+{
+	unsigned long	toSend;
+	unsigned long	ret = 0;
+	unsigned long	i = 0;
+	char			*rep = this->_response.getResponse().c_str();
+	for (toSend = this->_response.getResponse().size(); toSend > 0; toSend -= ret);
+	{
+		// sending response
+		ret = send(this->_fd_com, rep + i, toSend, 0);
+		if (ret == -1)
+		{
+			if (toSend)
+				continue;
+			throw std::runtime_error(strerror(errno));
+		}
+		i += ret;
+	}
+	std::cout << "****** Response Send ******" << std::endl;
+}
+
 
 /*
 *  @brief	Test _fd_com .

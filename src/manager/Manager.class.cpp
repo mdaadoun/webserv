@@ -6,7 +6,7 @@
 /*   By: tlafont <tlafont@student.42angouleme.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 11:45:44 by tlafont           #+#    #+#             */
-/*   Updated: 2023/02/22 12:42:54 by tlafont          ###   ########.fr       */
+/*   Updated: 2023/02/23 10:51:38 by tlafont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,18 @@ fd_set  *Manager::getListTmpWriteFd() const
 {
 	return (&this->_tmp_write_fds);
 }
+
+/*
+*	@brief	getter for _connections.
+*			return a ptr of map of connections 
+*	@param	void
+*	@return	std:map<int, int> *
+*/
+std::map<int, int>  *Manager::getMapConnect() const
+{
+	return (&this->_connections);
+}
+
 
 // variable globale pour exit avec ctrl+c
 Manager	*g_this;

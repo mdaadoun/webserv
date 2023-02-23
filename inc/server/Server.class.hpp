@@ -6,7 +6,7 @@
 /*   By: tlafont <tlafont@student.42angouleme.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 08:31:33 by tlafont           #+#    #+#             */
-/*   Updated: 2023/02/22 12:22:19 by tlafont          ###   ########.fr       */
+/*   Updated: 2023/02/23 09:37:45 by tlafont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,14 +43,16 @@ class Server
 		Server	&operator=(Server const &rhs);
 			// destructor //
 		~Server();
+		
 		//---- getter methods ----//
 		ListenSocket	*getSocket() const;
 		int				getSocketFd() const;
-//		std::string		getResponse() const;
+		
 		//---- member methods ----//
 		void	launch();
 		int		createNewCom();
 		void	comManagement(Manager &manager);
+		
 		//---- exception class ----//
 		class ErrorAccept : public std::exception
 		{
@@ -72,20 +74,12 @@ class Server
 		u_long						_max_size;
 		std::vector<std::string>	_locations;
 		// autre
-		std::string					_buffer;
 		std::string					_error_file;
 		int							_new_socket;
-		Request		    			_request;
-		Response	    			_response;
 
 		//---- canonical form ----//
 				// default constructor
 		Server();
-
-		//---- private member methods ----//
-		void	accepter();
-		void	handler();
-		void	responder();
 };
 
 #endif

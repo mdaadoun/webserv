@@ -6,7 +6,7 @@
 /*   By: tlafont <tlafont@student.42angouleme.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 08:29:43 by tlafont           #+#    #+#             */
-/*   Updated: 2023/02/22 12:56:30 by tlafont          ###   ########.fr       */
+/*   Updated: 2023/02/23 11:38:03 by tlafont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,8 +78,6 @@ Server	&Server::operator=(Server const &rhs)
 	this->_error_file = rhs._error_file;
 	this->_buffer = rhs._buffer;
 	this->_new_socket = rhs._new_socket;
-	this->_request = rhs._request;
-	this->_response = rhs._response;
 	return (*this);
 }
 
@@ -104,17 +102,6 @@ int	Server::getSocketFd() const
 {
 	return (this->_socket->getSocketFd());
 }
-
-/*
-*  @brief	Getter response.
-*           access to the response at send
-*  @param	void
-*  @return	std::string
-*/
-//std::string	Server::getResponse() const
-//{
-//	return (this->_response);
-//}
 
 /*
 *  @brief	methode launch.
@@ -157,14 +144,59 @@ void	Server::comManagement(Manager &manager)
 {
 	std::vector<ComSocket *>::iterator	it = this->_all_com.begin();
 	std::vector<ComSocket *>::iterator	ite = this->_all_com.end();
-	for (; it != ite; it++)
+	while (it != ite)
 	{
 		ComSocket	*com = *it;
-		// check fd comSocket is in fds list
-		if (FD_ISSET((*it)->getSocketFd(), manager.getListReadFd()))
+		// check fd comSocket is in fds read list
+		if (FD_ISSET(com->getSocketFd(), manager.getListReadFd()))
 		{
-			
+			if (com->isReceived() == true)
+				FD_SET(com->getSocketFd(), manager.getListTmpWriteFd());
 		}
+		// check if fd comSocket is in fds write list
+		if (FD_ISSET(com->getSocketFd(), manager.getListWriteFd()))
+		{
+			// parsing string request received
+			com.parseRequest();
+			try
+			{
+				//set the response in a string
+				com->setResponse();
+				// send the response
+				com->sendResponse();
+				// reset the request and response for reuse
+				com->clear();
+			}
+			catch (std::exception &e)
+			{
+				com->setIsOpen(false);
+				std::cerr << "Error: response not properly established !" << std::endl;
+				std::cerr << e.what() << std::endl;
+			}
+			// supp the fds on list tmp write fds
+			FD_CLR(com->getSocketFd(), manager.getListTmpWriteFd);
+		}
+		// check if com socket fd is closed
+		if (!com->getIsOpen())
+		{
+			// supp the fd on tmp read and write list fds and in array of all connections
+			FD_CLR(com->getSocketFd(), manager.getListTmpWriteFd());
+			FD_CLR(com->getSocketFd(), manager.getListTmpReadFd());
+			manager.getMapConnect()->erase(com->getSocketFd());
+			// supp communication of array of comm
+			delete *it;
+			this->_all_com.erase(it);
+			// check for stop this communication
+			if (this->_all_com.empty())
+				break;
+			else
+			{
+				// return at the begin of array of communications
+				it = this->_all_com.begin();
+				continue;
+			}
+		}
+		it++;
 	}
 }
 

@@ -6,7 +6,7 @@
 /*   By: tlafont <tlafont@student.42angouleme.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 11:45:00 by tlafont           #+#    #+#             */
-/*   Updated: 2023/02/22 12:33:25 by tlafont          ###   ########.fr       */
+/*   Updated: 2023/02/23 10:49:30 by tlafont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,7 @@
 #include <vector>
 #include <algorithm>
 #include <exception>
-//#include <string>
-//#include <cstdlib>	
+#include <string>
 #include "../server/Server.class.hpp"
 #include "../parsing/Config.class.hpp"
 
@@ -38,10 +37,11 @@ class Manager
 		~Manager();
 		
 		//---- getter methods ----//
-		fd_set	*getListReadFd() const;
-		fd_set	*getListTmpReadFd() const;
-		fd_set	*getListWriteFd() const;
-		fd_set	*getListTmpWriteFd() const;
+		fd_set				*getListReadFd() const;
+		fd_set				*getListTmpReadFd() const;
+		fd_set				*getListWriteFd() const;
+		fd_set				*getListTmpWriteFd() const;
+		std::map<int, int>	*getMapConnect() const;
 
 		//---- member methods ----//
 		void	initConnections();

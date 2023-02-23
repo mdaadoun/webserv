@@ -6,7 +6,7 @@
 /*   By: tlafont <tlafont@student.42angouleme.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 14:10:59 by tlafont           #+#    #+#             */
-/*   Updated: 2023/02/22 09:10:14 by tlafont          ###   ########.fr       */
+/*   Updated: 2023/02/23 10:39:35 by tlafont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,13 @@
 
 // includes
 #include <iostream>
+#include <cstring>
 #include <string>
 #include <exception>
 #include <sys/types.h>
 #include <sys/socket.h>
+#include "response/Response.class.hpp"
+#include "request/Request.class.hpp"
 
 
 class ComSocket
@@ -31,14 +34,28 @@ class ComSocket
 		ComSocket(int fd, std::string serverName);
 			// destructor //
 		~ComSocket();
-		//---- member methods ----//
+		//---- getters methods ----//
 		std::string	getIPP() const;
 		int			getFdSocket() const;
+		bool		getIsOpen() const;
+
+		//---- setter methods ----//
+		void	setIsOpen(bool open);
+
+		//---- member methods ----//
+		bool	isReceived();
+		void	parseRequest();
+		void	setResponse();
+		void	sendResponse();
 
 	private:
 		//---- member object ----//
 		struct sockaddr_in	_addr;
 		int					_fd_com;
+		bool				_is_open;
+		std::string			_received;
+		Response			_response;
+		Request				_request;
 
 		//---- private methods ----//
 			// canonical form
