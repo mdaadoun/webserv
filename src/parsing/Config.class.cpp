@@ -77,7 +77,8 @@ void	Config::config_to_map(const std::string& path)
     while (true)
     {
         getline(file, line, '\n');
-        if (line.empty() || file.eof())
+        //if (line.empty() || file.eof())
+        if (file.eof())
         {
             if (!checkIndex(config))
                 config.insert(std::pair<std::string, std::string>("error", "yes"));

@@ -56,7 +56,7 @@ class Server
 		std::vector<std::string>	_indexes;
 		std::string					_root;
 		std::string					_server_name;
-		u_long						_max_size;
+		//u_long						_max_size;
 		std::vector<std::string>	_locations;
 		// autre
 		std::string					_buffer;
