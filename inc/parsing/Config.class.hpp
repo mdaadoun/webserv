@@ -48,7 +48,7 @@ public:
     std::string                                         getLocCgiAllowMethod(int n);
 
     //Utils Method
-    void	printMap(std::vector<std::map<std::string, std::string> >::iterator it);
+    static void	printMap(std::vector<std::map<std::string, std::string> >::iterator it);
 
     //Exception class
     class ErrorFileException : public std::exception

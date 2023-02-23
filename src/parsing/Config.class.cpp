@@ -29,10 +29,7 @@ Config::Config()
 *  @param	Config &copy
 *  @return	void
 */
-Config::Config(const Config &copy) : _list(copy.getList())
-{
-    return ;
-}
+Config::Config(const Config &copy) : _list(copy.getList()) {}
 
 /*
 *  @brief	Overload constructor of the class Config.
@@ -50,9 +47,7 @@ Config::Config(const std::string &path)
 *  @param	void
 *  @return	void
 */
-Config::~Config()
-{
-}
+Config::~Config() {}
 
 /*
 *  @brief	Method to parse and check file into map.
@@ -374,7 +369,7 @@ void Config::check_key_value(std::string &key, std::string &value)
 */
 void	Config::checkPort(std::string &value)
 {
-    int port = std::atoi(value.c_str());
+    int port = std::strtol(value.c_str(), NULL, 10);
 
     if (port < 1023 || port > 65325)
         throw(ErrorPortOutOfBoundException());
@@ -394,7 +389,7 @@ void	Config::checkIP(std::string &value)
     for (int i = 0; i < 4; i++)
     {
         getline(ip, tmp, '.');
-        ipMembers[i] = std::atoi(tmp.c_str());
+        ipMembers[i] = std::strtol(tmp.c_str(), NULL, 10);
     }
     for (int i = 0; i < 4; i++)
     {

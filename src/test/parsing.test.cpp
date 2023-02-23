@@ -99,7 +99,7 @@ static void  Getter_Parsing()
     }
 }
 
-static void  Spec_Parsing(std::string file)
+static void  Spec_Parsing(const std::string& file)
 {
     std::cout << "===Test Specific config file in directory conf===" << std::endl;
     Config parser(file);
@@ -136,7 +136,7 @@ void    parsingTest()
         std::cout << std::endl;
         return ;
     }
-    switch (atoi(input.c_str()))
+    switch (std::strtol(input.c_str(), NULL, 10))
     {
         case 1:
             Def_Parsing();
