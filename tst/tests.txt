@@ -1,8 +1,5 @@
-#GET,/,0.0.0.0,8000,HTTP/1.1:200,...
 #GET,/,1111,8000,HTTP/1.1:Error
-#GET,/,0.0.0.0,8000,HTTP/1.1:output
 #GET,/,0.0.0.0,8000,HTTP/1.0:output
-#POST,/,0.0.0.0,8000,HTTP/1.1:output
 #GET,/,127.0.0.1,8000,HTTP/1.1:output
 #GET,/,127.0.0.1,8,HTTP/1.1:output
 #GET,/,127.0.0.1,80,HTTP/1.1:output
@@ -15,8 +12,6 @@
 #GET,/,0.0.0.0,8080,HTTP/1.1:200,...
 #GET,/test.html,localhost,8080,HTTP/1.1:200,...
 #GET,/favicon.ico,localhost,8080,HTTP/1.1:404,...
-#GET,/xxx,0.0.0.0,8080,HTTP/1.1:404,...
-#GET,/,0.0.0.0,4242,HTTP/1.1:
-#GET,/,0.0.0.0,4242,HTTP/1.1:
-#POST,/test.html,0.0.0.0,4242,HTTP/1.1:
-GET,/,0.0.0.0,2424,HTTP/1.1:
+#POST,/test.html,0.0.0.0,80,HTTP/1.1:
+GET,/,0.0.0.0,80,HTTP/1.1:200,Server,Date,Content-Type;text/html,Last-Modified,Transfer-Encoding;chunked,Connection;keep-alive,ETag,Content-Encoding;gzip
+GET,/x,0.0.0.0,80,HTTP/1.1:404,Server,Date,Content-Type;text/html,Transfer-Encoding;chunked,Connection;keep-alive,Content-Encoding;gzip
