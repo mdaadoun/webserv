@@ -14,139 +14,104 @@
 
 static void  Def_Parsing()
 {
-    try
+    std::cout << "===Default Constructor and print content of map===" << std::endl;
+    Config parser;
+    std::vector<std::map<std::string, std::string> > list = parser.getList();
+    std::vector<std::map<std::string, std::string> >::iterator it;
+    std::cout << "Vector Size" << std::endl;
+    std::cout << list.size() << std::endl;
+    it = list.begin();
+    while (it != list.end())
     {
-        std::cout << "===Default Constructor and print content of map===" << std::endl;
-        Config parser;
-        std::vector<std::map<std::string, std::string> > list = parser.getList();
-        std::vector<std::map<std::string, std::string> >::iterator it;
-        std::cout << "Vector Size" << std::endl;
-        std::cout << list.size() << std::endl;
-        it = list.begin();
-        while (it != list.end())
-        {
-            parser.printMap(it);
-            it++;
-        }
-    }
-    catch (std::exception &e)
-    {
-        std::cout << e.what() << std::endl;
+        parser.printMap(it);
+        it++;
     }
 }
 
 static void  Over_Parsing()
 {
-    try
+    std::cout << "===Overload Constructor and print content of map===" << std::endl;
+    Config parser("conf/config_test_over.ini");
+    std::vector<std::map<std::string, std::string> > list = parser.getList();
+    std::vector<std::map<std::string, std::string> >::iterator it;
+    std::cout << "Vector Size" << std::endl;
+    std::cout << list.size() << std::endl;
+    it = list.begin();
+    while (it != list.end())
     {
-        std::cout << "===Overload Constructor and print content of map===" << std::endl;
-        Config parser("conf/config_test_over.ini");
-        std::vector<std::map<std::string, std::string> > list = parser.getList();
-        std::vector<std::map<std::string, std::string> >::iterator it;
-        std::cout << "Vector Size" << std::endl;
-        std::cout << list.size() << std::endl;
-        it = list.begin();
-        while (it != list.end())
-        {
-            parser.printMap(it);
-            it++;
-        }
-    }
-    catch (std::exception &e)
-    {
-        std::cout << e.what() << std::endl;
+        parser.printMap(it);
+        it++;
     }
 }
 
 static void  Copy_Parsing()
 {
-    try
+    std::cout << "===Copy Constructor and print content of map===" << std::endl;
+    Config parser("conf/config_test_copy.ini");
+    std::vector<std::map<std::string, std::string> > list = parser.getList();
+    std::vector<std::map<std::string, std::string> >::iterator it;
+    it = list.begin();
+    while (it != list.end())
     {
-        std::cout << "===Copy Constructor and print content of map===" << std::endl;
-        Config parser("conf/config_test_copy.ini");
-        std::vector<std::map<std::string, std::string> > list = parser.getList();
-        std::vector<std::map<std::string, std::string> >::iterator it;
-        it = list.begin();
-        while (it != list.end())
-        {
-            parser.printMap(it);
-            it++;
-        }
-        std::cout << "===Making Copy===" << std::endl;
-        Config copy(parser);
-        std::vector<std::map<std::string, std::string> > clist = copy.getList();
-        std::vector<std::map<std::string, std::string> >::iterator cit;
-        cit = clist.begin();
-        while (cit != clist.end())
-        {
-            parser.printMap(cit);
-            cit++;
-        }
+        parser.printMap(it);
+        it++;
     }
-    catch (std::exception &e)
+    std::cout << "===Making Copy===" << std::endl;
+    Config copy(parser);
+    std::vector<std::map<std::string, std::string> > clist = copy.getList();
+    std::vector<std::map<std::string, std::string> >::iterator cit;
+    cit = clist.begin();
+    while (cit != clist.end())
     {
-        std::cout << e.what() << std::endl;
+        parser.printMap(cit);
+        cit++;
     }
 }
 
 static void  Getter_Parsing()
 {
-    try
+    std::cout << "===Default Constructor and use getter===" << std::endl;
+    Config  parser;
+    int     i = 1;
+    std::string errors[9] = {"400", "401", "403", "404", "405", "410", "431", "500", "503"};
+    std::vector<std::map<std::string, std::string> > list = parser.getList();
+    std::vector<std::map<std::string, std::string> >::iterator it;
+    it = list.begin();
+    while (it != list.end())
     {
-        std::cout << "===Default Constructor and use getter===" << std::endl;
-        Config  parser;
-        int     i = 1;
-        std::string errors[9] = {"400", "401", "403", "404", "405", "410", "431", "500", "503"};
-        std::vector<std::map<std::string, std::string> > list = parser.getList();
-        std::vector<std::map<std::string, std::string> >::iterator it;
-        it = list.begin();
-        while (it != list.end())
+        std::cout << "getMap: " << parser.getMap(i) << std::endl;
+        std::cout << "getIp: " << parser.getIP(i) << std::endl;
+        std::cout << "getListen: " << parser.getListen(i) << std::endl;
+        std::cout << "getPort: " << parser.getPort(i) << std::endl;
+        std::cout << "getRoot: " << parser.getRoot(i) << std::endl;
+        std::cout << "getIndex: " << parser.getIndex(i) << std::endl;
+        std::cout << "getServerName: " << parser.getServerName(i) << std::endl;
+        std::cout << "getClientBodyLimit: " << parser.getClientBodyLimit(i) << std::endl;
+        for (int j = 0; j < 9; j++)
         {
-            std::cout << "getMap: " << parser.getMap(i) << std::endl;
-            std::cout << "getIp: " << parser.getIP(i) << std::endl;
-            std::cout << "getListen: " << parser.getListen(i) << std::endl;
-            std::cout << "getPort: " << parser.getPort(i) << std::endl;
-            std::cout << "getRoot: " << parser.getRoot(i) << std::endl;
-            std::cout << "getIndex: " << parser.getIndex(i) << std::endl;
-            std::cout << "getServerName: " << parser.getServerName(i) << std::endl;
-            std::cout << "getClientBodyLimit: " << parser.getClientBodyLimit(i) << std::endl;
-            for (int j = 0; j < 9; j++)
-            {
-                std::cout << "getErrorPage" << errors[j] << ": " << parser.getErrorPage(i,errors[j]) << std::endl;
-            }
-            std::cout << "getLocAllowMethod: " << parser.getLocAllowMethod(i) << std::endl;
-            std::cout << "getLocContentAllowMethod: " << parser.getLocContentAllowMethod(i) << std::endl;
-            std::cout << "getLocCgiAllowMethod: " << parser.getLocCgiAllowMethod(i) << std::endl;
-            it++;
-            i++;
+            std::cout << "getErrorPage" << errors[j] << ": " << parser.getErrorPage(i,errors[j]) << std::endl;
         }
-    }
-    catch (std::exception &e)
-    {
-        std::cout << e.what() << std::endl;
+        std::cout << "getLocAllowMethod: " << parser.getLocAllowMethod(i) << std::endl;
+        std::cout << "getLocContentAllowMethod: " << parser.getLocContentAllowMethod(i) << std::endl;
+        std::cout << "getLocCgiAllowMethod: " << parser.getLocCgiAllowMethod(i) << std::endl;
+        it++;
+        i++;
     }
 }
 
 static void  Spec_Parsing(std::string file)
 {
-    try
+    std::cout << "===Test Specific config file in directory conf===" << std::endl;
+    Config parser(file);
+    std::vector<std::map<std::string, std::string> > list = parser.getList();
+    std::vector<std::map<std::string, std::string> >::iterator it;
+    std::cout << "Vector Size" << std::endl;
+    std::cout << list.size() << std::endl;
+    it = list.begin();
+    while (it != list.end())
     {
-        std::cout << "===Test Specific config file in directory conf===" << std::endl;
-        Config parser(file);
-        std::vector<std::map<std::string, std::string> > list = parser.getList();
-        std::vector<std::map<std::string, std::string> >::iterator it;
-        std::cout << "Vector Size" << std::endl;
-        std::cout << list.size() << std::endl;
-        it = list.begin();
-        while (it != list.end())
-        {
-            parser.printMap(it);
-            it++;
-        }
-    }
-    catch (std::exception &e)
-    {
-        std::cout << e.what() << std::endl;
+        parser.printMap(it);
+        it++;
     }
 }
 
