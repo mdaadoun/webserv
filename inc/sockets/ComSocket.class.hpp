@@ -6,7 +6,7 @@
 /*   By: tlafont <tlafont@student.42angouleme.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 14:10:59 by tlafont           #+#    #+#             */
-/*   Updated: 2023/02/23 10:39:35 by tlafont          ###   ########.fr       */
+/*   Updated: 2023/02/24 12:36:32 by tlafont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,14 @@
 # define COMSOCKET_HPP
 
 // includes
-#include <iostream>
+#include <unistd.h>
+#include <fcntl.h>
 #include <cstring>
+#include <iostream>
+#include <cerrno>
+#include <netinet/in.h>
+#include <arpa/inet.h>
+#include <sstream>
 #include <string>
 #include <exception>
 #include <sys/types.h>
@@ -47,12 +53,14 @@ class ComSocket
 		void	parseRequest();
 		void	setResponse();
 		void	sendResponse();
+		void	clear();
 
 	private:
 		//---- member object ----//
 		struct sockaddr_in	_addr;
 		int					_fd_com;
 		bool				_is_open;
+		bool				_is_send;
 		std::string			_received;
 		Response			_response;
 		Request				_request;
@@ -63,7 +71,7 @@ class ComSocket
 		ComSocket(ComSocket const &rhs);
 		ComSocket	&operator=(ComSocket const &rhs);
 			// error test
-		void	testConnection(int data, std)
+		void	testConnection(int data, std::string const &err);
 
 };
 

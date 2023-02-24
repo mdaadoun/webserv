@@ -6,7 +6,7 @@
 /*   By: amorel <amorel@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 15:14:07 by amorel            #+#    #+#             */
-/*   Updated: 2023/02/20 13:35:45 by tlafont          ###   ########.fr       */
+/*   Updated: 2023/02/24 13:37:55 by tlafont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,14 +29,15 @@ public:
     Config();
     ~Config();
 
-
-    std::string							getIP(int n);
-    std::string							getListen(int n);
-    std::string 						getPort(int n);
-    std::string							getRoot(int n);
-    std::string							getIndex(int n);
-    std::string							getServerName(int n);
-    std::string							getClientBodyLimit(int n);
+	std::map<std::string, std::string>					*getMap(int n);
+    std::string											getIP(int n);
+    std::vector<std::map<std::string, std::string> >	getList() const;
+	std::string											getListen(int n);
+    std::string 										getPort(int n);
+    std::string											getRoot(int n);
+    std::string											getIndex(int n);
+    std::string											getServerName(int n);
+    std::string											getClientBodyLimit(int n);
 
     void	printMap(std::vector<std::map<std::string, std::string> >::iterator it);
 

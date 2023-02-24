@@ -4,6 +4,7 @@
 
 //#include "../request/Request.class.hpp"
 #include <iostream>
+#include <string>
 
 class Response
 {
@@ -15,8 +16,12 @@ class Response
 			// destructor //
 		~Response();
 
-//        void buildResponse(Request & req) const;
+		//---- getter ----//
         std::string getResponse(void) const;
+
+		//---- member methods ----//
+		void buildResponse(std::string &req);
+	
 	private:
 		std::string		_response;
 

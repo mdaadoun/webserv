@@ -6,7 +6,7 @@
 /*   By: tlafont <tlafont@student.42angouleme.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 14:30:23 by tlafont           #+#    #+#             */
-/*   Updated: 2023/02/23 10:40:59 by tlafont          ###   ########.fr       */
+/*   Updated: 2023/02/24 13:33:19 by tlafont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,14 @@
 *  @param   int
 *  @return  void
 */
-ComSocket::ComSocket(int fd, std::string serverName): _addr(), _fd_com(), _is_open(true)
+ComSocket::ComSocket(int fd, std::string serverName): _addr(), _fd_com(), _is_open(true), _is_send(false)
 {
 	// Accept a connection on a socket
-	this->fd = accept(fd, (struct sockaddr*)&addr, &size);
-	testConnection(this->_fd_com);
+	socklen_t	size = sizeof(this->_addr);
+	this->_fd_com = accept(fd, (struct sockaddr*)&this->_addr, &size);
+	testConnection(this->_fd_com, std::string("Error: communication not accept."));
 	// set non_bolcking the socket
-	if (fcntl(fd, F_SETFL, O_NONBLOCK) == -1)
+	if (fcntl(this->_fd_com, F_SETFL, O_NONBLOCK) == -1)
 	{
 		std::cerr << "Error: set non-blocking ComSocket: " << serverName << std::endl;
 		throw std::runtime_error(strerror(errno));
@@ -66,8 +67,8 @@ ComSocket	&ComSocket::operator=(ComSocket const &rhs)
 */
 std::string	ComSocket::getIPP() const
 {
-	std::string	host = inet_ntoa(addr.sin_addr);
-	int			port = htons(addr.sin_port);
+	std::string	host = inet_ntoa(this->_addr.sin_addr);
+	int			port = htons(this->_addr.sin_port);
 	std::ostringstream oss;
     oss << port;
 	return (host + ':' + oss.str());
@@ -90,7 +91,7 @@ int	ComSocket::getFdSocket() const
 *  @param	void
 *  @return	bool
 */
-void	ComSocket::setIsOpen(bool open) const
+bool	ComSocket::getIsOpen() const
 {
 	return (this->_is_open);
 }
@@ -156,9 +157,10 @@ void	ComSocket::parseRequest()
 *  @param	void
 *  @return	void
 */
-void	setResponse()
+void	ComSocket::setResponse()
 {
-	this->_response.setResponse(/*param to set*/);
+	std::string	request(this->_request.getRequest());
+	this->_response.buildResponse(request);
 }
 
 /*
@@ -167,13 +169,13 @@ void	setResponse()
 *  @param	void
 *  @return	void
 */
-void	sendResponse()
+void	ComSocket::sendResponse()
 {
 	unsigned long	toSend;
-	unsigned long	ret = 0;
+	long			ret = 0;
 	unsigned long	i = 0;
-	char			*rep = this->_response.getResponse().c_str();
-	for (toSend = this->_response.getResponse().size(); toSend > 0; toSend -= ret);
+	char			*rep = (char *)this->_response.getResponse().c_str();
+	for (toSend = this->_response.getResponse().size(); toSend > 0; toSend -= ret)
 	{
 		// sending response
 		ret = send(this->_fd_com, rep + i, toSend, 0);
@@ -185,9 +187,30 @@ void	sendResponse()
 		}
 		i += ret;
 	}
+	this->_is_send = true;
 	std::cout << "****** Response Send ******" << std::endl;
 }
 
+/*
+*  @brief	reset all attributs.
+*           clear and reset all for a new communication
+*  @param	void
+*  @return	void
+*/
+void	ComSocket::clear()
+{
+	//to modify when Respose class is implemented
+	if (this->_is_send)
+	{
+		this->_is_open = false;
+		return ;
+	}
+	else if (this->_is_open == false)
+		return ;
+	this->_is_open = true;
+	this->_request.getRequest().clear();
+	this->_response.getResponse().clear();
+}
 
 /*
 *  @brief	Test _fd_com .

@@ -6,7 +6,7 @@
 /*   By: tlafont <tlafont@student.42angouleme.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 08:31:33 by tlafont           #+#    #+#             */
-/*   Updated: 2023/02/23 09:37:45 by tlafont          ###   ########.fr       */
+/*   Updated: 2023/02/24 13:42:13 by tlafont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 //includes
 #include <unistd.h>
-#include <<fcntl.h>
+#include <fcntl.h>
 #include <exception>
 #include <vector>
 #include <string>
@@ -29,6 +29,8 @@
 
 //typedef
 typedef unsigned long	u_long;
+
+class Manager;
 
 class Server
 {

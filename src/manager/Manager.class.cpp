@@ -6,7 +6,7 @@
 /*   By: tlafont <tlafont@student.42angouleme.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 11:45:44 by tlafont           #+#    #+#             */
-/*   Updated: 2023/02/23 10:51:38 by tlafont          ###   ########.fr       */
+/*   Updated: 2023/02/24 14:12:54 by tlafont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ Manager::Manager(Config const &conf):	_read_fds(), _write_fds(),
 */
 fd_set  *Manager::getListReadFd() const
 {
-	return (&this->_read_fds);
+	return ((fd_set *)&this->_read_fds);
 }
 
 /*
@@ -88,7 +88,7 @@ fd_set  *Manager::getListReadFd() const
 */
 fd_set  *Manager::getListTmpReadFd() const
 {
-	return (&this->_tmp_read_fds);
+	return ((fd_set *)&this->_tmp_read_fds);
 }
 
 /*
@@ -99,7 +99,7 @@ fd_set  *Manager::getListTmpReadFd() const
 */
 fd_set  *Manager::getListWriteFd() const
 {
-	return (&this->_write_fds);
+	return ((fd_set *)&this->_write_fds);
 }
 
 /*
@@ -110,7 +110,7 @@ fd_set  *Manager::getListWriteFd() const
 */
 fd_set  *Manager::getListTmpWriteFd() const
 {
-	return (&this->_tmp_write_fds);
+	return ((fd_set *)&this->_tmp_write_fds);
 }
 
 /*
@@ -121,7 +121,7 @@ fd_set  *Manager::getListTmpWriteFd() const
 */
 std::map<int, int>  *Manager::getMapConnect() const
 {
-	return (&this->_connections);
+	return ((std::map<int, int> *)&this->_connections);
 }
 
 
@@ -145,16 +145,16 @@ void	Manager::initConnections()
 		this->_servers.push_back(s);
 	}
 	// init fds for connection for all server
-	std::vector<Server *>::iterator	it = this->_server.begin();
-	std::vector<Server *>::iterator	ite = this->_server.end();
+	std::vector<Server *>::iterator	it = this->_servers.begin();
+	std::vector<Server *>::iterator	ite = this->_servers.end();
 	for (; it != ite; it++)
 	{
 		(*it)->launch();
 		FD_SET((*it)->getSocketFd(), &this->_tmp_read_fds);
-		this->_connections[(*it)->getSocketFd] = (*it)->getSocketFd;
+		this->_connections[(*it)->getSocketFd()] = (*it)->getSocketFd();
 	}
 	g_this = this;
-	signal(SIGINT, this->signalQuit);
+	signal(SIGINT, Manager::signalQuit);
 }
 
 /*
@@ -165,7 +165,7 @@ void	Manager::initConnections()
 */
 void	Manager::signalQuit(int val)
 {
-	g_here->stopProgram();
+	g_this->stopProgram();
 	exit(val);
 }
 
@@ -175,7 +175,7 @@ void	Manager::signalQuit(int val)
 *	@param	void
 *	@return	void
 */
-void	stopProgram()
+void	Manager::stopProgram()
 {
 	std::vector<Server *>::iterator	it = this->_servers.begin();
 	std::vector<Server *>::iterator	ite = this->_servers.end();
@@ -192,7 +192,7 @@ void	stopProgram()
 *	@param	void
 *	@return	void
 */
-void	managementProcess()
+void	Manager::managementProcess()
 {
 	while (true)
 	{
@@ -202,9 +202,9 @@ void	managementProcess()
 		this->_write_fds = this->_tmp_write_fds;
 		// allows the program to monitor multiple fds
 		std::map<int, int>::iterator	it_max;
-		it_max = std::max_element(this->_connections.begin(), this->_connections.end);
+		it_max = std::max_element(this->_connections.begin(), this->_connections.end());
 		int max_fd = (*it_max).second + 1;
-		if (select(max_fd, &this->_read_fds, &this->_write_fds) == -1)
+		if (select(max_fd, &this->_read_fds, &this->_write_fds, NULL, NULL) == -1)
 			throw(std::runtime_error(strerror(errno)));
 		// check_and_work for all server
 		std::vector<Server *>::iterator	it = this->_servers.begin();

@@ -6,7 +6,7 @@
 /*   By: amorel <amorel@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 10:31:27 by tlafont           #+#    #+#             */
-/*   Updated: 2023/02/21 08:44:02 by tlafont          ###   ########.fr       */
+/*   Updated: 2023/02/24 10:29:05 by tlafont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,23 +25,33 @@ int main(int ac, char **av)
 				// construction du Manager
 				Manager	manager(config);
 				// init du manager
-				manager.initConnetions();
+				manager.initConnections();
 				// lancement du manager
 				manager.managementProcess();
 			}
-			catch (std::execption &e)
+			catch (std::exception &e)
+			{
 				std::cout << e.what() << std::endl;
+			}
 		}
 		else
 		{
 			try
 			{
-				Config config(av[1]);
-				Server serv(config, 1);
-				serv.launch();
+				(void)av;
+				// parsing config file 
+				Config config("conf/config_default.ini"); // to modify by av[1] when parsing is ok
+				// construction du Manager
+				Manager	manager(config);
+				// init du manager
+				manager.initConnections();
+				// lancement du manager
+				manager.managementProcess();
 			}
-			catch (std::exeption &e)
+			catch (std::exception &e)
+			{
 				std::cout << e.what() << std::endl;
+			}
 		}
 	}
 	else

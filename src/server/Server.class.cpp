@@ -6,7 +6,7 @@
 /*   By: tlafont <tlafont@student.42angouleme.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 08:29:43 by tlafont           #+#    #+#             */
-/*   Updated: 2023/02/23 11:38:03 by tlafont          ###   ########.fr       */
+/*   Updated: 2023/02/24 12:01:18 by tlafont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,6 @@ Server	&Server::operator=(Server const &rhs)
 	this->_max_size = rhs._max_size;
 	this->_locations = rhs._locations;
 	this->_error_file = rhs._error_file;
-	this->_buffer = rhs._buffer;
 	this->_new_socket = rhs._new_socket;
 	return (*this);
 }
@@ -113,7 +112,7 @@ void	Server::launch()
 {
 	this->_socket = new ListenSocket(PF_INET, SOCK_STREAM, 0, this->_port, this->_host, 10);
 	// set non_bolcking the socket
-	int setting = fcntl(this->_sock_fd, F_SETFL, O_NONBLOCK);
+	int setting = fcntl(this->_socket->getSocketFd(), F_SETFL, O_NONBLOCK);
 	if (setting == -1)
 	{
 		std::cerr << "Error: set non-blocking ListenSocket: " << this->_server_name << std::endl;
@@ -131,7 +130,7 @@ int	Server::createNewCom()
 {
 	ComSocket	*newCom = new ComSocket(this->_new_socket, this->_server_name);
 	this->_all_com.push_back(newCom);
-	return (newCom.getFdSocket());
+	return (newCom->getFdSocket());
 }
 
 /*
@@ -148,16 +147,16 @@ void	Server::comManagement(Manager &manager)
 	{
 		ComSocket	*com = *it;
 		// check fd comSocket is in fds read list
-		if (FD_ISSET(com->getSocketFd(), manager.getListReadFd()))
+		if (FD_ISSET(com->getFdSocket(), manager.getListReadFd()))
 		{
 			if (com->isReceived() == true)
-				FD_SET(com->getSocketFd(), manager.getListTmpWriteFd());
+				FD_SET(com->getFdSocket(), manager.getListTmpWriteFd());
 		}
 		// check if fd comSocket is in fds write list
-		if (FD_ISSET(com->getSocketFd(), manager.getListWriteFd()))
+		if (FD_ISSET(com->getFdSocket(), manager.getListWriteFd()))
 		{
 			// parsing string request received
-			com.parseRequest();
+			com->parseRequest();
 			try
 			{
 				//set the response in a string
@@ -174,15 +173,15 @@ void	Server::comManagement(Manager &manager)
 				std::cerr << e.what() << std::endl;
 			}
 			// supp the fds on list tmp write fds
-			FD_CLR(com->getSocketFd(), manager.getListTmpWriteFd);
+			FD_CLR(com->getFdSocket(), manager.getListTmpWriteFd());
 		}
 		// check if com socket fd is closed
 		if (!com->getIsOpen())
 		{
 			// supp the fd on tmp read and write list fds and in array of all connections
-			FD_CLR(com->getSocketFd(), manager.getListTmpWriteFd());
-			FD_CLR(com->getSocketFd(), manager.getListTmpReadFd());
-			manager.getMapConnect()->erase(com->getSocketFd());
+			FD_CLR(com->getFdSocket(), manager.getListTmpWriteFd());
+			FD_CLR(com->getFdSocket(), manager.getListTmpReadFd());
+			manager.getMapConnect()->erase(com->getFdSocket());
 			// supp communication of array of comm
 			delete *it;
 			this->_all_com.erase(it);

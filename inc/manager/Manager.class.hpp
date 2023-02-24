@@ -6,12 +6,14 @@
 /*   By: tlafont <tlafont@student.42angouleme.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 11:45:00 by tlafont           #+#    #+#             */
-/*   Updated: 2023/02/23 10:49:30 by tlafont          ###   ########.fr       */
+/*   Updated: 2023/02/24 14:02:11 by tlafont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MANAGER_HPP
 # define MANAGER_HPP
+
+#include <signal.h>
 
 #include <sys/time.h>
 #include <sys/types.h>
@@ -21,8 +23,10 @@
 #include <algorithm>
 #include <exception>
 #include <string>
-#include "../server/Server.class.hpp"
-#include "../parsing/Config.class.hpp"
+#include "server/Server.class.hpp"
+#include "parsing/Config.class.hpp"
+
+class Server;
 
 class Manager
 {
@@ -68,7 +72,7 @@ class Manager
 			// assignment operator //
 		Manager	&operator=(Manager const & rhs);
 			// handler signal ctrlC //
-		void	signalQuit(int val);
+		static void	signalQuit(int val);
 			// exit the program //
 		void	stopProgram();
 };
