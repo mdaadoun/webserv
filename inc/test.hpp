@@ -23,9 +23,11 @@
 #include "sockets/ISocket.class.hpp"
 #include "sockets/ListenSocket.class.hpp"
 #include "parsing/Config.hpp"
+#include "cgi/CgiHandler.class.hpp"
 
 void	socketTest(void);
 void	responseTest(void);
+void	cgiTest(void);
 void	parsingTest(std::string file);
 
 
