@@ -38,9 +38,8 @@ int main(int ac, char **av)
 		{
 			try
 			{
-				(void)av;
 				// parsing config file 
-				Config config("conf/config_default.ini"); // to modify by av[1] when parsing is ok
+				Config config(av[1]);
 				// construction du Manager
 				Manager	manager(config);
 				// init du manager
