@@ -1,18 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Config.cpp                                        :+:      :+:    :+:   */
+/*   Config.class.cpp                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amorel <amorel@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 15:12:25 by amorel            #+#    #+#             */
-/*   Updated: 2023/02/15 17:05:49 by amorel           ###   ########.fr       */
+/*   Updated: 2023/02/27 10:29:33 by tlafont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/parsing/Config.class.hpp"
 
 /*
+
 *  @brief	Default constructor of the class Config.
 *           Initialize the config with default file "config_default.ini".
 *  @param	void
@@ -37,10 +38,12 @@ Config::Config(const Config &copy) : _list(copy.getList()) {}
 *  @param	string &path
 *  @return	void
 */
+
 Config::Config(const std::string &path)
 {
     config_to_map(path);
 }
+
 
 /*
 *  @brief	Default deconstructor of the class Config.
@@ -126,6 +129,7 @@ void	Config::config_to_map(const std::string& path)
     file.close();
 }
 
+
 /*
 *  @brief	Parse listen and return only the IP part.
 *  @param	string listen
@@ -155,6 +159,7 @@ std::string Config::parse_listen_port(std::string listen)
 }
 
 /*
+
 *  @brief	Print all map content.
 *  @param	std::vector<std::map<std::string, std::string> >::iterator it
 *  @return	void
@@ -247,6 +252,7 @@ std::string	Config::getRoot(int n)
         it++;
     return (it->find("root")->second);
 }
+
 
 /*
 *  @brief	Return content of "index" in map at n position of vector _list.
@@ -389,6 +395,7 @@ void	Config::checkIP(std::string &value)
     for (int i = 0; i < 4; i++)
     {
         getline(ip, tmp, '.');
+
         ipMembers[i] = std::strtol(tmp.c_str(), NULL, 10);
     }
     for (int i = 0; i < 4; i++)

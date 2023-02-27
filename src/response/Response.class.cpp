@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Response.class.cpp                               :+:      :+:    :+:   */
+/*   Response.class.cpp                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tlafont <tlafont@student.42angouleme.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 14:30:23 by tlafont           #+#    #+#             */
-/*   Updated: 2023/02/13 11:17:33 by tlafont          ###   ########.fr       */
+/*   Updated: 2023/02/27 10:03:50 by tlafont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,4 +52,19 @@ Response::~Response()
 std::string	Response::getResponse() const
 {
     return this->_response;
+}
+
+/*
+*  @brief   Build response to send.
+*			set the respons in function of request parsed
+*  @param   std::string & (to modify when Request class established)
+*  @return  void
+*/
+void	Response::buildResponse(std::string &req)
+{
+	// just for test
+	if (req == "ERROR")
+		this->_response = "HTTP/1.1 200 OK\r\nContent-Type:text/html\r\n\r\n<pre>---> response from Server...\n\n#----- ERROR REQUEST NOT PROPERLY ESTABLISHED\n";
+	else
+		this->_response += req;
 }

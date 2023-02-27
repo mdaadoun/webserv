@@ -6,7 +6,7 @@
 #    By: amorel <amorel@student.42angouleme.fr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/15 16:04:29 by fleblanc          #+#    #+#              #
-#    Updated: 2023/02/17 17:54:32 by amorel           ###   ########.fr        #
+#    Updated: 2023/02/24 12:05:48 by tlafont          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,14 +46,17 @@ SRCCLASS = server/Server.class.cpp \
 		   request/Request.class.cpp \
 		   response/Response.class.cpp \
 		   sockets/BindSocket.class.cpp \
-		   sockets/ClientSocket.class.cpp \
+		   sockets/ComSocket.class.cpp \
 		   sockets/ISocket.class.cpp \
 		   sockets/ListenSocket.class.cpp \
 		   parsing/Config.class.cpp \
+		   manager/Manager.class.cpp \
+		   cgi/CgiHandler.class.cpp 
 
 SRCTEST	= test/main.test.cpp \
 		  test/socket.test.cpp \
 		  test/parsing.test.cpp \
+		  test/cgi.test.cpp \
 		  test/response.test.cpp
 
 SRCNAME += $(SRCCLASS)

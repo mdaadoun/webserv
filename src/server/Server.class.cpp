@@ -6,7 +6,7 @@
 /*   By: tlafont <tlafont@student.42angouleme.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 08:29:43 by tlafont           #+#    #+#             */
-/*   Updated: 2023/02/17 12:39:53 by tlafont          ###   ########.fr       */
+/*   Updated: 2023/02/27 08:16:54 by tlafont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,15 @@
 *  @param	void
 *  @return	void
 */
-Server::Server()
+Server::Server():	_port(2424),
+					_host("0.0.0.0"),
+					_auto_index("off"),
+					_index(),
+					_root("./www/html"),
+					_server_name("webserv"),
+					_max_size(1000000),
+					_locations(),
+					_error_file("error.html")
 {
 }
 
@@ -28,18 +36,16 @@ Server::Server()
 *  @param	int
 *  @return	void
 */
-Server::Server(int config): _port(2424),
-							_host("0.0.0.0"),
-							_auto_index("off"),
-							_indexes(),
-							_root("./www/html"),
-							_server_name("webserv"),
-							//_max_size(1000000),
-							_locations(),
-							_error_file("error.html")
+Server::Server(Config &config, int n_serv): _port(atoi(config.getPort(n_serv).c_str())),
+											_host(config.getIP(n_serv)),
+											_auto_index("off"),
+											_index(config.getIndex(n_serv)),
+											_root(config.getRoot(n_serv)),
+											_server_name(config.getServerName(n_serv)),
+											_max_size(1000000),
+											_locations(),
+											_error_file("error.html")
 {
-	this->_socket = new ListenSocket(PF_INET, SOCK_STREAM, 0, this->_port, INADDR_ANY, config);
-	// bcklog = 10; for test config =  10 but still replace by map config
 }
 
 /*
@@ -61,7 +67,16 @@ Server::Server(Server const &rhs)
 */
 Server	&Server::operator=(Server const &rhs)
 {
-	(void)rhs;
+	this->_port = rhs._port;
+	this->_host = rhs._host;
+	this->_auto_index = rhs._auto_index;
+	this->_index = rhs._index;
+	this->_root = rhs._root;
+	this->_server_name = rhs._server_name;
+	this->_max_size = rhs._max_size;
+	this->_locations = rhs._locations;
+	this->_error_file = rhs._error_file;
+	this->_new_socket = rhs._new_socket;
 	return (*this);
 }
 
@@ -77,72 +92,14 @@ ListenSocket	*Server::getSocket() const
 }
 
 /*
-*  @brief	Getter response.
-*           access to the response at send
+*  @brief	Getter file descriptor socket.
+*           Access to the fd of the socket 
 *  @param	void
-*  @return	std::string
+*  @return	int
 */
-//std::string	Server::getResponse() const
-//{
-//	return (this->_response);
-//}
-
-/*
-*  @brief	method accepter.
-*           grabs the connection request and creates a new socket for that connection
-*  @param	void
-*  @return	void
-*/
-void    Server::accepter()
+int	Server::getSocketFd() const
 {
-	struct sockaddr_in	addr = this->getSocket()->getAddress();
-	int					addr_len = sizeof(addr);
-	this->_new_socket = accept(this->getSocket()->getSocketFd(),
-							(struct sockaddr *)&addr, (socklen_t *)&addr_len);
-	if (this->_new_socket < 0)
-		throw Server::ErrorAccept();
-	else
-		std::cout << "* new request accepted *" << std::endl;
-}
-
-/*
-*  @brief	method handler.
-*           read the receive messages 
-*  @param	void
-*  @return	void
-*/
-void	Server::handler()
-{
-	// to delete with implementation
-	char *tmp = new char[30000];
-	for (size_t i = 0; i < 30000; i++)
-		tmp[i] = '\0';
-	long reading = read(this->_new_socket, tmp, 30000);
-	if (reading >= 0)
-	{
-		this->_request.setRequest(std::string(tmp));
-		std::cout << "** request read... **" << std::endl;
-		std::cout << this->_request.getRequest() << std::endl;
-	}
-	else
-		std::cout << " ** No bytes are there to read... **" << std::endl;
-	delete[] tmp;
-}
-
-/*
-*  @brief	method responder.
-*           send the response messages 
-*  @param	void
-*  @return	void
-*/
-void	Server::responder()
-{
-//	std::string	rep = "---> response from Server...\n\nrequest send to server;\n";
-//	this->_response = rep + this->_request;
-	std::string	rep = this->_response.getResponse() + this->_request.getRequest();
-	// to delete with implementation
-	write(this->_new_socket, rep.c_str(), rep.size());
-	close(this->_new_socket);
+	return (this->_socket->getSocketFd());
 }
 
 /*
@@ -153,23 +110,99 @@ void	Server::responder()
 */
 void	Server::launch()
 {
-	while (true)
+	this->_socket = new ListenSocket(PF_INET, SOCK_STREAM, 0, this->_port, this->_host, 10);
+	// set non_bolcking the socket
+	int setting = fcntl(this->_socket->getSocketFd(), F_SETFL, O_NONBLOCK);
+	if (setting == -1)
 	{
-		std::cout << "*==== WAITING REQUEST ====*" << std::endl;
-		try
-		{
-			accepter();
-			handler();
-			responder();
-			std::cout << "*======== !DONE! =========*" << std::endl;
-			// to supp after debug
-			break;
-		}
-		catch(std::exception &e)
-		{
-			std::cout << e.what() << std::endl;
-		}
+		std::cerr << "Error: set non-blocking ListenSocket: " << this->_server_name << std::endl;
+		throw std::runtime_error(strerror(errno));
+	}
+}
 
+/*
+*  @brief	Create a ComSocket object.
+*           create ComSocket form server socket fd and add in array of communications
+*  @param	int
+*  @return	int
+*/
+int	Server::createNewCom()
+{
+	ComSocket	*newCom = new ComSocket(this->_socket->getSocketFd(), this->_server_name);
+	this->_all_com.push_back(newCom);
+	return (newCom->getFdSocket());
+}
+
+/*
+*  @brief	Management communication.
+*           Manage the communications for the server
+*  @param	void
+*  @return	void
+*/
+void	Server::comManagement(Manager &manager)
+{
+	std::vector<ComSocket *>::iterator	it = this->_all_com.begin();
+	std::vector<ComSocket *>::iterator	ite = this->_all_com.end();
+	while (it != ite)
+	{
+		ComSocket	*com = *it;
+		// check fd comSocket is in fds read list
+		if (FD_ISSET(com->getFdSocket(), manager.getListReadFd()))
+		{
+			std::cout << "@@@@@@@@ Request in reception @@@@@@@@\n";
+			if (com->isReceived() == true)
+			{
+				std::cout << "@@@@@@@@ Request is received @@@@@@@@\n";
+				FD_SET(com->getFdSocket(), manager.getListTmpWriteFd());
+			}
+		}
+		// check if fd comSocket is in fds write list
+		if (FD_ISSET(com->getFdSocket(), manager.getListWriteFd()))
+		{
+			// parsing string request received
+			std::cout << "@@@@@@@@ Parsing request @@@@@@@@\n";
+			com->parseRequest();
+			try
+			{
+				//set the response in a string
+				std::cout << "@@@@@@@@ Setting response @@@@@@@@\n";
+				com->setResponse();
+				// send the response
+				std::cout << "@@@@@@@@ Send response @@@@@@@@\n";
+				com->sendResponse();
+				// reset the request and response for reuse
+				com->clear();
+			}
+			catch (std::exception &e)
+			{
+				com->setIsOpen(false);
+				std::cerr << "Error: response not properly established !" << std::endl;
+				std::cerr << e.what() << std::endl;
+			}
+			// supp the fds on list tmp write fds
+			FD_CLR(com->getFdSocket(), manager.getListTmpWriteFd());
+		}
+		// check if com socket fd is closed
+		if (!com->getIsOpen())
+		{
+			// supp the fd on tmp read and write list fds and in array of all connections
+			FD_CLR(com->getFdSocket(), manager.getListTmpWriteFd());
+			FD_CLR(com->getFdSocket(), manager.getListTmpReadFd());
+			manager.getMapConnect()->erase(com->getFdSocket());
+			// supp communication of array of comm
+			delete *it;
+			this->_all_com.erase(it);
+			// check for stop this communication
+			if (this->_all_com.empty())
+				break;
+			else
+			{
+				// return at the begin of array of communications
+				it = this->_all_com.begin();
+				continue;
+			}
+		}
+		it++;
 	}
 }
 

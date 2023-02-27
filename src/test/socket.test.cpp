@@ -6,7 +6,7 @@
 /*   By: tlafont <tlafont@student.42angouleme.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 10:03:15 by tlafont           #+#    #+#             */
-/*   Updated: 2023/02/17 10:34:40 by fleblanc         ###   ########.fr       */
+/*   Updated: 2023/02/20 07:50:19 by tlafont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,12 @@
 
 void	socketTest()  // propose to become a main for testing
 {
+	std::string	host("0.0.0.0");
 	std::cout << "\033[0;34m # Socket test # \033[0;0m" << std::endl;
 	std::cout << "---BindSocket--- :" << std::endl;
 	try
 	{
-		BindSocket	bsock(AF_INET, SOCK_STREAM, 0, 8000, INADDR_ANY);
+		BindSocket	bsock(AF_INET, SOCK_STREAM, 0, 8000, host);
 
 		std::cout << "getter fd socket = " << bsock.getSocketFd() << std::endl;
 		std::cout << "getter connection socket = " << bsock.getConnection() << std::endl;
@@ -33,7 +34,7 @@ void	socketTest()  // propose to become a main for testing
 	std::cout << "---ListenSocket--- :" << std::endl;
 	try
 	{
-		ListenSocket	lsock(AF_INET, SOCK_STREAM, 0, 8080, INADDR_ANY, 10);
+		ListenSocket	lsock(AF_INET, SOCK_STREAM, 0, 8080, host, 10);
 
 		std::cout << "getter fd socket = " << lsock.getSocketFd() << std::endl;
 		std::cout << "getter connection socket = " << lsock.getConnection() << std::endl;
@@ -50,7 +51,7 @@ void	socketTest()  // propose to become a main for testing
 	std::cout << "---ClientSocket--- :" << std::endl;
 	try
 	{
-		ClientSocket	csock(AF_INET, SOCK_STREAM, 0, 8070, INADDR_ANY);
+		ClientSocket	csock(AF_INET, SOCK_STREAM, 0, 8070, host);
 
 		std::cout << "getter fd socket = " << csock.getSocketFd() << std::endl;
 		std::cout << "getter connection socket = " << csock.getConnection() << std::endl;
