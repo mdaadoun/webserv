@@ -34,6 +34,14 @@ int main()
 //    }
 //	std::map<std::string, std::string>	config;
 //    parse_config_file(&config, "config.ini");
+	{// test Sockest
+	std::cout << "***** WebServ *****" << std::endl;
+	std::cout << "   starting test" << std::endl;
+	std::cout << "*******************\n\n";
+	socketTest();
+	std::cout << "*******************\n\n";
+	}//end of test Sockets
+
 	Server	serv(10);
 	serv.launch();
     return 0;
