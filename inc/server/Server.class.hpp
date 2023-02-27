@@ -73,7 +73,7 @@ class Server
 		std::string					_index;
 		std::string					_root;
 		std::string					_server_name;
-		//u_long						_max_size;
+		u_long						_max_size;
 		std::vector<std::string>	_locations;
 		// autre
 		std::string					_error_file;
