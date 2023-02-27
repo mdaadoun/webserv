@@ -6,7 +6,7 @@
 /*   By: tlafont <tlafont@student.42angouleme.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 11:45:44 by tlafont           #+#    #+#             */
-/*   Updated: 2023/02/24 14:12:54 by tlafont          ###   ########.fr       */
+/*   Updated: 2023/02/27 10:21:09 by tlafont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,8 +180,12 @@ void	Manager::stopProgram()
 	std::vector<Server *>::iterator	it = this->_servers.begin();
 	std::vector<Server *>::iterator	ite = this->_servers.end();
 	for (; it != ite; it++)
+	{
+		std::cout << "is delete\n";
 		delete *it;
+	}
 	this->_servers.clear();
+	this->_connections.clear();
 	//set to ZERO fds?
 	std::cout << "Webserv properly closed...!" <<  std::endl;
 }
@@ -215,6 +219,7 @@ void	Manager::managementProcess()
 			// create  new communication socket in the server if hes fd is set
 			if (FD_ISSET(serv->getSocketFd(), &this->_read_fds))
 			{
+				std::cout << "@@@@@@@@  create comSocket @@@@@@@@\n";
 				int	com_fd = serv->createNewCom();
 				// set fd in array of connections
 				this->_connections[com_fd] = com_fd;

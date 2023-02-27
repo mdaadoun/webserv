@@ -6,7 +6,7 @@
 /*   By: tlafont <tlafont@student.42angouleme.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 14:30:23 by tlafont           #+#    #+#             */
-/*   Updated: 2023/02/24 13:33:19 by tlafont          ###   ########.fr       */
+/*   Updated: 2023/02/27 09:21:07 by tlafont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,21 +122,20 @@ bool ComSocket::isReceived()
 
 	// reception of request
 	bzero(buffer, 10000);
-	do
+	while ((ret = recv(this->_fd_com, buffer, 10000, 0)) > 0)
 	{
-		ret = recv(this->_fd_com, buffer, 10000, 0);
-		if (ret < 0)
-			break;
 		buffer[ret] = '\0';
 		this->_received += buffer;
 		isRec++;
-	} while (ret > 0);
+	}
 	// test for failed reception request
-	if (ret == -1 || !isRec)
+	if (ret == 0 || !isRec)
 	{
 		this->_is_open = false;
 		return (false);
 	}
+	// for debug
+	std::cout << this->_received << std::endl;
 	return (true);
 }
 
@@ -171,11 +170,11 @@ void	ComSocket::setResponse()
 */
 void	ComSocket::sendResponse()
 {
-	unsigned long	toSend;
+	unsigned long	toSend = this->_response.getResponse().size();
 	long			ret = 0;
 	unsigned long	i = 0;
-	char			*rep = (char *)this->_response.getResponse().c_str();
-	for (toSend = this->_response.getResponse().size(); toSend > 0; toSend -= ret)
+	const char		*rep = this->_response.getResponse().c_str();
+	while (toSend > 0)
 	{
 		// sending response
 		ret = send(this->_fd_com, rep + i, toSend, 0);
@@ -186,6 +185,7 @@ void	ComSocket::sendResponse()
 			throw std::runtime_error(strerror(errno));
 		}
 		i += ret;
+		toSend -= ret;
 	}
 	this->_is_send = true;
 	std::cout << "****** Response Send ******" << std::endl;

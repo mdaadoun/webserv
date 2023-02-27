@@ -6,7 +6,7 @@
 /*   By: amorel <amorel@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 15:12:25 by amorel            #+#    #+#             */
-/*   Updated: 2023/02/20 08:46:12 by tlafont          ###   ########.fr       */
+/*   Updated: 2023/02/27 10:29:33 by tlafont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ Config::Config(const std::string &path)
 
 Config::~Config()
 {
+	this->_list.clear();
+	this->config.clear();
 }
 
 /*

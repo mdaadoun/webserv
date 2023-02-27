@@ -6,7 +6,7 @@
 /*   By: tlafont <tlafont@student.42angouleme.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 08:29:43 by tlafont           #+#    #+#             */
-/*   Updated: 2023/02/24 12:01:18 by tlafont          ###   ########.fr       */
+/*   Updated: 2023/02/27 08:16:54 by tlafont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,7 @@ void	Server::launch()
 */
 int	Server::createNewCom()
 {
-	ComSocket	*newCom = new ComSocket(this->_new_socket, this->_server_name);
+	ComSocket	*newCom = new ComSocket(this->_socket->getSocketFd(), this->_server_name);
 	this->_all_com.push_back(newCom);
 	return (newCom->getFdSocket());
 }
@@ -149,19 +149,26 @@ void	Server::comManagement(Manager &manager)
 		// check fd comSocket is in fds read list
 		if (FD_ISSET(com->getFdSocket(), manager.getListReadFd()))
 		{
+			std::cout << "@@@@@@@@ Request in reception @@@@@@@@\n";
 			if (com->isReceived() == true)
+			{
+				std::cout << "@@@@@@@@ Request is received @@@@@@@@\n";
 				FD_SET(com->getFdSocket(), manager.getListTmpWriteFd());
+			}
 		}
 		// check if fd comSocket is in fds write list
 		if (FD_ISSET(com->getFdSocket(), manager.getListWriteFd()))
 		{
 			// parsing string request received
+			std::cout << "@@@@@@@@ Parsing request @@@@@@@@\n";
 			com->parseRequest();
 			try
 			{
 				//set the response in a string
+				std::cout << "@@@@@@@@ Setting response @@@@@@@@\n";
 				com->setResponse();
 				// send the response
+				std::cout << "@@@@@@@@ Send response @@@@@@@@\n";
 				com->sendResponse();
 				// reset the request and response for reuse
 				com->clear();
