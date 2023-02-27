@@ -22,11 +22,11 @@
 #include "sockets/ClientSocket.class.hpp"
 #include "sockets/ISocket.class.hpp"
 #include "sockets/ListenSocket.class.hpp"
-#include "parsing/Config.hpp"
+#include "parsing/Config.class.hpp"
 
 void	socketTest(void);
 void	responseTest(void);
-void	parsingTest(std::string file);
+void	parsingTest();
 
 
 #endif

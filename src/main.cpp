@@ -17,6 +17,23 @@
 
 int main()
 {
+//	{// test Sockets
+//	std::cout << "***** WebServ *****" << std::endl;
+//	std::cout << "   starting test" << std::endl;
+//	std::cout << "*******************\n\n";
+//	socketTest();
+//	std::cout << "*******************\n\n";
+//	}//end of test Sockets
+//		std::cout << "getter fd socket = " << csock.getSocket() << std::endl;
+//		std::cout << "getter connection socket = " << csock.getConnection() << std::endl;
+//		std::cout << "getter address socket = " << csock.getAddress().sin_addr.s_addr << std::endl;
+//		std::cout << "\nSocket connection passed...\n\n";
+//	}
+//	catch (std::exception &e) {
+//        std::cout << e.what() << std::endl;
+//    }
+//	std::map<std::string, std::string>	config;
+//    parse_config_file(&config, "config.ini");
 	{// test Sockest
 	std::cout << "***** WebServ *****" << std::endl;
 	std::cout << "   starting test" << std::endl;

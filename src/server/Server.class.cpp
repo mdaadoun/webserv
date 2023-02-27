@@ -34,7 +34,7 @@ Server::Server(int config): _port(2424),
 							_indexes(),
 							_root("./www/html"),
 							_server_name("webserv"),
-							_max_size(1000000),
+							//_max_size(1000000),
 							_locations(),
 							_error_file("error.html")
 {
@@ -194,4 +194,3 @@ Server::~Server()
 {
 	delete this->_socket;
 }
-
