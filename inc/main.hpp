@@ -21,7 +21,7 @@
 #include "sockets/BindSocket.class.hpp"
 #include "sockets/ClientSocket.class.hpp"
 #include "sockets/ListenSocket.class.hpp"
-#include "parsing/Config.hpp"
+#include "parsing/Config.class.hpp"
 
 // Server class
 #include "server/Server.class.hpp"

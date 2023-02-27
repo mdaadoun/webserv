@@ -40,14 +40,14 @@ int main(int argc, char **argv)
 			socketTest();
 			break;
         case 2:
-            parsingTest("conf/config_default.ini");
+            parsingTest();
             break;
         case 3:
             cgiTest();
             break;
 		case 9:
 			socketTest();
-			parsingTest("conf/config_default.ini");
+			parsingTest();
             cgiTest();
 			responseTest();
 			break;

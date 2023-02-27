@@ -49,8 +49,8 @@ SRCCLASS = server/Server.class.cpp \
 		   sockets/ClientSocket.class.cpp \
 		   sockets/ISocket.class.cpp \
 		   sockets/ListenSocket.class.cpp \
-		   parsing/Config.cpp \
 		   cgi/CgiHandler.class.cpp \
+		   parsing/Config.class.cpp \
 
 SRCTEST	= test/main.test.cpp \
 		  test/socket.test.cpp \
