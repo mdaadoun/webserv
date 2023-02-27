@@ -10,19 +10,20 @@ class Request
 		//---- canonical form ----//
 			// constructors //
 		Request();
-		// Request with a constructor, then parsing
-//		Request(string/char*);
 
 			// destructor //
 		~Request();
-
-        void setRequest(std::string const &req);
-		// void parseRequest();
+		
+		//---- getters ----//
         std::string getRequest(void) const;
+		
+		//---- member methods ----//
+			// parsing the request received
+		void parsing(std::string &req);
 
 	private:
 		std::string		_request;
-		// probably need a structure to put all the request key/values
+		// probably need a structure/map to put all the request key/values
 
 		Request	&operator=(Request const &rhs);
 };

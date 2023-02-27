@@ -6,7 +6,7 @@
 /*   By: tlafont <tlafont@student.42angouleme.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 14:10:59 by tlafont           #+#    #+#             */
-/*   Updated: 2023/02/13 10:43:40 by tlafont          ###   ########.fr       */
+/*   Updated: 2023/02/17 13:43:45 by tlafont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,17 +18,13 @@
 
 #include "ISocket.class.hpp"
 
-//Typedef
-
-typedef unsigned long	u_long;
-
 class BindSocket : public ISocket
 {
 	public:
 		//---- canonical form ----//
 			// constructors //
 				// overload constructor
-		BindSocket(int dom, int serv, int protoc, int port, u_long interf);
+		BindSocket(int dom, int serv, int protoc, int port, std::string &host);
 
 			// destructor //
 		~BindSocket();

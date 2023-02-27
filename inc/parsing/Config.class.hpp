@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Config.hpp                                        :+:      :+:    :+:   */
+/*   Config.class.hpp                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amorel <amorel@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 15:14:07 by amorel            #+#    #+#             */
-/*   Updated: 2023/02/15 16:35:09 by amorel           ###   ########.fr       */
+/*   Updated: 2023/02/24 13:37:55 by tlafont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include <iostream>
 #include <map>
 #include <string>
-#include <cstdlib>
+#include <stdlib.h>
 #include <fstream>
 #include <sstream>
 #include <filesystem>
@@ -25,6 +25,7 @@
 class Config
 {
 public:
+
 
     //Constructor, Destructor
     Config(const std::string& path);
