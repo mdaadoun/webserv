@@ -6,7 +6,7 @@
 /*   By: tlafont <tlafont@student.42angouleme.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 14:30:23 by tlafont           #+#    #+#             */
-/*   Updated: 2023/02/24 12:02:43 by tlafont          ###   ########.fr       */
+/*   Updated: 2023/02/27 16:29:06 by tlafont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,16 +32,6 @@ Request	&Request::operator=(Request const &rhs)
 }
 
 /*
-*  @brief   Destructor.
-*           Destroy all member objects
-*  @param   void
-*  @return  void
-*/
-Request::~Request()
-{
-}
-
-/*
 *  @brief   Getter.
 *  @param   void
 *  @return  request string
@@ -54,21 +44,23 @@ std::string	Request::getRequest() const
 /*
 *  @brief   Parsing the request.
 *			check if all the request is propely established
-*  @param   std::string request
+*  @param   std::string const &
 *  @return  void
 */
-void	Request::parsing(std::string &req)
+void	Request::parsing(std::string const &req)
 {
-	if(req.size() > 0)
-	{
-		std::cout << "****** Parsing request done ******" << std::endl;	
-		//to modify when parsing implemented
-		this->_request = req;
-	}
-	else
-	{
-		std::cout << "###### Parsing request done with ERROR CODE ######" << std::endl;
-		//to modify when parsing implemented
-		this->_request = "ERROR";
-	}
+	this->_to_parse = req;
+	this->_status = 200;
+
+}
+
+/*
+*  @brief   Destructor.
+*           Destroy all member objects
+*  @param   void
+*  @return  void
+*/
+Request::~Request()
+{
+	this->_request.clear();
 }

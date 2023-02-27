@@ -3,12 +3,14 @@
 # define REQUEST_HPP
 
 #include <iostream>
+#include <string>
+#include <map>
 
 class Request
 {
 	public:
 		//---- canonical form ----//
-			// constructors //
+			// constructor //
 		Request();
 
 			// destructor //
@@ -19,12 +21,16 @@ class Request
 		
 		//---- member methods ----//
 			// parsing the request received
-		void parsing(std::string &req);
+		void parsing(std::string const &req);
 
 	private:
-		std::string		_request;
-		// probably need a structure/map to put all the request key/values
+		std::string							_to_parse;
+		int									_status;
 
+
+		std::map<std::string, std::string>	_request;
+
+		//---- assignement operator ----//
 		Request	&operator=(Request const &rhs);
 };
 
