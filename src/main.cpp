@@ -12,20 +12,49 @@
 
 #include "../inc/main.hpp"
 
-//includes files tests .cpp
-#include "test/socket.test.cpp" // propose to move it as a main and compile it with make test_socket
 
 int main()
 {
-	{// test Sockest
-	std::cout << "***** WebServ *****" << std::endl;
-	std::cout << "   starting test" << std::endl;
-	std::cout << "*******************\n\n";
-	socketTest();
-	std::cout << "*******************\n\n";
-	}//end of test Sockets
-
-	Server	serv(10);
-	serv.launch();
+	if (ac < 3)
+	{
+		if (ac == 1)
+		{	
+			try
+			{
+				// parsing config file 
+				Config config("conf/config_default.ini");
+				// construction du Manager
+				Manager	manager(config);
+				// init du manager
+				manager.initConnections();
+				// lancement du manager
+				manager.managementProcess();
+			}
+			catch (std::exception &e)
+			{
+				std::cout << e.what() << std::endl;
+			}
+		}
+		else
+		{
+			try
+			{
+				// parsing config file 
+				Config config(av[1]);
+				// construction du Manager
+				Manager	manager(config);
+				// init du manager
+				manager.initConnections();
+				// lancement du manager
+				manager.managementProcess();
+			}
+			catch (std::exception &e)
+			{
+				std::cout << e.what() << std::endl;
+			}
+		}
+	}
+	else
+		std::cout << "Usage: ./webserv [configuration file]" << std::endl;
     return 0;
 }
