@@ -6,7 +6,7 @@
 /*   By: tlafont <tlafont@student.42angouleme.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 14:30:23 by tlafont           #+#    #+#             */
-/*   Updated: 2023/02/17 12:13:52 by tlafont          ###   ########.fr       */
+/*   Updated: 2023/02/20 07:54:03 by tlafont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,23 @@
 *  @param   int, int, int, int , unsigned long
 *  @return  void
 */
-BindSocket::BindSocket(int dom, int serv, int protoc, int port, u_long interf):
-ISocket(dom, serv, protoc, port, interf)
+BindSocket::BindSocket(int dom, int serv, int protoc, int port, std::string &host):
+ISocket(dom, serv, protoc, port, host)
 {
 	//establish the connection to network and test
-	this->_connec = connectToNetwork(this->_sock_fd, this->_addr);
-	testConnection(this->_connec, std::string("Error: name affectation socket."));
+	for (int i = 0; i < 6; i++)
+	{
+		this->_connec = connectToNetwork(this->_sock_fd, this->_addr);
+		if (this->_connec == -1)
+		{
+			if (i != 5)
+				std::cerr << "Error: binding (" << errno << " " << strerror(errno) << ")\n";
+			else
+				testConnection(this->_connec, std::string("Error: name affectation socket."));
+		}
+		else
+			break;
+	}
 }
 
 /*

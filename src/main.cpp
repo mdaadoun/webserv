@@ -6,14 +6,13 @@
 /*   By: amorel <amorel@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 10:31:27 by tlafont           #+#    #+#             */
-/*   Updated: 2023/02/17 11:19:26 by tlafont          ###   ########.fr       */
+/*   Updated: 2023/02/24 10:29:05 by tlafont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/main.hpp"
+#include "main.hpp"
 
-
-int main()
+int main(int ac, char **av)
 {
 	if (ac < 3)
 	{

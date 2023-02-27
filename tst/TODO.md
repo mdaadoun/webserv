@@ -1,5 +1,13 @@
 # TODO
 
+1. Connecter a un serveur nginx et pour chaque test, mettre a jour sa reponse dans le fichier tests.txt
+2. Comparer la reponse de webserv avec la reponse attendu dans tests.txt, valider ou pas les reponses
+3. Faire une réponse basique en dur dans webserv de type 404 qui valide un des tests
+4. ameliorer le testeur en general en suivant les points ci-apres
+5. complete the GET and start the others POST...
+
+Mettre à jour dans le README la partie relative au testeur python.
+
 ## CONFIG GENERATOR
 * Editeur et générateur de config.
 * La mise en place d'un sélecteur de config, choisir le fichier qui sera lancé avec ./webserv

@@ -10,19 +10,18 @@ menu = """ [bold yellow]MENU[/bold yellow]
     1. display help (h)
     2. tests editor (e)
     3. configs editor (c)
-    4. run tests with remote (nginx) on port 8080 (r)
-        41. run the tests bloquants on pyserv (p)
-        42. run the tests bloquants on webserv (w)
-    5. (todo) run the tester web application (will be default)"""
+    4. run tests with remote (nginx) (r)
+    5. run tests on pyserv (p)
+    6. run tests on webserv (w) (default)"""
 
 menu_keys = {
     "exit": ['0', 'q'],
     "help": ['1', 'h'],
-    "app": ['5', 'a'],
+    "app": ['7', 'a'],
     "editor": ['2', 'e'],
     "config": ['3', 'c'],
-    "pyserv": ['41', 'p'],
-    "webserv": ['42', 'w'],
+    "pyserv": ['5', 'p'],
+    "webserv": ['6', 'w'],
     "remote": ['4', 'r']
 }
 
@@ -67,10 +66,6 @@ help = """ [bold yellow]HELP[/bold yellow]
         will test local [bold green]PYTHON[/bold green] HTTP web server.
             * [bold magenta]./run.py -p or --pyserv[/bold magenta]
     
-    * [bold yellow]test all servers[/bold yellow]: 
-        will test the 3 servers and compare results (REMOTE, PYTHON and C++).
-            * [bold magenta]./run.py -a or --all[/bold magenta]
-    
     * notes:
 
         [italic white]* for -w the tester will generate multiple config files and run multiple time ./webserv config_default.ini
@@ -81,7 +76,7 @@ help = """ [bold yellow]HELP[/bold yellow]
 config = {
     "1": {
         "server_name": "webserv1",
-        "listen": "0.0.0.0:4242",
+        "listen": "0.0.0.0:2424",
         "root": "./www/html",
         "index": "index.html",
         "autoindex": "off",
@@ -122,7 +117,7 @@ config = {
                 "upload_dir": "www/html/content",
                 "cgi_extensions": ["python"],
                 "disabled_methods": [""],
-                "max_client_body_size":2500000,
+                "max_client_body_size": 2500000,
             },
             "/": {
                 "allow_methods": "GET"
@@ -134,7 +129,7 @@ config = {
     },
     "3": {
         "server_name": "webserv3",
-        "listen": "0.0.0.0:2424",
+        "listen": "0.0.0.0:4422",
         "root": "./www/html",
         "index": "index.html",
         "autoindex": "on",
@@ -143,14 +138,23 @@ config = {
     },
 }
 
-request = {
-    "command": "GET",
-    "path": "/",
-    "host": "0.0.0.0",
-    "port": "4242",
-    "protocol": "HTTP/1.1"
-}
-
-response = {
-
+test = {
+    'request': {
+        "command": "GET",
+        "path": "/",
+        "host": "0.0.0.0",
+        "port": "80",
+        "protocol": "HTTP/1.1"
+    },
+    'response': {
+        'Status': '000',
+        'Server': '',
+        'Date': '',
+        'Content-Type': 'text/html',
+        'Last-Modified': '',
+        'Transfer-Encoding': 'chunked',
+        'Connection': 'keep-alive',
+        'ETag': '',
+        'Content-Encoding': 'gzip'
+    }
 }

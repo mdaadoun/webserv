@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: fleblanc <fleblanc@student.42angoulem      +#+  +:+       +#+         #
+#    By: amorel <amorel@student.42angouleme.fr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/15 16:04:29 by fleblanc          #+#    #+#              #
-#    Updated: 2023/02/17 10:33:10 by fleblanc         ###   ########.fr        #
+#    Updated: 2023/02/24 12:05:48 by tlafont          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,19 +41,22 @@ SRCDIR	= src
 # List of source files
 
 SRCNAME	= main.cpp \
-		  parsing/parsing.cpp \
 
 SRCCLASS = server/Server.class.cpp \
 		   request/Request.class.cpp \
 		   response/Response.class.cpp \
 		   sockets/BindSocket.class.cpp \
-		   sockets/ClientSocket.class.cpp \
+		   sockets/ComSocket.class.cpp \
 		   sockets/ISocket.class.cpp \
-		   sockets/ListenSocket.class.cpp
+		   sockets/ListenSocket.class.cpp \
+		   parsing/Config.class.cpp \
+		   manager/Manager.class.cpp \
+		   cgi/CgiHandler.class.cpp 
 
 SRCTEST	= test/main.test.cpp \
 		  test/socket.test.cpp \
 		  test/parsing.test.cpp \
+		  test/cgi.test.cpp \
 		  test/response.test.cpp
 
 SRCNAME += $(SRCCLASS)
@@ -97,6 +100,15 @@ all:	serv test
 serv:	$(NAME)
 
 test:	$(NAME_T)
+
+parsing: test
+		@printf $(CR)$(GREEN)"✓ starting parsing tests in 3 seconds\n"$(EOC)
+		@printf $(CR)$(GREEN)"3..."; sleep 1
+		@printf $(CR)$(YELLOW)"2..."; sleep 1
+		@printf $(CR)$(RED)"1..."; sleep 1
+		@printf $(CR)$(WHITE)
+		clear
+		@valgrind --leak-check=full --show-leak-kinds=all ./webserv_test 2
 
 $(NAME):	$(OBJ)
 		@$(CC) $(WFLAGS) $(OFLAGS) $(OBJ) -o $(NAME)
