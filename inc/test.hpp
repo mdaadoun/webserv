@@ -1,25 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing.hpp                                        :+:      :+:    :+:   */
+/*   test.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amorel <amorel@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/14 15:14:07 by amorel            #+#    #+#             */
-/*   Updated: 2023/02/14 17:34:24 by amorel           ###   ########.fr       */
+/*   Created: 2023/02/16 15:41:09 by fleblanc          #+#    #+#             */
+/*   Updated: 2023/02/17 17:50:13 by amorel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PARSING_HPP
-#define PARSING_HPP
+#ifndef TEST_HPP
+#define TEST_HPP
 
 #include <iostream>
-#include <map>
+#include <exception>
 #include <string>
-#include <stdlib.h>
-#include <fstream>
-#include <sstream>
+#include <cstdlib>
 
-void	parse_config_file(std::map<std::string, std::string> *config, std::string  file);
+#include "sockets/BindSocket.class.hpp"
+#include "sockets/ClientSocket.class.hpp"
+#include "sockets/ISocket.class.hpp"
+#include "sockets/ListenSocket.class.hpp"
+#include "parsing/Config.hpp"
 
-#endif // PARSING_HPP
+void	socketTest(void);
+void	responseTest(void);
+void	parsingTest(std::string file);
+
+
+#endif

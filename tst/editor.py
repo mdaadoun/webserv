@@ -1,6 +1,9 @@
 from . import config
 from colorama import Fore, Back, Style
 from prettytable import PrettyTable
+from rich import print as printr
+from rich.console import Console
+from . import data, tester
 
 
 def get_request(line):
@@ -26,7 +29,7 @@ def build_table(f, t):
     t.field_names = [Fore.CYAN + "TEST ID", "COMMAND", "PATH", "HOST", "PORT", "PROTOCOL" + Style.RESET_ALL]
     line = f.readline()
     tid = 1
-    while line:
+    while line.strip():
         new_file += line
         conf = get_request(line)
         color = Fore.GREEN
@@ -42,14 +45,14 @@ def build_table(f, t):
 # def update_file():
 #     pass
 
-def delete_row(t):
-    t.del_row(1)
+# def delete_row(t):
+#     t.del_row(1)
     # update_file()
 
 
 def activate_test(file, tid):
     file = file.split('\n')
-    print(len(file))
+    # print(len(file))
     if tid.isdigit() and int(tid) > 0:
         if file[int(tid) - 1][0] == '#':
             file[int(tid) - 1] = file[int(tid) - 1][1:]
@@ -61,28 +64,86 @@ def activate_test(file, tid):
     else:
         print("Not a correct index")
 
+def add_output(test):
+    conf = config.prepare_test(test)
+    url = tester.get_url(conf)
+    response = tester.get_response(url)
+    line = ''
+    if response.headers:
+        line = str(response.status_code) + ','
+        for h in response.headers:
+            if h in ['Content-Type', 'Transfer-Encoding', 'Connection', 'Content-Encoding']:
+                line += h + ';' + response.headers[h] + ','
+            else:
+                line += h + ','
+    return test + line[:-1]
+
+def delete_test(tid):
+        new_content = ''
+        with open("tst/tests.txt", "r") as f:
+            content = f.readlines()
+        if 0 <= tid < len(content):
+            print(tid)
+            del content[tid]
+        new_content = [line for line in content if line.strip()]
+        with open("tst/tests.txt", "w") as f:
+            f.writelines(new_content)
+
+def add_test():
+    test = '\n'
+    ans = input("SET COMMAND ? (default GET) > ")
+    if ans.strip() == '':
+        ans = 'GET'
+    test += ans + ','
+
+    ans = input("SET PATH ? (default /) > ")
+    if ans.strip() == '':
+        ans = '/'
+    test += ans + ','
+
+    ans = input("SET ADDRESS ? (default 0.0.0.0) > ")
+    if ans.strip() == '':
+        ans = '0.0.0.0'
+    test += ans + ','
+
+    ans = input("SET PORT ? (default 80) > ")
+    if ans.strip() == '':
+        ans = '80'
+    test += ans + ','
+
+    ans = input("SET PROTOCOL ? (default HTTP/1.1) > ")
+    if ans.strip() == '':
+        ans = 'HTTP/1.1'
+    test += ans + ':'
+    test = add_output(test)
+    with open("tst/tests.txt", "a") as f:
+        f.write(test)
 
 def start():
+    printr("[bold yellow]Tests editor:[/bold yellow]")
     editor_running = True
+    console = Console()
     while editor_running:
         table = PrettyTable()
         with open("tst/tests.txt", "r") as filename:
             file = build_table(filename, table)
         # clear terminal ?
         print(table)
-        print("""
-1. add a test
-2. silent/activate a test
-3. remove a test
-4. quit
+        print(f"""
+{data.editor_keys['exit'][0]}. quit ({data.editor_keys['exit'][1]})
+{data.editor_keys['add'][0]}. add a test ({data.editor_keys['add'][1]})
+{data.editor_keys['silent'][0]}. silent/activate a test ({data.editor_keys['silent'][1]})
+{data.editor_keys['remove'][0]}. remove a test ({data.editor_keys['remove'][1]})
 """)
-        ans = input("default=4 quit > ")
-        if ans == "1":
-            print("add a test")
-        elif ans == "2":
-            tid = input("TEST INDEX > ")
-            activate_test(file, tid)
-        elif ans == "3":
-            print("remove a test")
-        else:
+        ans = console.input("[bold yellow](default=quit) > [/bold yellow]")
+        if ans.strip() == '' or ans in data.editor_keys['exit']:
             editor_running = False
+        elif ans in data.editor_keys['add']:
+            add_test()
+        elif ans in data.editor_keys['silent']:
+            tid = console.input("[bold green]TEST INDEX > [/bold green]")
+            activate_test(file, tid)
+        elif ans in data.editor_keys['remove']:
+            tid = console.input("[bold green]TEST INDEX (default=cancel) > [/bold green]")
+            if tid.isdigit():
+                delete_test(int(tid)-1)

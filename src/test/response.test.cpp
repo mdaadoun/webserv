@@ -1,15 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   AServer.class.cpp                                  :+:      :+:    :+:   */
+/*   response.test.cpp                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tlafont <tlafont@student.42angouleme.      +#+  +:+       +#+        */
+/*   By: fleblanc <fleblanc@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/14 08:29:43 by tlafont           #+#    #+#             */
-/*   Updated: 2023/02/14 08:30:25 by tlafont          ###   ########.fr       */
+/*   Created: 2023/02/17 10:33:14 by fleblanc          #+#    #+#             */
+/*   Updated: 2023/02/17 10:37:46 by fleblanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/server/AServer.class.hpp"
+#include "test.hpp"
 
-
+void	responseTest(void)
+{
+	std::cout << "\033[0;34m # Response test # \033[0;0m" << std::endl;
+}
