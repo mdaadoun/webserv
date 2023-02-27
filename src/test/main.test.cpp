@@ -22,7 +22,8 @@ int main(int argc, char **argv)
 	{
 		std::cout << "Select your tests :" << std::endl;
 		std::cout << "1 - Socket tests" << std::endl;
-		std::cout << "2 - Parsing tests" << std::endl;
+        std::cout << "2 - Parsing tests" << std::endl;
+        std::cout << "3 - Cgi tests" << std::endl;
 		std::cout << "9 - All tests" << std::endl;
 
 		std::cout << "Command : ";
@@ -39,11 +40,15 @@ int main(int argc, char **argv)
 			socketTest();
 			break;
         case 2:
-            parsingTest("conf/config_default.ini");
+            parsingTest();
+            break;
+        case 3:
+            cgiTest();
             break;
 		case 9:
 			socketTest();
-			parsingTest("conf/config_default.ini");
+			parsingTest();
+            cgiTest();
 			responseTest();
 			break;
 		default:

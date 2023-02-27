@@ -6,19 +6,23 @@ from colorama import Fore, Back, Style
 from prettytable import PrettyTable
 import os
 
-def start(config):
-    input = config.split(":")[0]
+def prepare_test(line):
+    input = line.split(":")[0].split(',')
+    output = line.split(":")[1].split(',')
     if input[0][0] == "#":
         return None
-    output = config.split(":")[1]
-    conf = input.split(",")
 
-    data.request["command"] = conf[0]
-    data.request["path"] = conf[1]
-    data.request["host"] = conf[2]
-    data.request["port"] = conf[3]
-    data.request["protocol"] = conf[4]
-    return data.request
+    data.test["request"]["command"] = input[0].strip()
+    data.test["request"]["path"] = input[1].strip()
+    data.test["request"]["host"] = input[2].strip()
+    data.test["request"]["port"] = input[3].strip()
+    data.test["request"]["protocol"] = input[4].strip()
+
+    data.test["response"]["Status"] = output[0].strip()
+    for o in output:
+        if ';' in o:
+            data.test["response"][o.split(";")[0]] = o.split(";")[1].strip()
+    return data.test
 
 
 # generate a config_default.ini file for ./webserv <FILE>

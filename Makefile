@@ -50,11 +50,13 @@ SRCCLASS = server/Server.class.cpp \
 		   sockets/ISocket.class.cpp \
 		   sockets/ListenSocket.class.cpp \
 		   parsing/Config.class.cpp \
-		   manager/Manager.class.cpp
+		   manager/Manager.class.cpp \
+		   cgi/CgiHandler.class.cpp 
 
 SRCTEST	= test/main.test.cpp \
 		  test/socket.test.cpp \
 		  test/parsing.test.cpp \
+		  test/cgi.test.cpp \
 		  test/response.test.cpp
 
 SRCNAME += $(SRCCLASS)

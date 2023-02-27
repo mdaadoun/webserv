@@ -227,4 +227,3 @@ Server::~Server()
 {
 	delete this->_socket;
 }
-

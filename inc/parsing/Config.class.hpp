@@ -25,23 +25,48 @@
 class Config
 {
 public:
+
+
+    //Constructor, Destructor
     Config(const std::string& path);
+    Config(const Config &copy);
     Config();
     ~Config();
 
-	std::map<std::string, std::string>					*getMap(int n);
-    std::string											getIP(int n);
-    std::vector<std::map<std::string, std::string> >	getList() const;
-	std::string											getListen(int n);
-    std::string 										getPort(int n);
-    std::string											getRoot(int n);
-    std::string											getIndex(int n);
-    std::string											getServerName(int n);
-    std::string											getClientBodyLimit(int n);
+    //Getter Method
+    std::vector<std::map<std::string, std::string> >    getList() const;
+    std::map<std::string, std::string>	                *getMap(int n);
+    std::string							                getIP(int n);
+    std::string							                getListen(int n);
+    std::string 						                getPort(int n);
+    std::string							                getRoot(int n);
+    std::string						                   	getIndex(int n);
+    std::string							                getServerName(int n);
+    std::string						                	getClientBodyLimit(int n);
+    std::string                                         getErrorPage(int n, const std::string& error);
+    std::string                                         getLocAllowMethod(int n);
+    std::string                                         getLocContentAllowMethod(int n);
+    std::string                                         getLocCgiAllowMethod(int n);
 
-    void	printMap(std::vector<std::map<std::string, std::string> >::iterator it);
+    //Utils Method
+    static void	printMap(std::vector<std::map<std::string, std::string> >::iterator it);
 
+    //Exception class
     class ErrorFileException : public std::exception
+    {
+    public:
+
+        virtual const char* what() const throw();
+    };
+
+    class ErrorIpOutOfBoundException : public std::exception
+    {
+    public:
+
+        virtual const char* what() const throw();
+    };
+
+    class ErrorPortOutOfBoundException : public std::exception
     {
     public:
 
@@ -50,21 +75,17 @@ public:
 
 private:
     std::vector<std::map<std::string, std::string> >    _list;
-	std::map<std::string, std::string>				config;
-    std::map<std::string, std::string>::iterator	it;
 
-    void    check_key_value(std::string &key, std::string &value);
-	void	config_to_map(std::string path);
-    std::string getStringPort();
-    std::string parse_listen_ip(std::string listen);
-    std::string parse_listen_port(std::string listen);
-    static void	checkPort(std::string &value);
-	static void	checkIP(std::string &value);
-    static void checkListen(std::string &value);
-	static void	checkName(std::string &value);
-	bool		checkIndex(std::map<std::string, std::string> map);
-	static void	checkClientBodyLimit(std::string &value);
-	static void	checkErrorPages(std::map<std::string, std::string> *config);
+	void	            config_to_map(const std::string& path);
+    static std::string  parse_listen_ip(const std::string& listen);
+    static std::string  parse_listen_port(std::string listen);
+    static void         check_key_value(std::string &key, std::string &value);
+    static void	        checkPort(std::string &value);
+	static void	        checkIP(std::string &value);
+	static void	        checkName(std::string &value);
+	static bool		    checkIndex(std::map<std::string, std::string> map);
+	static void	        checkClientBodyLimit(std::string &value);
+	static void	        checkErrorPages(std::map<std::string, std::string> *config);
 };
 
 #endif
