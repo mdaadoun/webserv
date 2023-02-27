@@ -19,8 +19,7 @@
 */
 Response::Response()
 {
-	this->_response = "";
-   // this->_response = "HTTP/1.1 200 OK\r\nContent-Type:text/html\r\n\r\n<pre>---> response from Server...\n\nrequest sent to server:\n";
+    this->_response = "HTTP/1.1 200 OK\r\nContent-Type:text/html\r\n\r\n<pre>---> response from Server...\n\nrequest sent to server:\n";
 }
 
 /*
