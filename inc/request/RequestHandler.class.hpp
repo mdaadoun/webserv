@@ -6,7 +6,8 @@
 # include <iostream>
 # include <map>
 # include <sys/stat.h>
-# include "parsing/Config.class.hpp"
+# include "parsing/Config.hpp"
+# include "parsing/Parsing.hpp"
 # include "server/Server.class.hpp"
 # include "request/Request.class.hpp"
 
