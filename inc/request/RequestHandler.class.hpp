@@ -5,6 +5,10 @@
 
 # include <iostream>
 # include <map>
+# include <sys/stat.h>
+# include "parsing/Config.class.hpp"
+# include "server/Server.class.hpp"
+# include "request/Request.class.hpp"
 
 typedef enum e_METHOD {
     m_ERROR,
@@ -21,27 +25,64 @@ typedef enum e_METHOD {
 class RequestHandler {
 public:
     RequestHandler(void);
-//    RequestHandler(Request &req);
+//    RequestHandler(Server &serv, Request &req);
     ~RequestHandler(void);
 
-//    void set_status_code(int code);
-//    int get_status_code() const;
+    void initStatusCodeBook();
+    void setStatusCode(int code);
+    std::string getStatusCodeString();
+    int getStatusCode();
+    int getProtocolVersion() const;
+    void setContentType(std::string path);
+    std::string getContentType() const;
+    std::string getBody() const;
 
-    std::map<std::string, std::string> &get_request(void);
+    std::string getErrorPagePath();
 
-    void run();
+    std::map<std::string, std::string> &getRequest(void);
+
+    bool checkLastModified(std::string & path);
+
+    void run(void);
+
+    // Readings
+    std::string readContent(std::string & path);
+
     // Methods
     void getMethod();
     void headMethod();
+    void postMethod();
+    void connectMethod();
+    void deleteMethod();
+    void putMethod();
+    void optionsMethod();
+    void traceMethod();
 
-    t_METHOD resolve_method(std::string & method);
+    t_METHOD resolveMethod(std::string & method);
 
 private:
     std::map<std::string, std::string> _request;
     std::map<std::string, std::string> _response;
-    std::map<std::string, std::string> _status_code_book;
-//    int _status_code;
-//    const std::string _protocol_version;
+
+    std::map<int, std::string> _status_code_registry;
+    int _status_code;
+    std::string _protocol_version;
+
+    std::string _files_root;
+    std::string _index_file;
+    std::string _400_file;
+    std::string _401_file;
+    std::string _403_file;
+    std::string _404_file;
+    std::string _405_file;
+    std::string _410_file;
+    std::string _413_file;
+    std::string _500_file;
+    std::string _503_file;
+    std::string _default_error_file;
+
+    std::string _content_type;
+    std::string _body;
 };
 
 std::ostream &operator<<(std::ostream &out, RequestHandler &rh);
