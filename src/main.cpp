@@ -6,43 +6,54 @@
 /*   By: amorel <amorel@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 10:31:27 by tlafont           #+#    #+#             */
-/*   Updated: 2023/02/17 17:53:55 by amorel           ###   ########.fr       */
+/*   Updated: 2023/02/24 10:29:05 by tlafont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/main.hpp"
+#include "main.hpp"
 
-//includes files tests .cpp
-#include "test/socket.test.cpp" // propose to move it as a main and compile it with make test_socket
-
-int main()
+int main(int ac, char **av)
 {
-//	{// test Sockets
-//	std::cout << "***** WebServ *****" << std::endl;
-//	std::cout << "   starting test" << std::endl;
-//	std::cout << "*******************\n\n";
-//	socketTest();
-//	std::cout << "*******************\n\n";
-//	}//end of test Sockets
-//		std::cout << "getter fd socket = " << csock.getSocket() << std::endl;
-//		std::cout << "getter connection socket = " << csock.getConnection() << std::endl;
-//		std::cout << "getter address socket = " << csock.getAddress().sin_addr.s_addr << std::endl;
-//		std::cout << "\nSocket connection passed...\n\n";
-//	}
-//	catch (std::exception &e) {
-//        std::cout << e.what() << std::endl;
-//    }
-//	std::map<std::string, std::string>	config;
-//    parse_config_file(&config, "config.ini");
-	{// test Sockest
-	std::cout << "***** WebServ *****" << std::endl;
-	std::cout << "   starting test" << std::endl;
-	std::cout << "*******************\n\n";
-	socketTest();
-	std::cout << "*******************\n\n";
-	}//end of test Sockets
-
-	Server	serv(10);
-	serv.launch();
+	if (ac < 3)
+	{
+		if (ac == 1)
+		{	
+			try
+			{
+				// parsing config file 
+				Config config("conf/config_default.ini");
+				// construction du Manager
+				Manager	manager(config);
+				// init du manager
+				manager.initConnections();
+				// lancement du manager
+				manager.managementProcess();
+			}
+			catch (std::exception &e)
+			{
+				std::cout << e.what() << std::endl;
+			}
+		}
+		else
+		{
+			try
+			{
+				// parsing config file 
+				Config config(av[1]);
+				// construction du Manager
+				Manager	manager(config);
+				// init du manager
+				manager.initConnections();
+				// lancement du manager
+				manager.managementProcess();
+			}
+			catch (std::exception &e)
+			{
+				std::cout << e.what() << std::endl;
+			}
+		}
+	}
+	else
+		std::cout << "Usage: ./webserv [configuration file]" << std::endl;
     return 0;
 }
