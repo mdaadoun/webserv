@@ -6,7 +6,7 @@
 /*   By: amorel <amorel@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 10:31:27 by tlafont           #+#    #+#             */
-/*   Updated: 2023/02/24 10:29:05 by tlafont          ###   ########.fr       */
+/*   Updated: 2023/02/28 15:28:11 by amorel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int main(int ac, char **av)
 			try
 			{
 				// parsing config file 
-				Config config("conf/config_default.ini");
+				Parsing config("conf/config_default.ini");
 				// construction du Manager
 				Manager	manager(config);
 				// init du manager
@@ -39,7 +39,7 @@ int main(int ac, char **av)
 			try
 			{
 				// parsing config file 
-				Config config(av[1]);
+				Parsing config(av[1]);
 				// construction du Manager
 				Manager	manager(config);
 				// init du manager

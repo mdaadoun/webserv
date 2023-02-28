@@ -1,35 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.hpp                                           :+:      :+:    :+:   */
+/*   Parsing.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amorel <amorel@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/13 10:11:36 by tlafont           #+#    #+#             */
-/*   Updated: 2023/02/28 15:28:36 by amorel           ###   ########.fr       */
+/*   Created: 2023/02/27 15:23:24 by amorel            #+#    #+#             */
+/*   Updated: 2023/02/28 01:51:12 by amorel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MAIN_HPP
-# define MAIN_HPP
+#pragma once
 
-// includes
 #include <iostream>
+#include "../inc/parsing/Config.hpp"
 
-// Sockets class
-#include "sockets/ISocket.class.hpp"
-#include "sockets/BindSocket.class.hpp"
-#include "sockets/ComSocket.class.hpp"
-#include "sockets/ListenSocket.class.hpp"
+class Parsing
+{
+	private:
+		std::vector<class Config>	_servers;
 
-// parsing class
-#include "parsing/Config.hpp"
-#include "parsing/Parsing.hpp"
+	public:
+		Parsing(void);
+		Parsing(const std::string &path);
+		~Parsing(void);
 
-// Server class
-#include "server/Server.class.hpp"
-
-// manager
-#include "manager/Manager.class.hpp"
-
-#endif
+		std::vector<class Config>	getServers(void);
+		class Config				*getNServer(int n);
+		void						parseConfig(const std::string &path);
+		void						checkConfig();
+};
