@@ -6,7 +6,7 @@
 /*   By: amorel <amorel@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 11:45:44 by tlafont           #+#    #+#             */
-/*   Updated: 2023/02/28 15:46:25 by amorel           ###   ########.fr       */
+/*   Updated: 2023/02/28 19:33:58 by amorel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,9 +181,10 @@ void	Manager::stopProgram()
 	std::vector<Server *>::iterator	ite = this->_servers.end();
 	for (; it != ite; it++)
 	{
-		std::cout << "is delete\n";
+		std::cout << "is deleted\n";
 		delete *it;
 	}
+	this->_config.~Parsing();
 	this->_servers.clear();
 	this->_connections.clear();
 	//set to ZERO fds?
