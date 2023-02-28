@@ -23,11 +23,12 @@
 #include "sockets/ListenSocket.class.hpp"
 #include "parsing/Config.class.hpp"
 #include "cgi/CgiHandler.class.hpp"
+#include "request/RequestHandler.class.hpp"
 
 void	parsingTest(void);
 void	socketTest(void);
 void	responseTest(void);
 void	cgiTest(void);
-
+void    handlerRequestTest(void);
 
 #endif
