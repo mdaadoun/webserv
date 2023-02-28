@@ -52,11 +52,13 @@ SRCCLASS = server/Server.class.cpp \
 		   parsing/Config.cpp \
 		   parsing/Parsing.cpp \
 		   manager/Manager.class.cpp \
+		   request/RequestHandler.class.cpp \
 		   cgi/CgiHandler.class.cpp 
 
 SRCTEST	= test/main.test.cpp \
 		  test/socket.test.cpp \
 		  test/parsing.test.cpp \
+		  test/handlerRequest.test.cpp \
 		  test/cgi.test.cpp \
 		  test/response.test.cpp
 

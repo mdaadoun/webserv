@@ -47,19 +47,4 @@ void	socketTest()  // propose to become a main for testing
 	{
 		std::cout << e.what() << std::endl;
 	}
-
-	// std::cout << "---ClientSocket--- :" << std::endl;
-	// try
-	// {
-	// 	ClientSocket	csock(AF_INET, SOCK_STREAM, 0, 8070, host);
-
-	// 	std::cout << "getter fd socket = " << csock.getSocketFd() << std::endl;
-	// 	std::cout << "getter connection socket = " << csock.getConnection() << std::endl;
-	// 	std::cout << "getter address socket = " << csock.getAddress().sin_addr.s_addr << std::endl;
-	// 	std::cout << "\nSocket connection passed...\n\n";
-	// }
-	// catch (std::exception &e)
-	// {
-	// 	std::cout << e.what() << std::endl;
-	// }
 }

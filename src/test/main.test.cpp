@@ -24,6 +24,7 @@ int main(int argc, char **argv)
 		std::cout << "1 - Socket tests" << std::endl;
         std::cout << "2 - Parsing tests" << std::endl;
         std::cout << "3 - Cgi tests" << std::endl;
+        std::cout << "4 - Handling request tests" << std::endl;
 		std::cout << "9 - All tests" << std::endl;
 
 		std::cout << "Command : ";
@@ -37,7 +38,7 @@ int main(int argc, char **argv)
 	switch (atoi(input.c_str()))
 	{
 		case 1:
-			socketTest();
+			//socketTest();
 			break;
         case 2:
             parsingTest();
@@ -45,8 +46,11 @@ int main(int argc, char **argv)
         case 3:
             cgiTest();
             break;
+        case 4:
+            handlerRequestTest();
+            break;
 		case 9:
-			socketTest();
+			//socketTest();
 			parsingTest();
             cgiTest();
 			responseTest();
