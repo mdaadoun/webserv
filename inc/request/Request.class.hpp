@@ -56,11 +56,19 @@ class Request
 		~Request();
 		
 		//---- getters ----//
-        std::string getRequest(void) const;
+        std::string 						getRequest(void) const;
+		int									getStatus() const;
+		std::string							getMethod() const;
+		std::string							getUri() const;
+		std::pair<int, int>					getVersion() const;
+		std::map<headerType, std::string>	getHeaders() const;
 		
 		//---- member methods ----//
 			// parsing the request received
-		void parsing(std::string const &req);
+		void 		parsing(std::string const &req);
+
+			//for debug display the header
+		std::string	returnHeader(headerType const &head) const;
 
 	private:
 		//---- member objects ----//
@@ -72,6 +80,8 @@ class Request
 		std::map<std::string, m_METHOD>	_methods;
 			//for comp the headers
 		std::map<std::string, headerType>	_headers;
+			
+
 			//for record the header in request
 		std::map<headerType, std::string>	_reqHeaders;
 			//for record the method in header
@@ -83,7 +93,7 @@ class Request
 			
 
 			//for record when is parsed
-		std::map<std::string, std::string>	_env;
+		std::map<std::string, std::string>	_env; //rename this
 
 		//---- assignement operator ----//
 		Request	&operator=(Request const &rhs);
@@ -101,6 +111,10 @@ class Request
 		void	recoveryVersion(size_t end_of_req, size_t &len);
 				// parsing and rec headers protocols
 		void	parseProtocolHeaders();
+				// record in _env
+		void	setHeadersEnv(std::string const &header, std::string const &value);
 };
+
+std::ostream	&operator<<(std::ostream &oss, Request const &req);
 
 #endif

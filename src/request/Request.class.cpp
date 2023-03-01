@@ -6,7 +6,7 @@
 /*   By: tlafont <tlafont@student.42angouleme.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 14:30:23 by tlafont           #+#    #+#             */
-/*   Updated: 2023/02/28 14:50:36 by tlafont          ###   ########.fr       */
+/*   Updated: 2023/03/01 10:47:45 by tlafont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,13 +36,90 @@ Request	&Request::operator=(Request const &rhs)
 }
 
 /*
-*  @brief   Getter.
+*  @brief   Getter for the request parsed.
 *  @param   void
-*  @return  request string
+*  @return  std::string
 */
 std::string	Request::getRequest() const
 {
     return this->_to_parse; // to modify when parsing is done
+}
+
+/*
+*  @brief   Getter for the status after parsing.
+*			Access to the status
+*  @param   void
+*  @return  int
+*/
+int	Request::getStatus() const
+{
+	return (this->_status);
+}
+
+/*
+*  @brief   Getter for the method.
+*			Access to the method after parsing
+*  @param   void
+*  @return  std::string
+*/
+std::string	Request::getMethod() const
+{
+	switch (this->_rec_method)
+	{
+		case GET:
+			return "GET";
+		case HEAD:
+			return "HEAD";
+		case POST:
+			return "POST";
+		case PUT:
+			return "PUT";
+		case DELETE:
+			return "DELETE";
+		case CONNECT:
+			return "CONNECT";
+		case OPTIONS:
+			return "OPTIONS";
+		case TRACE:
+			return "TRACE";
+		case ERROR:
+			return "ERROR";
+		default:
+			return "NOMETHOD";
+	}
+}
+
+/*
+*  @brief   Getter for the uri.
+*			Access to the uri after parsing
+*  @param   void
+*  @return  std::string
+*/
+std::string	Request::getUri() const
+{
+	return (this->_uri);
+}
+
+/*
+*  @brief   Getter for the version.
+*			Access to the version after parsing
+*  @param   void
+*  @return  std::pair<int, int>
+*/
+std::pair<int, int>	Request::getVersion() const
+{
+	return (this->_version);
+}
+
+/*
+*  @brief   Getter for the headers.
+*			Access to the headers after parsing
+*  @param   void
+*  @return  std::map<headerType, std::string>
+*/
+std::map<headerType, std::string>	Request::getHeaders() const
+{
+	return (this->_reqHeaders);
 }
 
 /*
@@ -332,7 +409,36 @@ void	Request::parseProtocolHeaders()
 			len++;
 			len = this->_to_parse.find_first_not_of(' ', len);
 			offset = 0;
-			//to be continued......
+			for (size_t	i = end_of_head - 1; i != std::string::npos && this->_to_parse[i] == ' '; --i)
+				offset++;
+			// extract the value of header
+			std::string	val = this->_to_parse.substr(len, end_of_head - len - offset);
+			// check if val not empty and the begin is properly established
+			if ((!val.empty() || this->_to_parse[pos] == '\r') && this->_status == 200)
+			{
+				//for debug
+				std::cerr << "$$$$$ Error: value of header empty. $$$$$" << std::endl;
+				this->_status = 400;
+			}
+			//go to uppercase the header for comp
+			for (size_t i = 0; head[i]; i++)
+				tmp += std::toupper(head[i]);
+			// check if the header exist
+			std::map<std::string, headerType>::iterator	it = this->_to_parse.find(tmp);
+			if (it  != this->_to_parse.end())
+			{
+				// check if already set
+				std::map<headerType, std::string>::iterator	it_find = this->_reqHeaders.find(it->second);
+				if (it_find != this->_reqHeaders.end() && this->_status == 200)
+				{
+					//for debug
+					std::cerr << "$$$$$ Error: double header detected. $$$$$" << std::endl;
+					this->_status = 400;
+				}
+				// record the header/value
+				this->_reqHeaders.insert(std::make_pair(it->second, val));
+			}
+			this->setHeadersEnv(tmp, val);
 		}
 		else
 		{
@@ -354,6 +460,22 @@ void	Request::parseProtocolHeaders()
 }
 
 /*
+*  @brief   Set the new header in _env.
+*			record a new header in env of headers
+*  @param   std::string &, std::string &
+*  @return  void
+*/
+void	Request::setHeadersEnv(std::string const &header, std::string const &value)
+{
+	std::string	headTmp("HTTP_");
+	headTmp += header;
+	std::replace(headTmp.begin(), headTmp.end(), '-', '_');
+	// check if not already recorded
+	if (this->_env.count(headTmp) == 0)
+		this->_env[headTmp] = value;
+}
+
+/*
 *  @brief   Destructor.
 *           Destroy all member objects
 *  @param   void
@@ -367,4 +489,37 @@ Request::~Request()
 	this->_headers.clear();
 	this->_reqHeaders.clear();
 	this->_uri.clear();
+}
+
+/*
+*  @brief   return a string with the header.
+*           
+*  @param   headerType	&
+*  @return  std::string
+*/
+std::string	Request::returnHeader(headerType const &head)
+{
+	
+}
+
+/*
+*  @brief   Overload operator insert.
+*           use for testing Requiest class
+*  @param   std::ostream &, Request &
+*  @return  std::ostream &
+*/
+std::ostream	&operator<<(std::ostream &oss, Request const &req)
+{
+	oss << "status:  " << req.getStatus() << std::endl
+		<< "Method:  " << req.getMethod() << std::endl
+		<< "Uri:     " << req.getUri() << std::endl
+		<< "version: " << req.getVersion().first << "/./" << req.getVersion().second << std::endl
+		<< "Headers:" << std::endl;
+	std::map<headerType, std::string>::iterator	it = req.getHeaders().begin();
+	std::map<headerType, std::string>::iterator	ite = req.getHeaders().end();
+	for (; it != ite; it++)
+	{
+		oss << "\t\t" << req.returnHeader(it->first)
+	}
+	return (oss);
 }
