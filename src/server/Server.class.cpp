@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.class.cpp                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tlafont <tlafont@student.42angouleme.      +#+  +:+       +#+        */
+/*   By: amorel <amorel@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 08:29:43 by tlafont           #+#    #+#             */
-/*   Updated: 2023/02/27 08:16:54 by tlafont          ###   ########.fr       */
+/*   Updated: 2023/02/28 15:36:07 by amorel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,14 +36,14 @@ Server::Server():	_port(2424),
 *  @param	int
 *  @return	void
 */
-Server::Server(Config &config, int n_serv): _port(atoi(config.getPort(n_serv).c_str())),
-											_host(config.getIP(n_serv)),
-											_auto_index("off"),
-											_index(config.getIndex(n_serv)),
-											_root(config.getRoot(n_serv)),
-											_server_name(config.getServerName(n_serv)),
-											_max_size(1000000),
-											_locations(),
+Server::Server(Parsing &config, int n_serv): _port(atoi(config.getNServer(n_serv)->getPort().c_str())),
+											_host(config.getNServer(n_serv)->getIp()),
+											_auto_index(config.getNServer(n_serv)->getAutoIndex()),
+											_index(config.getNServer(n_serv)->getIndex()),
+											_root(config.getNServer(n_serv)->getRoot()),
+											_server_name(config.getNServer(n_serv)->getServerName()),
+											_max_size(std::atoi(config.getNServer(n_serv)->getClientBodyLimit().c_str())),
+											_locations(config.getNServer(n_serv)->getLocations()),
 											_error_file("error.html")
 {
 }

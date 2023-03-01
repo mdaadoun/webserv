@@ -21,7 +21,7 @@
 #include "sockets/BindSocket.class.hpp"
 #include "sockets/ISocket.class.hpp"
 #include "sockets/ListenSocket.class.hpp"
-#include "parsing/Config.class.hpp"
+#include "../inc/parsing/Parsing.hpp"
 #include "cgi/CgiHandler.class.hpp"
 #include "request/RequestHandler.class.hpp"
 

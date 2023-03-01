@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Manager.class.hpp                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tlafont <tlafont@student.42angouleme.      +#+  +:+       +#+        */
+/*   By: amorel <amorel@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 11:45:00 by tlafont           #+#    #+#             */
-/*   Updated: 2023/02/24 14:02:11 by tlafont          ###   ########.fr       */
+/*   Updated: 2023/02/28 15:26:23 by amorel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@
 #include <exception>
 #include <string>
 #include "server/Server.class.hpp"
-#include "parsing/Config.class.hpp"
+#include "parsing/Config.hpp"
+#include "parsing/Parsing.hpp"
 
 class Server;
 
@@ -36,7 +37,7 @@ class Manager
 				// default constructor
 		Manager();
 				// overload constructor
-		Manager(Config const &conf);
+		Manager(Parsing const &conf);
 			// destructor //
 		~Manager();
 		
@@ -64,7 +65,7 @@ class Manager
 			// array of servers
 		std::vector<Server *>	_servers;
 			// config for all servers
-		Config					_config;
+		Parsing					_config;
 
 		//---- private member methods ----//
 				// copy constructor

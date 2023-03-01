@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Manager.class.cpp                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tlafont <tlafont@student.42angouleme.      +#+  +:+       +#+        */
+/*   By: amorel <amorel@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 11:45:44 by tlafont           #+#    #+#             */
-/*   Updated: 2023/02/27 10:21:09 by tlafont          ###   ########.fr       */
+/*   Updated: 2023/02/28 15:46:25 by amorel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ Manager	&Manager::operator=(Manager const &rhs)
 *	@param	Config &
 *	@return	void
 */
-Manager::Manager(Config const &conf):	_read_fds(), _write_fds(),
+Manager::Manager(Parsing const &conf):	_read_fds(), _write_fds(),
 										_tmp_read_fds(), _tmp_write_fds(),
 										_config(conf)
 {
@@ -138,7 +138,7 @@ void	Manager::initConnections()
 	// add stdin in tmp_fds for ctrl+c gestion
 	FD_SET(0, &this->_tmp_read_fds);
 	// create vector of servers function to the config file
-	int	nb_serv = this->_config.getList().size();
+	int	nb_serv = this->_config.getServers().size();
 	for (int i = 0; i < nb_serv; i++)
 	{
 		Server	*s = new Server(this->_config, i);
