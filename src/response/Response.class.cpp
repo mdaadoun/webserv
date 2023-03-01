@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Response.class.cpp                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tlafont <tlafont@student.42angouleme.      +#+  +:+       +#+        */
+/*   By: amorel <amorel@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 14:30:23 by tlafont           #+#    #+#             */
-/*   Updated: 2023/03/01 15:54:24 by fleblanc         ###   ########.fr       */
+/*   Updated: 2023/03/01 16:40:32 by amorel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,10 +63,40 @@ std::string	Response::getResponse() const
 void	Response::buildResponse(std::string &req)
 {
 	// just for test
-	if (req == "ERROR")
-		this->_response = "HTTP/1.1 200 OK\r\nContent-Type:text/html\r\n\r\n<pre>---> response from Server...\n\n#----- ERROR REQUEST NOT PROPERLY ESTABLISHED\n";
-	else
-		this->_response += req;
+	// if (req == "ERROR")
+	// 	this->_response = "HTTP/1.1 200 OK\r\nContent-Type:text/html\r\n\r\n<pre>---> response from Server...\n\n#----- ERROR REQUEST NOT PROPERLY ESTABLISHED\n";
+	// else
+	// 	this->_response += req;
+	struct tm	now;
+	char		*weekday[7] = {"Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"};
+	char		*month[12] = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
+	
+	_response += "HTTP/1.1 200 OK\r\n";
+
+	_response += "Date: ";
+	_response += weekday[now.tm_wday];
+	_response += ", ";
+	_response += now.tm_mday;
+	_response += " ";
+	_response += month[now.tm_mon];
+	_response += " ";
+	_response += now.tm_year;
+	_response += " ";
+	_response += now.tm_hour;
+	_response += ":";
+	_response += now.tm_min;
+	_response += ":";
+	_response += now.tm_sec;
+	_response += " ";
+	_response += now.tm_zone;
+	_response += "\r\n";
+
+	_response += "Server: Webserv/0.1 (Ubuntu) OpenSSL 1.1.1f PHP/7.4\r\n";
+
+	_response += "Last-Modified: ";
+	_response += "ETag: \"xxxxxxxxx\"";
+	_response += "Content-Length: xxxx";
+	_response += "Content-Type: text/html; charset=UTF-8";
 }
 
 
@@ -78,16 +108,16 @@ void	Response::buildResponse(std::string &req)
 */
 void	Response::addBodyResponse(std::string& path)
 {
-	std::ifstream	file();
+	std::ifstream	file;
 	std::string		buff;
 
 	file.open(path.c_str());
 	if (file.is_open())
 	{
-		std::getline(file, buf, 0); // A voir le delimiteur
+		getline(file, buff, '\0'); // A voir le delimiteur
 		_response += buff;
 		file.close();
 	}
-	else
-		throw FileNotOpenException();
+	// else
+	// 	throw (FileNotOpenException());
 }
