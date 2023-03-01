@@ -6,6 +6,7 @@
 #include <string>
 #include <sstream>
 #include <map>
+#include <algorithm>
 #include <utility>
 
 typedef enum e_METHOD

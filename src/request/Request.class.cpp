@@ -6,7 +6,7 @@
 /*   By: tlafont <tlafont@student.42angouleme.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 14:30:23 by tlafont           #+#    #+#             */
-/*   Updated: 2023/03/01 10:47:45 by tlafont          ###   ########.fr       */
+/*   Updated: 2023/03/01 13:26:03 by tlafont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 */
 Request::Request(): _status(0), _rec_method(), _uri()
 {
-	this->initiMapMethods();
+	this->initMapMethods();
 	this->initMapHeaders();
 }
 
@@ -128,7 +128,7 @@ std::map<headerType, std::string>	Request::getHeaders() const
 *  @param   void
 *  @return  void
 */
-void	Request::initiMapMethods()
+void	Request::initMapMethods()
 {
 	this->_methods["GET"] = GET;
 	this->_methods["HEAD"] = HEAD;
@@ -238,10 +238,10 @@ void	Request::parseStartLineRequest()
 	{
 		if (this->_to_parse[i] == ' ')
 			space++;
-		if (this->_to_parse[i] == ' ' && this->_to_parse[i + 1] = ' ')
+		if (this->_to_parse[i] == ' ' && this->_to_parse[i + 1] == ' ')
 			d_space++;
 	}
-	if ((space != 2 || d_space > 0) && this->_status = 200)
+	if ((space != 2 || d_space > 0) && this->_status == 200)
 	{
 		//for debug mode
 		std::cerr << "$$$$$ Error: too more spaces in header. $$$$$" << std::endl;
@@ -278,7 +278,7 @@ void	Request::recoveryMethods(size_t end_of_req, size_t &len)
 	}
 	// check if method exist
 	std::string	extract = this->_to_parse.substr(0, len);
-	std::map<std::string, methodType>::iterator	it = this->_methods.find(extract);
+	std::map<std::string, e_METHOD>::iterator	it = this->_methods.find(extract);
 	if (it != this->_methods.end())
 		this->_rec_method = it->second;
 	else if (this->_status == 200)
@@ -340,7 +340,7 @@ void	Request::recoveryVersion(size_t end_of_req, size_t &len)
 	}
 	len += 5;
 	// check if not after end of header request
-	size_t	len2 = this->_to_parse.find("\r\n", pos);
+	size_t	len2 = this->_to_parse.find("\r\n", len);
 	if (len2 > end_of_req && this->_status == 200)
 	{
 		//for debug mode
@@ -352,8 +352,8 @@ void	Request::recoveryVersion(size_t end_of_req, size_t &len)
 	// conversion to a pair of data
 	int	ver, sub_ver;
 	std::istringstream(extract) >> ver;
-	std::istringstream(extract + 2) >> sub_ver;
-	this->_version = std::make_pair(ver, sud_ver);
+	std::istringstream(extract.c_str() + 2) >> sub_ver;
+	this->_version = std::make_pair(ver, sub_ver);
 }
 
 /*
@@ -391,7 +391,7 @@ void	Request::parseProtocolHeaders()
 			}
 			// recover of the header
 			std::string	head = this->_to_parse.substr(0, len);
-			if (head.empty() && this->_status = 200)
+			if (head.empty() && this->_status == 200)
 			{
 				//for debug
 				std::cerr << "$$$$$ Error: empty name of header. $$$$$" << std::endl;
@@ -414,7 +414,7 @@ void	Request::parseProtocolHeaders()
 			// extract the value of header
 			std::string	val = this->_to_parse.substr(len, end_of_head - len - offset);
 			// check if val not empty and the begin is properly established
-			if ((!val.empty() || this->_to_parse[pos] == '\r') && this->_status == 200)
+			if ((!val.empty() || this->_to_parse[len] == '\r') && this->_status == 200)
 			{
 				//for debug
 				std::cerr << "$$$$$ Error: value of header empty. $$$$$" << std::endl;
@@ -424,8 +424,8 @@ void	Request::parseProtocolHeaders()
 			for (size_t i = 0; head[i]; i++)
 				tmp += std::toupper(head[i]);
 			// check if the header exist
-			std::map<std::string, headerType>::iterator	it = this->_to_parse.find(tmp);
-			if (it  != this->_to_parse.end())
+			std::map<std::string, headerType>::iterator	it = this->_headers.find(tmp);
+			if (it  != this->_headers.end())
 			{
 				// check if already set
 				std::map<headerType, std::string>::iterator	it_find = this->_reqHeaders.find(it->second);
@@ -484,7 +484,6 @@ void	Request::setHeadersEnv(std::string const &header, std::string const &value)
 Request::~Request()
 {
 	this->_to_parse.clear();
-	this->_request.clear();
 	this->_methods.clear();
 	this->_headers.clear();
 	this->_reqHeaders.clear();
@@ -497,9 +496,53 @@ Request::~Request()
 *  @param   headerType	&
 *  @return  std::string
 */
-std::string	Request::returnHeader(headerType const &head)
+std::string	Request::returnHeader(headerType const &head) const
 {
-	
+	switch (head)
+	{
+		case ACCEPT_CHARSET:
+			return "ACCEPT_CHARSET";
+		case ACCEPT_LANGUAGE:
+			return "ACCEPT_LANGUAGE";
+		case ALLOW:
+			return "ALLOW";
+		case AUTHORIZATION:
+			return "AUTHORIZATION";
+		case CONNECTION:
+			return "CONNECTION";
+		case CONTENT_LANGUAGE:
+			return "CONTENT_LANGUAGE";
+		case CONTENT_LENGTH:
+			return "CONTENT_LENGTH";
+		case CONTENT_LOCATION:
+			return "CONTENT_LOCATION";
+		case CONTENT_TYPE:
+			return "CONTENT_TYPE";
+		case DATE:
+			return "DATE";
+		case HOST:
+			return "HOST";
+		case LAST_MODIFIED:
+			return "LAST_MODIFIED";
+		case LOCATION:
+			return "LOCATION";
+		case REFERER:
+			return "REFERER";
+		case REMOTE_USER:
+			return "REMOTE_USER";
+		case RETRY_AFTER:
+			return "RETRY_AFTER";
+		case SERVER:
+			return "SERVER";
+		case TRANSFER_ENCODING:
+			return "TRANSFER_ENCODING";
+		case USER_AGENT:
+			return "USER_AGENT";
+		case WWW_AUTHENTICATE:
+			return "WWW_AUTHENTICATE";
+		default:
+			return "INVALID HEADER";
+	}
 }
 
 /*
@@ -519,7 +562,8 @@ std::ostream	&operator<<(std::ostream &oss, Request const &req)
 	std::map<headerType, std::string>::iterator	ite = req.getHeaders().end();
 	for (; it != ite; it++)
 	{
-		oss << "\t\t" << req.returnHeader(it->first)
+		oss << "\t\t" << req.returnHeader(it->first) << ": " << it->second << std::endl;
 	}
+	oss << "rest to parse: " << req.getRequest() << std::endl << std::endl;
 	return (oss);
 }
