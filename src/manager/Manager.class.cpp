@@ -6,7 +6,7 @@
 /*   By: amorel <amorel@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 11:45:44 by tlafont           #+#    #+#             */
-/*   Updated: 2023/02/28 15:46:25 by amorel           ###   ########.fr       */
+/*   Updated: 2023/02/28 19:33:58 by amorel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,8 +165,10 @@ void	Manager::initConnections()
 */
 void	Manager::signalQuit(int val)
 {
+    (void) val;
 	g_this->stopProgram();
-	exit(val);
+    throw std::runtime_error("Error::Runtime Error");
+	//exit(val);
 }
 
 /*
@@ -177,14 +179,15 @@ void	Manager::signalQuit(int val)
 */
 void	Manager::stopProgram()
 {
-	std::vector<Server *>::iterator	it = this->_servers.begin();
+	/*std::vector<Server *>::iterator	it = this->_servers.begin();
 	std::vector<Server *>::iterator	ite = this->_servers.end();
 	for (; it != ite; it++)
 	{
-		std::cout << "is delete\n";
+		std::cout << "is deleted\n";
 		delete *it;
 	}
-	this->_servers.clear();
+	this->_config.~Parsing();
+	this->_servers.clear();*/
 	this->_connections.clear();
 	//set to ZERO fds?
 	std::cout << "Webserv properly closed...!" <<  std::endl;
@@ -239,4 +242,11 @@ void	Manager::managementProcess()
 Manager::~Manager()
 {
 	//voir pour destruction des server.
+    std::vector<Server *>::iterator	it = this->_servers.begin();
+    std::vector<Server *>::iterator	ite = this->_servers.end();
+    for (; it != ite; it++)
+    {
+        delete (*it);
+    }
+    this->_servers.clear();
 }

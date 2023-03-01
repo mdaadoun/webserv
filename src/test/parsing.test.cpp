@@ -12,27 +12,27 @@
 
 #include "test.hpp"
 
-static void  Def_Parsing()
-{
-    try
-    {
-        std::cout << "===Default Constructor and print content of map===" << std::endl;
-        Parsing parser;
-
-        std::cout << "Number of servers : ";
-        std::cout << parser.getServers().size() << std::endl;
-        for (std::string::size_type i = 0; i < parser.getServers().size(); i++)
-        {
-            std::cout << "server " << parser.getNServer(i)->getServerName() << std::endl;
-            parser.getNServer(i)->printErrorPages();
-            parser.getNServer(i)->printLocations();
-        }
-    }
-    catch (std::exception &e)
-    {
-        std::cout << e.what() << std::endl;
-    }
-}
+//static void  Def_Parsing()
+//{
+//    try
+//    {
+//        std::cout << "===Default Constructor and print content of map===" << std::endl;
+//        Parsing parser;
+//
+//        std::cout << "Number of servers : ";
+//        std::cout << parser.getServers().size() << std::endl;
+//        for (std::string::size_type i = 0; i < parser.getServers().size(); i++)
+//        {
+//            std::cout << "server " << parser.getNServer(i)->getServerName() << std::endl;
+//            parser.getNServer(i)->printErrorPages();
+//            parser.getNServer(i)->printLocations();
+//        }
+//    }
+//    catch (std::exception &e)
+//    {
+//        std::cout << e.what() << std::endl;
+//    }
+//}
 
 // static void  Over_Parsing()
 // {
@@ -152,7 +152,7 @@ static void  Def_Parsing()
 void    parsingTest()
 {
 
-    Def_Parsing();
+//    Def_Parsing();
     // std::string file;
     // std::string input;
 

@@ -6,7 +6,7 @@
 /*   By: amorel <amorel@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 15:13:14 by amorel            #+#    #+#             */
-/*   Updated: 2023/02/28 02:05:27 by amorel           ###   ########.fr       */
+/*   Updated: 2023/02/28 19:34:09 by amorel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,8 @@ Config::Config(const Config &copy)
 Config::~Config()
 {
 	empty = true;
+	_errorPages.clear();
+	_locations.clear();
 }
 
 /*
@@ -465,7 +467,7 @@ void	Config::checkErrorPages()
 			_errorPages.insert(std::pair<std::string, std::string>("error_page_" + errors[i], errors[i] + ".html"));
 		else
 		{
-			filepath =  _errorPages.find("root")->second + "/" + _errorPages.find("error_page_" + errors[i])->second;
+			filepath = _errorPages.find("root")->second + "/" + _errorPages.find("error_page_" + errors[i])->second;
 			if (filepath.find("//") < filepath.size())
 				filepath.erase(filepath.find("//"), 1);
 			file.open(filepath.c_str());

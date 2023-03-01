@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ComSocket.class.cpp                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tlafont <tlafont@student.42angouleme.      +#+  +:+       +#+        */
+/*   By: amorel <amorel@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 14:30:23 by tlafont           #+#    #+#             */
-/*   Updated: 2023/02/27 09:21:07 by tlafont          ###   ########.fr       */
+/*   Updated: 2023/02/28 17:15:19 by amorel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,11 +173,11 @@ void	ComSocket::sendResponse()
 	unsigned long	toSend = this->_response.getResponse().size();
 	long			ret = 0;
 	unsigned long	i = 0;
-	const char		*rep = this->_response.getResponse().c_str();
+	//const char		*rep = this->_response.getResponse().c_str();
 	while (toSend > 0)
 	{
 		// sending response
-		ret = send(this->_fd_com, rep + i, toSend, 0);
+		ret = send(this->_fd_com, &(this->_response.getResponse().c_str()[i]), toSend, 0);
 		if (ret == -1)
 		{
 			if (toSend)
@@ -188,7 +188,7 @@ void	ComSocket::sendResponse()
 		toSend -= ret;
 	}
 	this->_is_send = true;
-	std::cout << "****** Response Send ******" << std::endl;
+	std::cout << "****** Response Sent ******" << std::endl;
 }
 
 /*

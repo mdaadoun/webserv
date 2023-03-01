@@ -6,7 +6,7 @@
 /*   By: amorel <amorel@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 15:28:36 by amorel            #+#    #+#             */
-/*   Updated: 2023/02/28 15:44:25 by amorel           ###   ########.fr       */
+/*   Updated: 2023/02/28 19:33:22 by amorel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,14 +93,14 @@ void	Parsing::parseConfig(const std::string &path)
 		if (buf.empty() || file.eof())
 		{
 			if (!tmp.empty)
-				this->_servers.push_back(tmp);
+				this->_servers.insert(_servers.end(), tmp);
 			break ;
 		}
 		else if (buf == "[server]")
 		{
 			if (tmp.empty)
 				continue;
-			this->_servers.push_back(tmp);
+			this->_servers.insert(_servers.end(), tmp);
 		}
 		else if (buf.find('=') != std::string::npos)
 		{
