@@ -29,7 +29,7 @@ class Parsing
         Parsing &operator=(const Parsing &copy);
 
 		std::vector<class Config>	getServers() const;
-		class Config				*getNServer(int n) const;
+		class Config				*getNServer(int n);
 		void						parseConfig(const std::string &path);
 		void						checkConfig();
 };

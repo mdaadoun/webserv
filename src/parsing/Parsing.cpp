@@ -63,6 +63,7 @@ Parsing::~Parsing() {}
 Parsing &Parsing::operator=(const Parsing &copy)
 {
     this->_servers = copy.getServers();
+    return *this;
 }
 
 /*
@@ -142,7 +143,7 @@ std::vector<class Config>	Parsing::getServers() const
 *  @param	void
 *  @return	class Config *
 */
-class Config				*Parsing::getNServer(int n) const
+class Config				*Parsing::getNServer(int n)
 {
 	return &(_servers.at(n));
 }

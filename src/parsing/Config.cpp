@@ -74,6 +74,7 @@ Config &Config::operator=(const Config &copy)
     this->_clientBodyLimit = copy.getClientBodyLimit();
     this->_errorPages = copy.getErrorPages();
     this->_locations = copy.getLocations();
+    return *this;
 }
 
 /*
