@@ -36,21 +36,23 @@ class Config
 		std::map<std::string, std::map<std::string, std::string> >	_locations;
 
 	public:
-		Config(void);
-		// Config(const Config &copy);
-		~Config(void);
+		Config();
+		Config(const Config &copy);
+		~Config();
+
+        Config   &operator=(Config const &copy);
 
 		bool														empty;
-		std::string													getIp(void);
-		std::string													getPort(void);
-		std::string													getListen(void);
-		std::string													getRoot(void);
-		std::string													getIndex(void);
-		std::string													getAutoIndex(void);
-		std::string													getServerName(void);
-		std::string													getClientBodyLimit(void);
-		std::map<std::string, std::string>							getErrorPages(void);
-		std::map<std::string, std::map<std::string, std::string> >	getLocations(void);
+		std::string													getIp() const;
+		std::string													getPort() const;
+		std::string													getListen() const;
+		std::string													getRoot() const;
+		std::string													getIndex() const;
+		std::string													getAutoIndex() const;
+		std::string													getServerName() const;
+		std::string													getClientBodyLimit() const;
+		std::map<std::string, std::string>							getErrorPages() const;
+		std::map<std::string, std::map<std::string, std::string> >	getLocations() const;
 
 		void	setIp(const std::string &ip);
 		void	setPort(const std::string &port);
