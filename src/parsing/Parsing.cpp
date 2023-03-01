@@ -12,23 +12,66 @@
 
 #include "../inc/parsing/Parsing.hpp"
 
-Parsing::Parsing(void)
+/*
+*  @brief	Default constructor of the class Parsing.
+*           Launch Parser and checker with "config_default.ini".
+*  @param	void
+*  @return	void
+*/
+Parsing::Parsing()
 {
 	Parsing::parseConfig("conf/config_default.ini");
 	Parsing::checkConfig();
 }
 
+/*
+*  @brief	Overload constructor of the class Parsing.
+*           Launch Parser and checker with argument path.
+*  @param	const std::string &path
+*  @return	void
+*/
 Parsing::Parsing(const std::string &path)
 {
 	Parsing::parseConfig(path);
 	Parsing::checkConfig();
 }
 
-Parsing::~Parsing(void)
+/*
+*  @brief	Copy constructor of the class Parsing.
+*           Initialize the Parsing with Parsing received as argument.
+*  @param	const Parsing &copy
+*  @return	void
+*/
+Parsing::Parsing(const Parsing &copy)
 {
-		_servers.clear();
+    this->_servers = copy.getServers();
 }
 
+/*
+*  @brief	Default deconstructor of the class Parsing.
+*  @param	void
+*  @return	void
+*/
+Parsing::~Parsing() {}
+
+/*
+*  @brief   Assignment operator.
+*           copy other Parsing in this Parsing
+*  @param   Parsing &
+*  @return  Parsing &
+*/
+Parsing &Parsing::operator=(const Parsing &copy)
+{
+    this->_servers = copy.getServers();
+    return *this;
+}
+
+/*
+*  @brief	Default constructor of the class Parsing.
+*           Initialize the config with default file "config_default.ini".
+*  @param	const std::string &path
+*  @return	void
+*/
 void	Parsing::parseConfig(const std::string &path)
 {
 	std::ifstream			file;
@@ -85,16 +128,31 @@ void	Parsing::parseConfig(const std::string &path)
 	file.close();
 }
 
-std::vector<class Config>	Parsing::getServers(void)
+/*
+*  @brief	Return attribute _servers;
+*  @param	void
+*  @return	std::vector<class Config>
+*/
+std::vector<class Config>	Parsing::getServers() const
 {
 	return _servers;
 }
 
+/*
+*  @brief	Return number n Config member of attribute _servers.
+*  @param	void
+*  @return	class Config *
+*/
 class Config				*Parsing::getNServer(int n)
 {
 	return &(_servers.at(n));
 }
 
+/*
+*  @brief	Launch all check function of Config Class member of attribute _servers.
+*  @param	void
+*  @return	void
+*/
 void	Parsing::checkConfig()
 {
 	std::vector<Config>::iterator	it;
