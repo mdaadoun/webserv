@@ -79,7 +79,6 @@ private:
     std::string _413_file;
     std::string _500_file;
     std::string _503_file;
-    std::string _default_error_file;
 
     std::string _content_type;
     std::string _body;

@@ -12,10 +12,12 @@ RequestHandler::RequestHandler() {
 //    this->_request["URI"] = "/";
     this->_request["URI"] = "/page.html";
 //    this->_request["URI"] = "/favicon.ico";
+//    this->_request["URI"] = "/favicon.png";
+//    this->_request["URI"] = "/content/fox.jpg";
 //    this->_request["URI"] = "/xxx.html";
 //    this->_request["URI"] = "/script.js";
-    this->_request["URI"] = "/style.css";
-    this->_request["If-Modified-Since"] = "Wed, 28 Feb 2022 15:27:00 GMT";
+//    this->_request["URI"] = "/style.css";
+    this->_request["If-Modified-Since"] = "Wed, 28 Feb 2023 15:27:00 GMT";
 
     this->_status_code = 200;
     this->_protocol_version = "HTTP/1.1";
@@ -24,7 +26,6 @@ RequestHandler::RequestHandler() {
     this->_400_file = "400.html";
     this->_404_file = "404.html";
     this->_500_file = "500.html";
-    this->_default_error_file = "error.html";
 }
 
 /*
@@ -67,13 +68,11 @@ std::string RequestHandler::readContent(std::string & path) {
     if (file.is_open() == false) {
         this->setStatusCode(404);
     }
-    if (this->getStatusCode() == 200) {
-        if (checkLastModified(path))
-            this->setStatusCode(304);
-        else
-            buffer << file.rdbuf();
-        file.close();
-    }
+    if (this->getStatusCode() == 200 && checkLastModified(path))
+        this->setStatusCode(304);
+    else
+        buffer << file.rdbuf();
+    file.close();
     return buffer.str();
 }
 
@@ -86,6 +85,8 @@ void RequestHandler::setContentType(std::string path)
         _content_type = "text/css";
     else if (type == "js")
         _content_type = "text/javascript";
+    else if (type == "svg" || type == "xml")
+        _content_type = "image/svg+xml";
     else if (type == "jpeg" || type == "jpg")
         _content_type = "image/jpeg";
     else if (type == "png")
@@ -130,12 +131,12 @@ std::string RequestHandler::getErrorPagePath() {
             path += this->_503_file;
             break;
         default:
-            path += this->_default_error_file;
+            break;
     }
 
     file.open(path.c_str(), std::ifstream::in);
     if (file.is_open() == false) {
-        path = this->_files_root + "/" + this->_default_error_file;
+        path = this->_files_root + "/error.html";
     }
     file.close();
     return path;
@@ -166,15 +167,20 @@ void RequestHandler::getMethod() {
     this->_body = readContent(path);
 
     if (this->getStatusCode() >= 400) {
-        this->_content_type = "text/html";
         path = getErrorPagePath();
+        this->setContentType(path);
         this->_body = readContent(path);
     }
 
-    if (this->getStatusCode() == 304)
-        this->_body = "";
+//    if (this->getStatusCode() == 304)
+//        this->_body = "";
 }
 
+/*
+*  @brief   run the head method, same as get but don't create a body
+*  @param   void
+*  @return  void
+*/
 void RequestHandler::headMethod() {
     this->getMethod();
     this->_body = "";
@@ -320,8 +326,8 @@ std::ostream &operator<<(std::ostream &out, RequestHandler &rh) {
     }
     out << "results after handling:\n";
 
-    out << rh.getContentType() << std::endl;
-    out << rh.getStatusCodeString() << std::endl;
-    out << rh.getBody() << std::endl;
+    out << "Content Type:" << rh.getContentType() << std::endl;
+    out << "Status Code:" << rh.getStatusCodeString() << std::endl;
+    out << "Body:" << rh.getBody() << std::endl;
     return out;
 }
