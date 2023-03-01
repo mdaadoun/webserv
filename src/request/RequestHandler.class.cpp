@@ -10,12 +10,12 @@ RequestHandler::RequestHandler() {
     this->_request["Method"] = "GET";
 //    this->_request["Method"] = "HEAD";
 //    this->_request["URI"] = "/";
-//    this->_request["URI"] = "/page.html";
+    this->_request["URI"] = "/page.html";
 //    this->_request["URI"] = "/favicon.ico";
 //    this->_request["URI"] = "/xxx.html";
-    this->_request["URI"] = "/script.js";
-//    this->_request["URI"] = "/style.css";
-    this->_request["If-Modified-Since"] = "Wed, 28 Feb 2023 15:15:00 GMT";
+//    this->_request["URI"] = "/script.js";
+    this->_request["URI"] = "/style.css";
+    this->_request["If-Modified-Since"] = "Wed, 28 Feb 2022 15:27:00 GMT";
 
     this->_status_code = 200;
     this->_protocol_version = "HTTP/1.1";
