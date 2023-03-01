@@ -198,11 +198,11 @@ void RequestHandler::run(void) {
         case m_GET:
             this->getMethod();
             break;
-        case m_POST:
-            std::cout << "run the Post method" << std::endl;
-            break;
         case m_HEAD:
             this->headMethod();
+            break;
+        case m_POST:
+            std::cout << "run the Post method" << std::endl;
             break;
         case m_DELETE:
             std::cout << "run the delete method" << std::endl;

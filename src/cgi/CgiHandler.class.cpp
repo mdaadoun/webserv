@@ -6,6 +6,9 @@
 *  @return  void
 */
 CgiHandler::CgiHandler() {
+    this->_script = "script.py";
+    this->_cgi_type = "py";
+    this->_cgi_interpreter = "cgi-bin";
     this->set_env();
 }
 
@@ -27,7 +30,6 @@ CgiHandler	&CgiHandler::operator=(CgiHandler const &src)
 {
     if (this != &src) {
         this->_env = src._env;
-        this->_rawOutput = src._rawOutput;
     }
     return *this;
 }
@@ -40,6 +42,8 @@ CgiHandler	&CgiHandler::operator=(CgiHandler const &src)
 void		CgiHandler::set_env(void) {
 //    std::map<std::string, std::string>	headers = _request.getHeaders();
     this->_env["GATEWAY_INTERFACE"] = "CGI/1.1";
+    this->_env["SERVER_PROTOCOL"] = "HTTP/1.1";
+    this->_env["SERVER_SOFTWARE"] = "webserv/1.0";
 }
 
 /*

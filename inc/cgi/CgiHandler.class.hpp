@@ -19,18 +19,19 @@ public:
 
     void                                set_env(void);
     std::map<std::string, std::string> &get_env(void);
+
     // execute script and return body
-    std::string		executeCgi(const std::string &script);
+    std::string		executeCgi();
 
 
 private:
 //    Config                              _conf;
 //    Request                             _request;
 //    Location                            _loc;
-
+    std::string                         _script;
     std::map<std::string, std::string>	_env;
 
-    std::string							_rawOutput; // cgi output
+//    std::string							_body; // cgi output
 
 };
 
