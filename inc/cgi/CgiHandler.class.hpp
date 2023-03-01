@@ -29,9 +29,10 @@ private:
 //    Request                             _request;
 //    Location                            _loc;
     std::string                         _script;
+    std::string                         _cgi_type;
+    std::string                         _cgi_interpreter;
     std::map<std::string, std::string>	_env;
-
-//    std::string							_body; // cgi output
+    std::string							_body; // cgi output
 
 };
 
