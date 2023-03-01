@@ -21,12 +21,15 @@ class Parsing
 		std::vector<class Config>	_servers;
 
 	public:
-		Parsing(void);
+		Parsing();
 		Parsing(const std::string &path);
-		~Parsing(void);
+        Parsing(const Parsing &copy);
+		~Parsing();
 
-		std::vector<class Config>	getServers(void);
-		class Config				*getNServer(int n);
+        Parsing &operator=(const Parsing &copy);
+
+		std::vector<class Config>	getServers() const;
+		class Config				*getNServer(int n) const;
 		void						parseConfig(const std::string &path);
 		void						checkConfig();
 };
