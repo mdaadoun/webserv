@@ -20,7 +20,7 @@ void	cgiTest(void)
 
     std::cout << ch << std::endl;
 
-    body = ch.executeCgi("index.py");
+    body = ch.executeCgi();
 
     std::cout << body << std::endl;
 }
