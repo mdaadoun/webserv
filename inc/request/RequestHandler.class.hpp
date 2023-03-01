@@ -31,10 +31,10 @@ public:
     void initStatusCodeBook();
     void setStatusCode(int code);
     std::string getStatusCodeString();
-    int getStatusCode();
-    int getProtocolVersion() const;
+    int getStatusCode(); // REPONSE ICI STATUS
+    int getProtocolVersion() const; // REPONSE ICI PROTOCOLE
     void setContentType(std::string path);
-    std::string getContentType() const;
+    std::string getContentType() const; // REPONSE ICI CONTENT TYPE
     std::string getBody() const;
 
     std::string getErrorPagePath();
