@@ -6,7 +6,7 @@
 /*   By: tlafont <tlafont@student.42angouleme.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 14:30:23 by tlafont           #+#    #+#             */
-/*   Updated: 2023/02/27 10:03:50 by tlafont          ###   ########.fr       */
+/*   Updated: 2023/03/01 15:54:24 by fleblanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,4 +67,27 @@ void	Response::buildResponse(std::string &req)
 		this->_response = "HTTP/1.1 200 OK\r\nContent-Type:text/html\r\n\r\n<pre>---> response from Server...\n\n#----- ERROR REQUEST NOT PROPERLY ESTABLISHED\n";
 	else
 		this->_response += req;
+}
+
+
+/*
+*	@brief	Add body to response
+*
+*	@param	std::string& (path to the file get by the request)
+*	@return	void
+*/
+void	Response::addBodyResponse(std::string& path)
+{
+	std::ifstream	file();
+	std::string		buff;
+
+	file.open(path.c_str());
+	if (file.is_open())
+	{
+		std::getline(file, buf, 0); // A voir le delimiteur
+		_response += buff;
+		file.close();
+	}
+	else
+		throw FileNotOpenException();
 }

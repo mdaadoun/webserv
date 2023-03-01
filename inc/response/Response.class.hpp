@@ -4,6 +4,7 @@
 
 //#include "../request/Request.class.hpp"
 #include <iostream>
+#include <fstream>
 #include <string>
 
 class Response
@@ -20,7 +21,8 @@ class Response
         std::string getResponse(void) const;
 
 		//---- member methods ----//
-		void buildResponse(std::string &req);
+		void	buildResponse(std::string &req);
+		void	addBodyResponse(std::string& path);	
 	
 	private:
 		std::string		_response;

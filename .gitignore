@@ -7,3 +7,5 @@ webserv_test
 *.o
 .idea
 .vscode
+tags
+obj
