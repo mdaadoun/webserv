@@ -68,21 +68,19 @@ class Request
 			// parsing the request received
 		void 		parsing(std::string const &req);
 
-			//for debug display the header
-		std::string	returnHeader(headerType const &head) const;
-
 	private:
 		//---- member objects ----//
 			//for parse the original request
 		std::string							_to_parse;
-			//code status of request
-		int									_status;
+			
 			//for comp the methods
 		std::map<std::string, m_METHOD>	_methods;
 			//for comp the headers
 		std::map<std::string, headerType>	_headers;
 			
 
+			//code status of request
+		int									_status;
 			//for record the header in request
 		std::map<headerType, std::string>	_reqHeaders;
 			//for record the method in header
@@ -93,7 +91,7 @@ class Request
 		std::pair<int, int>					_version;
 			
 
-			//for record when is parsed
+			//for record all headers when is parsed
 		std::map<std::string, std::string>	_env; //rename this
 
 		//---- assignement operator ----//

@@ -6,7 +6,7 @@
 /*   By: tlafont <tlafont@student.42angouleme.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 14:30:23 by tlafont           #+#    #+#             */
-/*   Updated: 2023/03/01 13:26:03 by tlafont          ###   ########.fr       */
+/*   Updated: 2023/03/02 11:04:08 by tlafont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,7 +181,6 @@ void	Request::parsing(std::string const &req)
 {
 	this->_env.clear();
 	this->parseHeader(req);
-
 }
 
 /*
@@ -298,7 +297,7 @@ void	Request::recoveryMethods(size_t end_of_req, size_t &len)
 void	Request::recoveryUri(size_t end_of_req, size_t len)
 {
 	// check if conf uri not empty
-	size_t	len2 = this->_to_parse.find(' ');
+	size_t	len2 = this->_to_parse.find(' ', len);
 	if (len2 > end_of_req && this->_status == 200)
 	{
 		//for debug mode
@@ -319,6 +318,7 @@ void	Request::recoveryUri(size_t end_of_req, size_t len)
 	{
 		//for debug mode
 		std::cerr << "$$$$$ Error: Uri conf too long $$$$$" << std::endl;
+		this->_status = 400;
 	}
 }
 
@@ -331,7 +331,7 @@ void	Request::recoveryUri(size_t end_of_req, size_t len)
 void	Request::recoveryVersion(size_t end_of_req, size_t &len)
 {
 	// check if version is set
-	len = this->_to_parse.find("HTTPS/");
+	len = this->_to_parse.find("HTTP/");
 	if (len > end_of_req && this->_status == 200)
 	{
 		//for debug mode
@@ -414,7 +414,7 @@ void	Request::parseProtocolHeaders()
 			// extract the value of header
 			std::string	val = this->_to_parse.substr(len, end_of_head - len - offset);
 			// check if val not empty and the begin is properly established
-			if ((!val.empty() || this->_to_parse[len] == '\r') && this->_status == 200)
+			if ((val.empty() || this->_to_parse[len] == '\r') && this->_status == 200)
 			{
 				//for debug
 				std::cerr << "$$$$$ Error: value of header empty. $$$$$" << std::endl;
@@ -423,6 +423,7 @@ void	Request::parseProtocolHeaders()
 			//go to uppercase the header for comp
 			for (size_t i = 0; head[i]; i++)
 				tmp += std::toupper(head[i]);
+			std::replace(tmp.begin(), tmp.end(), '-', '_');
 			// check if the header exist
 			std::map<std::string, headerType>::iterator	it = this->_headers.find(tmp);
 			if (it  != this->_headers.end())
@@ -488,82 +489,4 @@ Request::~Request()
 	this->_headers.clear();
 	this->_reqHeaders.clear();
 	this->_uri.clear();
-}
-
-/*
-*  @brief   return a string with the header.
-*           
-*  @param   headerType	&
-*  @return  std::string
-*/
-std::string	Request::returnHeader(headerType const &head) const
-{
-	switch (head)
-	{
-		case ACCEPT_CHARSET:
-			return "ACCEPT_CHARSET";
-		case ACCEPT_LANGUAGE:
-			return "ACCEPT_LANGUAGE";
-		case ALLOW:
-			return "ALLOW";
-		case AUTHORIZATION:
-			return "AUTHORIZATION";
-		case CONNECTION:
-			return "CONNECTION";
-		case CONTENT_LANGUAGE:
-			return "CONTENT_LANGUAGE";
-		case CONTENT_LENGTH:
-			return "CONTENT_LENGTH";
-		case CONTENT_LOCATION:
-			return "CONTENT_LOCATION";
-		case CONTENT_TYPE:
-			return "CONTENT_TYPE";
-		case DATE:
-			return "DATE";
-		case HOST:
-			return "HOST";
-		case LAST_MODIFIED:
-			return "LAST_MODIFIED";
-		case LOCATION:
-			return "LOCATION";
-		case REFERER:
-			return "REFERER";
-		case REMOTE_USER:
-			return "REMOTE_USER";
-		case RETRY_AFTER:
-			return "RETRY_AFTER";
-		case SERVER:
-			return "SERVER";
-		case TRANSFER_ENCODING:
-			return "TRANSFER_ENCODING";
-		case USER_AGENT:
-			return "USER_AGENT";
-		case WWW_AUTHENTICATE:
-			return "WWW_AUTHENTICATE";
-		default:
-			return "INVALID HEADER";
-	}
-}
-
-/*
-*  @brief   Overload operator insert.
-*           use for testing Requiest class
-*  @param   std::ostream &, Request &
-*  @return  std::ostream &
-*/
-std::ostream	&operator<<(std::ostream &oss, Request const &req)
-{
-	oss << "status:  " << req.getStatus() << std::endl
-		<< "Method:  " << req.getMethod() << std::endl
-		<< "Uri:     " << req.getUri() << std::endl
-		<< "version: " << req.getVersion().first << "/./" << req.getVersion().second << std::endl
-		<< "Headers:" << std::endl;
-	std::map<headerType, std::string>::iterator	it = req.getHeaders().begin();
-	std::map<headerType, std::string>::iterator	ite = req.getHeaders().end();
-	for (; it != ite; it++)
-	{
-		oss << "\t\t" << req.returnHeader(it->first) << ": " << it->second << std::endl;
-	}
-	oss << "rest to parse: " << req.getRequest() << std::endl << std::endl;
-	return (oss);
 }
