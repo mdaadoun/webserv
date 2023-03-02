@@ -6,7 +6,7 @@
 /*   By: tlafont <tlafont@student.42angouleme.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 14:30:23 by tlafont           #+#    #+#             */
-/*   Updated: 2023/03/02 11:04:08 by tlafont          ###   ########.fr       */
+/*   Updated: 2023/03/02 11:53:34 by tlafont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -204,7 +204,7 @@ void	Request::parseHeader(std::string const & req)
 		std::cerr << "request not parsed correctly..." << std::endl;
 		this->_status = 400;
 	}
-	//end of parsing and recover headers request
+	//to be continued
 }
 
 /*
