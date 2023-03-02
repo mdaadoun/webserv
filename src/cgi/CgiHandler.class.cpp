@@ -6,6 +6,9 @@
 *  @return  void
 */
 CgiHandler::CgiHandler() {
+    this->_script = "index.py";
+    this->_cgi_type = "py";
+    this->_cgi_interpreter = ".www/html/cgi-bin";
     this->set_env();
 }
 
@@ -27,7 +30,6 @@ CgiHandler	&CgiHandler::operator=(CgiHandler const &src)
 {
     if (this != &src) {
         this->_env = src._env;
-        this->_rawOutput = src._rawOutput;
     }
     return *this;
 }
@@ -40,6 +42,8 @@ CgiHandler	&CgiHandler::operator=(CgiHandler const &src)
 void		CgiHandler::set_env(void) {
 //    std::map<std::string, std::string>	headers = _request.getHeaders();
     this->_env["GATEWAY_INTERFACE"] = "CGI/1.1";
+    this->_env["SERVER_PROTOCOL"] = "HTTP/1.1";
+    this->_env["SERVER_SOFTWARE"] = "webserv/1.0";
 }
 
 /*
@@ -57,11 +61,11 @@ std::map<std::string, std::string> & CgiHandler::get_env(void) {
 *  @param   const std::string &script
 *  @return  std::string
 */
-std::string CgiHandler::executeCgi(const std::string &script) {
+std::string CgiHandler::executeCgi() {
 //    pid_t		pid;
 
 //    char		**env;
-    std::cout << "execute " << script << std::endl;
+    std::cout << "execute " << this->_cgi_interpreter << '/' << this->_script << std::endl;
 
 //    pid = fork();
 //
@@ -75,8 +79,8 @@ std::string CgiHandler::executeCgi(const std::string &script) {
 //        waitpid(-1, NULL, 0);
 //    }
 
-    this->_rawOutput = "ERROR";
-    return this->_rawOutput;
+    this->_body = "ERROR";
+    return this->_body;
 }
 
 

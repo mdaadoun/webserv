@@ -21,15 +21,16 @@
 #include "sockets/BindSocket.class.hpp"
 #include "sockets/ISocket.class.hpp"
 #include "sockets/ListenSocket.class.hpp"
-#include "parsing/Config.class.hpp"
+#include "../inc/parsing/Parsing.hpp"
 #include "cgi/CgiHandler.class.hpp"
 #include "request/Request.class.hpp"
+#include "request/RequestHandler.class.hpp"
 
 void	parsingTest(void);
 void	socketTest(void);
 void	responseTest(void);
 void	cgiTest(void);
 void	requestTest(void);
-
+void    handlerRequestTest(void);
 
 #endif

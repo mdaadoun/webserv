@@ -38,7 +38,7 @@ int main(int argc, char **argv)
 	switch (atoi(input.c_str()))
 	{
 		case 1:
-			socketTest();
+			//socketTest();
 			break;
         case 2:
             parsingTest();
@@ -50,7 +50,7 @@ int main(int argc, char **argv)
             requestTest();
             break;
 		case 9:
-			socketTest();
+			//socketTest();
 			parsingTest();
             cgiTest();
 			requestTest();

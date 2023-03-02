@@ -49,13 +49,16 @@ SRCCLASS = server/Server.class.cpp \
 		   sockets/ComSocket.class.cpp \
 		   sockets/ISocket.class.cpp \
 		   sockets/ListenSocket.class.cpp \
-		   parsing/Config.class.cpp \
+		   parsing/Config.cpp \
+		   parsing/Parsing.cpp \
 		   manager/Manager.class.cpp \
+		   request/RequestHandler.class.cpp \
 		   cgi/CgiHandler.class.cpp 
 
 SRCTEST	= test/main.test.cpp \
 		  test/socket.test.cpp \
 		  test/parsing.test.cpp \
+		  test/handlerRequest.test.cpp \
 		  test/cgi.test.cpp \
 		  test/response.test.cpp \
 		  test/request.test.cpp
@@ -103,11 +106,6 @@ serv:	$(NAME)
 test:	$(NAME_T)
 
 parsing: test
-		@printf $(CR)$(GREEN)"✓ starting parsing tests in 3 seconds\n"$(EOC)
-		@printf $(CR)$(GREEN)"3..."; sleep 1
-		@printf $(CR)$(YELLOW)"2..."; sleep 1
-		@printf $(CR)$(RED)"1..."; sleep 1
-		@printf $(CR)$(WHITE)
 		clear
 		@valgrind --leak-check=full --show-leak-kinds=all ./webserv_test 2
 

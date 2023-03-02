@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   socket.test.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tlafont <tlafont@student.42angouleme.      +#+  +:+       +#+        */
+/*   By: amorel <amorel@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 10:03:15 by tlafont           #+#    #+#             */
 /*   Updated: 2023/03/01 12:41:14 by tlafont          ###   ########.fr       */
