@@ -6,7 +6,8 @@ from colorama import Fore, Back, Style
 from prettytable import PrettyTable
 import os
 
-def prepare_test(line):
+
+def prepare_test(line, _type=''):
     input = line.split(":")[0].split(',')
     output = line.split(":")[1].split(',')
     if input[0][0] == "#":
@@ -15,7 +16,12 @@ def prepare_test(line):
     data.test["request"]["command"] = input[0].strip()
     data.test["request"]["path"] = input[1].strip()
     data.test["request"]["host"] = input[2].strip()
-    data.test["request"]["port"] = input[3].strip()
+    if _type == 'remote':
+        data.test["request"]["port"] = '8080'
+    elif _type == 'webserv':
+        data.test["request"]["port"] = '2424'
+    else:
+        data.test["request"]["port"] = input[3].strip()
     data.test["request"]["protocol"] = input[4].strip()
 
     data.test["response"]["Status"] = output[0].strip()
