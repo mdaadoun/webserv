@@ -160,7 +160,7 @@ void	ComSocket::setResponse()
 {
 	//to modify when parsing is done
 	std::string	request(this->_received);
-	this->_response.buildResponse(request);
+	this->_response.buildResponse(this->_request);
 }
 
 /*

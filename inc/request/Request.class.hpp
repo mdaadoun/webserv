@@ -2,6 +2,7 @@
 #ifndef REQUEST_HPP
 # define REQUEST_HPP
 
+# include "../enum.hpp"
 #include <iostream>
 #include <string>
 #include <sstream>
@@ -9,18 +10,7 @@
 #include <algorithm>
 #include <utility>
 
-typedef enum e_METHOD
-{
-	GET,
-	HEAD,
-	POST,
-	PUT,
-	DELETE,
-	CONNECT,
-	OPTIONS,
-	TRACE,
-	ERROR
-}m_METHOD;
+
 
 enum headerType
 {

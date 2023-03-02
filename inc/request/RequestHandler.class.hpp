@@ -3,50 +3,47 @@
 #ifndef HANDLE_REQUEST_HPP
 #define HANDLE_REQUEST_HPP
 
+# include "../enum.hpp"
 # include <iostream>
 # include <map>
 # include <sys/stat.h>
+# include <ctime>
+# include <cstring>
+# include <sstream>
 # include "parsing/Config.hpp"
 # include "parsing/Parsing.hpp"
-# include "server/Server.class.hpp"
+//# include "server/Server.class.hpp"
 # include "request/Request.class.hpp"
-
-typedef enum e_METHOD {
-    m_ERROR,
-    m_GET,
-    m_HEAD,
-    m_POST,
-    m_DELETE,
-    m_PUT,
-    m_CONNECT,
-    m_OPTIONS,
-    m_TRACE
-} t_METHOD;
 
 class RequestHandler {
 public:
-    RequestHandler(void);
+    RequestHandler(Request const & req);
 //    RequestHandler(Server &serv, Request &req);
     ~RequestHandler(void);
 
-    void initStatusCodeBook();
-    void setStatusCode(int code);
-    std::string getStatusCodeString();
-    int getStatusCode(); // REPONSE ICI STATUS
-    int getProtocolVersion() const; // REPONSE ICI PROTOCOLE
-    void setContentType(std::string path);
-    std::string getContentType() const; // REPONSE ICI CONTENT TYPE
-    std::string getBody() const;
 
+    // setters
+    void setStatusCode(int code);
+    void setContentType(std::string path);
+
+    // responsee getters
+    std::string getStatusCodeString();
+    std::string getProtocolVersion() const;
+    std::string getContentType() const;
+    std::string getBody() const;
+    std::string getDate();
+
+    // utils
+    void initStatusCodeBook();
+    int getStatusCode();
     std::string getErrorPagePath();
 
     std::map<std::string, std::string> &getRequest(void);
 
-    bool checkLastModified(std::string & path);
-
     void run(void);
 
     // Readings
+    bool checkLastModified(std::string & path);
     std::string readContent(std::string & path);
 
     // Methods
@@ -59,7 +56,7 @@ public:
     void optionsMethod();
     void traceMethod();
 
-    t_METHOD resolveMethod(std::string & method);
+    m_METHOD resolveMethod(std::string & method);
 
 private:
     std::map<std::string, std::string> _request;

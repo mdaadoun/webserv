@@ -6,21 +6,22 @@
 *  @param   void
 *  @return  void
 */
-RequestHandler::RequestHandler() {
-    this->_request["Method"] = "GET";
-//    this->_request["Method"] = "HEAD";
+RequestHandler::RequestHandler(Request const & req) {
+    this->_status_code = req.getStatus();
+    this->_request["Method"] = req.getMethod();
+    this->_request["URI"] = req.getUri();
+//    this->_request["URI"] = "/page.html";
 //    this->_request["URI"] = "/";
-    this->_request["URI"] = "/page.html";
 //    this->_request["URI"] = "/favicon.ico";
 //    this->_request["URI"] = "/favicon.png";
 //    this->_request["URI"] = "/content/fox.jpg";
 //    this->_request["URI"] = "/xxx.html";
 //    this->_request["URI"] = "/script.js";
 //    this->_request["URI"] = "/style.css";
-    this->_request["If-Modified-Since"] = "Wed, 28 Feb 2023 15:27:00 GMT";
-
-    this->_status_code = 200;
     this->_protocol_version = "HTTP/1.1";
+    this->_request["If-Modified-Since"] = "Wed, 28 Feb 2022 15:27:00 GMT";
+
+    // need also the server config to get those :
     this->_files_root = "./www/html";
     this->_index_file = "index.html";
     this->_400_file = "400.html";
@@ -40,6 +41,7 @@ RequestHandler::~RequestHandler() {}
 std::map<std::string, std::string> &RequestHandler::getRequest(void){
     return this->_request;
 }
+
 
 bool RequestHandler::checkLastModified(std::string & path) {
     std::string if_modified_since_str = this->_request["If-Modified-Since"];
@@ -201,28 +203,28 @@ void RequestHandler::postMethod() {
 */
 void RequestHandler::run(void) {
     switch (RequestHandler::resolveMethod(this->_request["Method"])) {
-        case m_GET:
+        case GET:
             this->getMethod();
             break;
-        case m_HEAD:
+        case HEAD:
             this->headMethod();
             break;
-        case m_POST:
+        case POST:
             std::cout << "run the Post method" << std::endl;
             break;
-        case m_DELETE:
+        case DELETE:
             std::cout << "run the delete method" << std::endl;
             break;
-        case m_PUT:
+        case PUT:
             std::cout << "run the Put method" << std::endl;
             break;
-        case m_CONNECT:
+        case CONNECT:
             std::cout << "run the Connect method" << std::endl;
             break;
-        case m_OPTIONS:
+        case OPTIONS:
             std::cout << "run the Options method" << std::endl;
             break;
-        case m_TRACE:
+        case TRACE:
             std::cout << "run the Put method" << std::endl;
             break;
         default:
@@ -230,25 +232,91 @@ void RequestHandler::run(void) {
     }
 }
 
-t_METHOD RequestHandler::resolveMethod(std::string &met) {
+m_METHOD RequestHandler::resolveMethod(std::string &met) {
     if (met == "GET")
-        return m_GET;
+        return GET;
     else if (met == "HEAD")
-        return m_HEAD;
+        return HEAD;
     else if (met == "POST")
-        return m_POST;
+        return POST;
     else if (met == "DELETE")
-        return m_DELETE;
+        return DELETE;
     else if (met == "PUT")
-        return m_PUT;
+        return PUT;
     else if (met == "CONNECT")
-        return m_CONNECT;
+        return CONNECT;
     else if (met == "OPTIONS")
-        return m_OPTIONS;
+        return OPTIONS;
     else if (met == "TRACE")
-        return m_TRACE;
+        return TRACE;
     else
-        return m_ERROR;
+        return ERROR;
+}
+
+
+std::string RequestHandler::getProtocolVersion() const {
+    return this->_protocol_version;
+}
+
+// DATE GENERATION TO FIX
+std::string RequestHandler::getDate() {
+    std::string date;
+    time_t now_time = std::time(NULL);
+    struct tm *now = std::localtime(&now_time);
+    std::stringstream ss;
+	std::string weekday[7] = {"Mon",
+                              "Tue",
+                              "Wed",
+                              "Thu",
+                              "Fri",
+                              "Sat",
+                              "Sun"};
+    std::string month[12] = {"Jan",
+                             "Feb",
+                             "Mar",
+                             "Apr",
+                             "May",
+                             "Jun",
+                             "Jul",
+                             "Aug",
+                             "Sep",
+                             "Oct",
+                             "Nov",
+                             "Dec"};
+	date += weekday[now->tm_wday];
+	date += ", ";
+    ss << now->tm_mday;
+	date += ss.str();
+    ss.clear();
+    ss.str("");
+	date += " ";
+	date += month[now->tm_mon];
+	date += " ";
+    ss << now->tm_year;
+	date += ss.str();
+    ss.clear();
+    ss.str("");
+	date += " ";
+    ss << now->tm_hour;
+    date += ss.str();
+    ss.clear();
+    ss.str("");
+	date += ":";
+    ss << now->tm_min;
+    date += ss.str();
+    ss.clear();
+    ss.str("");
+	date += ":";
+    ss << now->tm_sec;
+    date += ss.str();
+    ss.clear();
+    ss.str("");
+	date += " ";
+    ss << now->tm_zone;
+    date += ss.str();
+    ss.clear();
+    ss.str("");
+    return date;
 }
 
 int RequestHandler::getStatusCode() {
@@ -331,3 +399,4 @@ std::ostream &operator<<(std::ostream &out, RequestHandler &rh) {
     out << "Body:" << rh.getBody() << std::endl;
     return out;
 }
+
