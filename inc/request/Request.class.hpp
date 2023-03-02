@@ -53,6 +53,7 @@ class Request
 		std::string							getUri() const;
 		std::pair<int, int>					getVersion() const;
 		std::map<headerType, std::string>	getHeaders() const;
+		std::map<std::string, std::string>	getCgi() const;
 		
 		//---- member methods ----//
 			// parsing the request received
@@ -79,7 +80,8 @@ class Request
 		std::string							_uri;
 			// for record version
 		std::pair<int, int>					_version;
-			
+			// for record all CGI params
+		std::map<std::string, std::string>	_cgi;
 
 			//for record all headers when is parsed
 		std::map<std::string, std::string>	_env; //rename this
@@ -100,7 +102,10 @@ class Request
 		void	recoveryVersion(size_t end_of_req, size_t &len);
 				// parsing and rec headers protocols
 		void	parseProtocolHeaders();
-				// record in _env
+				// split URI for record CGI params
+		void	parseUri();
+
+			// record in _env
 		void	setHeadersEnv(std::string const &header, std::string const &value);
 };
 

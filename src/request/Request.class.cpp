@@ -6,7 +6,7 @@
 /*   By: tlafont <tlafont@student.42angouleme.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 14:30:23 by tlafont           #+#    #+#             */
-/*   Updated: 2023/03/02 11:53:34 by tlafont          ###   ########.fr       */
+/*   Updated: 2023/03/02 17:04:34 by tlafont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 *  @param   void
 *  @return  void
 */
-Request::Request(): _status(0), _rec_method(), _uri()
+Request::Request(): _status(0), _rec_method(), _uri(), _cgi()
 {
 	this->initMapMethods();
 	this->initMapHeaders();
@@ -123,6 +123,17 @@ std::map<headerType, std::string>	Request::getHeaders() const
 }
 
 /*
+*  @brief   Getter for the cgi params.
+*			Access to the parameters of CGI after parsing
+*  @param   void
+*  @return  std::map<std::string, std::string>
+*/
+std::map<std::string, std::string>	Request::getCgi() const
+{
+	return (this->_cgi);
+}
+
+/*
 *  @brief   Init map methods.
 *			Initialisation for the map of all methods
 *  @param   void
@@ -204,7 +215,9 @@ void	Request::parseHeader(std::string const & req)
 		std::cerr << "request not parsed correctly..." << std::endl;
 		this->_status = 400;
 	}
-	//to be continued
+	// for split Uri and CGI params
+	this->parseUri();
+	//end for headers
 }
 
 /*
@@ -474,6 +487,69 @@ void	Request::setHeadersEnv(std::string const &header, std::string const &value)
 	// check if not already recorded
 	if (this->_env.count(headTmp) == 0)
 		this->_env[headTmp] = value;
+}
+
+/*
+*  @brief   Parse the URI.
+*			check and recover CGI parameters
+*  @param   void
+*  @return  void
+*/
+void	Request::parseUri()
+{
+	std::string	cgi_param;
+	std::string	to_parse = this->_uri;
+	size_t	len = to_parse.find_first_of('?');
+	// recover CGI params
+	if (len != std::string::npos)
+		cgi_param = to_parse.substr(to_parse.find('?') + 1);
+	this->_uri = to_parse.substr(0, len);
+	if (this->_uri.find("..") != std::string::npos && this->_status == 200)
+	{
+		//for debug
+		std::cerr << "$$$$$ Error: URI not correctly esrtablished $$$$$" << std::endl;
+		this->_status = 400;
+	}
+	if (this->_uri.size() > 1000 && this->_status == 200)
+	{
+		//for debug
+		std::cerr << "$$$$$ Error: Uri too long. $$$$$" << std::endl;
+		this->_status = 414;
+	}
+	if (!cgi_param.empty())
+	{
+		while (!cgi_param.empty())
+		{
+			size_t		len_params = cgi_param.find('&');
+			size_t		equal = cgi_param.find('=');
+			// extract the name of parameter
+			std::string	key = cgi_param.substr(0, equal);
+			// check if not empty and the begin
+			if ((key.empty() || key[0] == ' ') && this->_status == 200)
+			{
+				//for debug
+				std::cerr << "$$$$$ Error: param name not properly establish. $$$$$" << std::endl;
+				this->_status = 400;
+			}
+			equal++;
+			// extract value of parameter
+			std::string	value = cgi_param.substr(equal, len_params - equal);
+			// check if value not empty and the begin
+			if ((value.empty() || key[0] == ' ') && this->_status == 200)
+			{
+				//for debug
+				std::cerr << "$$$$$ Error: param vale not properly establish. $$$$$" << std::endl;
+				this->_status = 400;
+			}
+			// record data
+			this->_cgi.insert(std::make_pair(key, value));
+			//delete segment recorded
+			if (len_params && len_params != std::string::npos)
+				cgi_param.erase(0, len_params + 1);
+			else
+				cgi_param.clear();
+		}
+	}
 }
 
 /*
