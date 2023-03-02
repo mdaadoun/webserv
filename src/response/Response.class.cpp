@@ -56,68 +56,50 @@ std::string	Response::getResponse() const
 
 /*
 *  @brief   Build response to send.
-*			set the respons in function of request parsed
+*			Use the requestHandler class with the parsed request to get the responses element
+*			Compose the response with the requestHandler getters (status code, content type, etc..)
 *  @param   std::string & (to modify when Request class established)
 *  @return  void
 */
 void	Response::buildResponse(std::string &req)
 {
-	// just for test
-	// if (req == "ERROR")
-	// 	this->_response = "HTTP/1.1 200 OK\r\nContent-Type:text/html\r\n\r\n<pre>---> response from Server...\n\n#----- ERROR REQUEST NOT PROPERLY ESTABLISHED\n";
-	// else
-	// 	this->_response += req;
-	struct tm	now;
-	char		*weekday[7] = {"Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"};
-	char		*month[12] = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
-	
-	_response += "HTTP/1.1 200 OK\r\n";
+    (void) req; // will be passed to the request handler
+    RequestHandler rh;
+    rh.run(); // hard coded for now, will pass the request when ready
 
-	_response += "Date: ";
-	_response += weekday[now.tm_wday];
-	_response += ", ";
-	_response += now.tm_mday;
-	_response += " ";
-	_response += month[now.tm_mon];
-	_response += " ";
-	_response += now.tm_year;
-	_response += " ";
-	_response += now.tm_hour;
-	_response += ":";
-	_response += now.tm_min;
-	_response += ":";
-	_response += now.tm_sec;
-	_response += " ";
-	_response += now.tm_zone;
-	_response += "\r\n";
+    std::string header_sep = "\r\n";
+    std::string body_sep = "\r\n\r\n";
 
-	_response += "Server: Webserv/0.1 (Ubuntu) OpenSSL 1.1.1f PHP/7.4\r\n";
+    // HEADER
+    this->_response = "";
+    this->_response += rh.getProtocolVersion() + " ";
+    this->_response += rh.getStatusCodeString();
+    this->_response += header_sep;
+    this->_response += "Content-Type: " + rh.getContentType() + "; charset=UTF-8";
+    this->_response += header_sep;
+    this->_response += "Date: " + rh.getDate();
+    this->_response += header_sep;
+    this->_response += "Server: Webserv/0.1 (Ubuntu) OpenSSL 1.1.1f PHP/7.4";
+//    this->_response += header_sep;
+//	this->_response += "Content-Length: " + rh.getContentLength();
+//    this->_response += header_sep;
+//	_response += "Last-Modified: " + rh.getLastModified();
+//    this->_response += header_sep;
+//	_response += "ETag: \"xxxxxxxxx\"";
 
-	_response += "Last-Modified: ";
-	_response += "ETag: \"xxxxxxxxx\"";
-	_response += "Content-Length: xxxx";
-	_response += "Content-Type: text/html; charset=UTF-8";
+    // BODY
+    this->_response += body_sep;
+    this->_response += rh.getBody();
 }
 
-
 /*
-*	@brief	Add body to response
-*
-*	@param	std::string& (path to the file get by the request)
-*	@return	void
+*  @brief   Overloaded stream insertion operator
+*  @param   std::ostream &out   the output stream (out)
+*           Response &rh  a reference to a Response object
+*  @return  std::ostream &
 */
-void	Response::addBodyResponse(std::string& path)
-{
-	std::ifstream	file;
-	std::string		buff;
-
-	file.open(path.c_str());
-	if (file.is_open())
-	{
-		getline(file, buff, '\0'); // A voir le delimiteur
-		_response += buff;
-		file.close();
-	}
-	// else
-	// 	throw (FileNotOpenException());
+std::ostream &operator<<(std::ostream &out, Response &rh) {
+    out << "response:\n";
+    out << rh.getResponse();
+    return out;
 }

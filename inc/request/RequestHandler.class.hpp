@@ -6,10 +6,13 @@
 # include <iostream>
 # include <map>
 # include <sys/stat.h>
+# include <ctime>
+# include <cstring>
+# include <sstream>
 # include "parsing/Config.hpp"
 # include "parsing/Parsing.hpp"
-# include "server/Server.class.hpp"
-# include "request/Request.class.hpp"
+//# include "server/Server.class.hpp"
+//# include "request/Request.class.hpp"
 
 typedef enum e_METHOD {
     m_ERROR,
@@ -29,24 +32,29 @@ public:
 //    RequestHandler(Server &serv, Request &req);
     ~RequestHandler(void);
 
-    void initStatusCodeBook();
-    void setStatusCode(int code);
-    std::string getStatusCodeString();
-    int getStatusCode(); // REPONSE ICI STATUS
-    int getProtocolVersion() const; // REPONSE ICI PROTOCOLE
-    void setContentType(std::string path);
-    std::string getContentType() const; // REPONSE ICI CONTENT TYPE
-    std::string getBody() const;
 
+    // setters
+    void setStatusCode(int code);
+    void setContentType(std::string path);
+
+    // responsee getters
+    std::string getStatusCodeString();
+    std::string getProtocolVersion() const;
+    std::string getContentType() const;
+    std::string getBody() const;
+    std::string getDate();
+
+    // utils
+    void initStatusCodeBook();
+    int getStatusCode();
     std::string getErrorPagePath();
 
     std::map<std::string, std::string> &getRequest(void);
 
-    bool checkLastModified(std::string & path);
-
     void run(void);
 
     // Readings
+    bool checkLastModified(std::string & path);
     std::string readContent(std::string & path);
 
     // Methods

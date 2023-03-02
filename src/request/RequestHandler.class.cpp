@@ -9,8 +9,8 @@
 RequestHandler::RequestHandler() {
     this->_request["Method"] = "GET";
 //    this->_request["Method"] = "HEAD";
-//    this->_request["URI"] = "/";
-    this->_request["URI"] = "/page.html";
+    this->_request["URI"] = "/";
+//    this->_request["URI"] = "/page.html";
 //    this->_request["URI"] = "/favicon.ico";
 //    this->_request["URI"] = "/favicon.png";
 //    this->_request["URI"] = "/content/fox.jpg";
@@ -41,6 +41,7 @@ std::map<std::string, std::string> &RequestHandler::getRequest(void){
     return this->_request;
 }
 
+
 bool RequestHandler::checkLastModified(std::string & path) {
     std::string if_modified_since_str = this->_request["If-Modified-Since"];
 
@@ -54,7 +55,7 @@ bool RequestHandler::checkLastModified(std::string & path) {
         stat(path.c_str(), &file_stat);
         time_t last_modified_time = file_stat.st_mtime;
         double time_diff = difftime(last_modified_time, if_modified_since_time);
-        if (time_diff <= 0)
+        if (time_diff > 0)
             return true;
     }
     return false;
@@ -251,6 +252,72 @@ t_METHOD RequestHandler::resolveMethod(std::string &met) {
         return m_ERROR;
 }
 
+
+std::string RequestHandler::getProtocolVersion() const {
+    return this->_protocol_version;
+}
+
+// DATE GENERATION TO FIX
+std::string RequestHandler::getDate() {
+    std::string date;
+    time_t now_time = std::time(NULL);
+    struct tm *now = std::localtime(&now_time);
+    std::stringstream ss;
+	std::string weekday[7] = {"Mon",
+                              "Tue",
+                              "Wed",
+                              "Thu",
+                              "Fri",
+                              "Sat",
+                              "Sun"};
+    std::string month[12] = {"Jan",
+                             "Feb",
+                             "Mar",
+                             "Apr",
+                             "May",
+                             "Jun",
+                             "Jul",
+                             "Aug",
+                             "Sep",
+                             "Oct",
+                             "Nov",
+                             "Dec"};
+	date += weekday[now->tm_wday];
+	date += ", ";
+    ss << now->tm_mday;
+	date += ss.str();
+    ss.clear();
+    ss.str("");
+	date += " ";
+	date += month[now->tm_mon];
+	date += " ";
+    ss << now->tm_year;
+	date += ss.str();
+    ss.clear();
+    ss.str("");
+	date += " ";
+    ss << now->tm_hour;
+    date += ss.str();
+    ss.clear();
+    ss.str("");
+	date += ":";
+    ss << now->tm_min;
+    date += ss.str();
+    ss.clear();
+    ss.str("");
+	date += ":";
+    ss << now->tm_sec;
+    date += ss.str();
+    ss.clear();
+    ss.str("");
+	date += " ";
+    ss << now->tm_zone;
+    date += ss.str();
+    ss.clear();
+    ss.str("");
+    return date;
+}
+
 int RequestHandler::getStatusCode() {
     return this->_status_code;
 }
@@ -331,3 +398,4 @@ std::ostream &operator<<(std::ostream &out, RequestHandler &rh) {
     out << "Body:" << rh.getBody() << std::endl;
     return out;
 }
+

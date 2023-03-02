@@ -24,6 +24,7 @@
 #include "../inc/parsing/Parsing.hpp"
 #include "cgi/CgiHandler.class.hpp"
 #include "request/RequestHandler.class.hpp"
+#include "response/Response.class.hpp"
 
 void	parsingTest(void);
 void	socketTest(void);

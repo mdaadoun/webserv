@@ -2,10 +2,10 @@
 #ifndef RESPONSE_HPP
 # define RESPONSE_HPP
 
-//#include "../request/Request.class.hpp"
 #include <iostream>
 #include <fstream>
 #include <string>
+#include "../request/RequestHandler.class.hpp"
 
 class Response
 {
@@ -22,12 +22,14 @@ class Response
 
 		//---- member methods ----//
 		void	buildResponse(std::string &req);
-		void	addBodyResponse(std::string& path);	
+//		void	addBodyResponse(std::string& path);
 	
 	private:
 		std::string		_response;
 
 		Response	&operator=(Response const &rhs);
 };
+
+std::ostream &operator<<(std::ostream &out, Response &rh);
 
 #endif

@@ -25,6 +25,7 @@ int main(int argc, char **argv)
         std::cout << "2 - Parsing tests" << std::endl;
         std::cout << "3 - Cgi tests" << std::endl;
         std::cout << "4 - Handling request tests" << std::endl;
+        std::cout << "5 - Response test" << std::endl;
 		std::cout << "9 - All tests" << std::endl;
 
 		std::cout << "Command : ";
@@ -48,6 +49,9 @@ int main(int argc, char **argv)
             break;
         case 4:
             handlerRequestTest();
+            break;
+        case 5:
+            responseTest();
             break;
 		case 9:
 			//socketTest();
