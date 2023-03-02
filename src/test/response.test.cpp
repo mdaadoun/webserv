@@ -15,8 +15,24 @@
 void	responseTest(void)
 {
 	std::cout << "\033[0;34m # Response test # \033[0;0m" << std::endl;
-    Response rs;
-    std::string rq;
+//    Response rs;
+//    std::string rq;
 //    rs.buildResponse(rq);
-    std::cout << rs;
+
+    try
+    {
+        // parsing config file
+        Parsing config("conf/config_default.ini");
+        // construction du Manager
+        Manager	manager(config);
+        // init du manager
+        manager.initConnections();
+        // lancement du manager
+        manager.managementProcess();
+    }
+    catch (std::exception &e)
+    {
+        std::cout << e.what() << std::endl;
+    }
+//    std::cout << rs;
 }
