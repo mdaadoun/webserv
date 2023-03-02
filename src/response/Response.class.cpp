@@ -61,11 +61,10 @@ std::string	Response::getResponse() const
 *  @param   std::string & (to modify when Request class established)
 *  @return  void
 */
-void	Response::buildResponse(std::string &req)
+void	Response::buildResponse(Request const &req)
 {
-    (void) req; // will be passed to the request handler
-    RequestHandler rh;
-    rh.run(); // hard coded for now, will pass the request when ready
+    RequestHandler rh(req);
+    rh.run();
 
     std::string header_sep = "\r\n";
     std::string body_sep = "\r\n\r\n";

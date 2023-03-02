@@ -6,7 +6,7 @@
 /*   By: amorel <amorel@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 14:30:23 by tlafont           #+#    #+#             */
-/*   Updated: 2023/02/28 17:15:19 by amorel           ###   ########.fr       */
+/*   Updated: 2023/02/28 09:10:02 by tlafont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,8 +158,9 @@ void	ComSocket::parseRequest()
 */
 void	ComSocket::setResponse()
 {
-	std::string	request(this->_request.getRequest());
-	this->_response.buildResponse(request);
+	//to modify when parsing is done
+	std::string	request(this->_received);
+	this->_response.buildResponse(this->_request);
 }
 
 /*

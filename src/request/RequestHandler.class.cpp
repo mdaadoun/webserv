@@ -6,21 +6,22 @@
 *  @param   void
 *  @return  void
 */
-RequestHandler::RequestHandler() {
-    this->_request["Method"] = "GET";
-//    this->_request["Method"] = "HEAD";
-    this->_request["URI"] = "/";
+RequestHandler::RequestHandler(Request const & req) {
+    this->_status_code = req.getStatus();
+    this->_request["Method"] = req.getMethod();
+    this->_request["URI"] = req.getUri();
 //    this->_request["URI"] = "/page.html";
+//    this->_request["URI"] = "/";
 //    this->_request["URI"] = "/favicon.ico";
 //    this->_request["URI"] = "/favicon.png";
 //    this->_request["URI"] = "/content/fox.jpg";
 //    this->_request["URI"] = "/xxx.html";
 //    this->_request["URI"] = "/script.js";
 //    this->_request["URI"] = "/style.css";
-    this->_request["If-Modified-Since"] = "Wed, 28 Feb 2023 15:27:00 GMT";
-
-    this->_status_code = 200;
     this->_protocol_version = "HTTP/1.1";
+    this->_request["If-Modified-Since"] = "Wed, 28 Feb 2022 15:27:00 GMT";
+
+    // need also the server config to get those :
     this->_files_root = "./www/html";
     this->_index_file = "index.html";
     this->_400_file = "400.html";
@@ -55,7 +56,7 @@ bool RequestHandler::checkLastModified(std::string & path) {
         stat(path.c_str(), &file_stat);
         time_t last_modified_time = file_stat.st_mtime;
         double time_diff = difftime(last_modified_time, if_modified_since_time);
-        if (time_diff > 0)
+        if (time_diff <= 0)
             return true;
     }
     return false;
@@ -202,28 +203,28 @@ void RequestHandler::postMethod() {
 */
 void RequestHandler::run(void) {
     switch (RequestHandler::resolveMethod(this->_request["Method"])) {
-        case m_GET:
+        case GET:
             this->getMethod();
             break;
-        case m_HEAD:
+        case HEAD:
             this->headMethod();
             break;
-        case m_POST:
+        case POST:
             std::cout << "run the Post method" << std::endl;
             break;
-        case m_DELETE:
+        case DELETE:
             std::cout << "run the delete method" << std::endl;
             break;
-        case m_PUT:
+        case PUT:
             std::cout << "run the Put method" << std::endl;
             break;
-        case m_CONNECT:
+        case CONNECT:
             std::cout << "run the Connect method" << std::endl;
             break;
-        case m_OPTIONS:
+        case OPTIONS:
             std::cout << "run the Options method" << std::endl;
             break;
-        case m_TRACE:
+        case TRACE:
             std::cout << "run the Put method" << std::endl;
             break;
         default:
@@ -231,25 +232,25 @@ void RequestHandler::run(void) {
     }
 }
 
-t_METHOD RequestHandler::resolveMethod(std::string &met) {
+m_METHOD RequestHandler::resolveMethod(std::string &met) {
     if (met == "GET")
-        return m_GET;
+        return GET;
     else if (met == "HEAD")
-        return m_HEAD;
+        return HEAD;
     else if (met == "POST")
-        return m_POST;
+        return POST;
     else if (met == "DELETE")
-        return m_DELETE;
+        return DELETE;
     else if (met == "PUT")
-        return m_PUT;
+        return PUT;
     else if (met == "CONNECT")
-        return m_CONNECT;
+        return CONNECT;
     else if (met == "OPTIONS")
-        return m_OPTIONS;
+        return OPTIONS;
     else if (met == "TRACE")
-        return m_TRACE;
+        return TRACE;
     else
-        return m_ERROR;
+        return ERROR;
 }
 
 

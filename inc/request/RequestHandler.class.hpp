@@ -3,6 +3,7 @@
 #ifndef HANDLE_REQUEST_HPP
 #define HANDLE_REQUEST_HPP
 
+# include "../enum.hpp"
 # include <iostream>
 # include <map>
 # include <sys/stat.h>
@@ -12,23 +13,11 @@
 # include "parsing/Config.hpp"
 # include "parsing/Parsing.hpp"
 //# include "server/Server.class.hpp"
-//# include "request/Request.class.hpp"
-
-typedef enum e_METHOD {
-    m_ERROR,
-    m_GET,
-    m_HEAD,
-    m_POST,
-    m_DELETE,
-    m_PUT,
-    m_CONNECT,
-    m_OPTIONS,
-    m_TRACE
-} t_METHOD;
+# include "request/Request.class.hpp"
 
 class RequestHandler {
 public:
-    RequestHandler(void);
+    RequestHandler(Request const & req);
 //    RequestHandler(Server &serv, Request &req);
     ~RequestHandler(void);
 
@@ -67,7 +56,7 @@ public:
     void optionsMethod();
     void traceMethod();
 
-    t_METHOD resolveMethod(std::string & method);
+    m_METHOD resolveMethod(std::string & method);
 
 private:
     std::map<std::string, std::string> _request;

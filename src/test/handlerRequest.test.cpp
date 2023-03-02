@@ -15,8 +15,8 @@
 void	handlerRequestTest(void)
 {
 //    Config conf("conf/config_default.ini");
-    RequestHandler rh;
+//    RequestHandler rh;
     std::cout << "\033[0;34m # Handler Request test # \033[0;0m" << std::endl;
-    rh.run();
-    std::cout << rh << std::endl;
+//    rh.run();
+//    std::cout << rh << std::endl;
 }

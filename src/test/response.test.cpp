@@ -17,6 +17,6 @@ void	responseTest(void)
 	std::cout << "\033[0;34m # Response test # \033[0;0m" << std::endl;
     Response rs;
     std::string rq;
-    rs.buildResponse(rq);
+//    rs.buildResponse(rq);
     std::cout << rs;
 }

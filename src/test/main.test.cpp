@@ -6,7 +6,7 @@
 /*   By: amorel <amorel@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 12:47:09 by fleblanc          #+#    #+#             */
-/*   Updated: 2023/02/17 17:52:33 by amorel           ###   ########.fr       */
+/*   Updated: 2023/03/01 12:35:54 by tlafont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,9 @@ int main(int argc, char **argv)
 		std::cout << "1 - Socket tests" << std::endl;
         std::cout << "2 - Parsing tests" << std::endl;
         std::cout << "3 - Cgi tests" << std::endl;
-        std::cout << "4 - Handling request tests" << std::endl;
-        std::cout << "5 - Response test" << std::endl;
+        std::cout << "4 - parse request tests" << std::endl;
+        std::cout << "5 - Handling request tests" << std::endl;
+        std::cout << "6 - Response test" << std::endl;
 		std::cout << "9 - All tests" << std::endl;
 
 		std::cout << "Command : ";
@@ -39,7 +40,7 @@ int main(int argc, char **argv)
 	switch (atoi(input.c_str()))
 	{
 		case 1:
-			//socketTest();
+			socketTest();
 			break;
         case 2:
             parsingTest();
@@ -48,15 +49,20 @@ int main(int argc, char **argv)
             cgiTest();
             break;
         case 4:
-            handlerRequestTest();
+            requestTest();
             break;
         case 5:
+            handlerRequestTest();
+            break;
+        case 6:
             responseTest();
             break;
 		case 9:
-			//socketTest();
+			socketTest();
 			parsingTest();
             cgiTest();
+			requestTest();
+            handlerRequestTest();
 			responseTest();
 			break;
 		default:
