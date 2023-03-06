@@ -26,6 +26,7 @@
 #include "request/Request.class.hpp"
 #include "request/RequestHandler.class.hpp"
 #include "response/Response.class.hpp"
+#include "manager/Manager.class.hpp"
 
 void	parsingTest(void);
 void	socketTest(void);

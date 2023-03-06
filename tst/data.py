@@ -73,6 +73,72 @@ help = """ [bold yellow]HELP[/bold yellow]
         * for remote and the --all option, the port is 8080 by default and will ignore the tests ports.[/italic white]
 """
 
+"""
+DO THIS
+
+[server]
+server_name=webserv1
+listen=0.0.0.0:2424
+root=./www/html
+index=index.html
+autoindex=on
+client_body_limit=4096
+error_page_400=400.html
+error_page_401=401.html
+error_page_403=403.html
+error_page_404=404.html
+error_page_405=405.html
+error_page_410=410.html
+error_page_413=413.html
+error_page_500=500.html
+error_page_503=503.html
+location:/
+{
+	allow_methods=GET
+	allow_methods2=GET POST DELETE
+}
+location:/content
+{
+	allow_methods=GET
+}
+location:/cgi-bin
+{
+	allow_methods=GET POST DELETE
+}
+cgi_type=py
+cgi_interpreter=/usr/bin/python3
+cgi_directory=cgi-bin
+
+[server]
+server_name=webserv2
+listen=0.0.0.0:6969
+root=./www/html
+index=index.html
+autoindex=off
+client_body_limit=4096
+error_page_400=400.html
+error_page_401=401.html
+error_page_403=403.html
+error_page_404=404.html
+error_page_405=405.html
+error_page_410=410.html
+error_page_413=413.html
+error_page_500=500.html
+error_page_503=503.html
+location:/
+{
+	allow_methods=GET
+}
+location:/content
+{
+	allow_methods=GET
+}
+location:/cgi-bin
+{
+	allow_methods=GET POST DELETE
+}
+"""
+
 config = {
     "1": {
         "server_name": "webserv1",

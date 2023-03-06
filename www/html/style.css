@@ -3,8 +3,13 @@ h1 {
     font-family: verdana;
     font-size: 300%;
 }
+h2 {
+    color: deeppink;
+    font-family: cursive;
+    font-size: 200%;
+}
 p {
     color: red;
     font-family: courier;
-    font-size: 160%;
+    font-size: 100%;
 }
