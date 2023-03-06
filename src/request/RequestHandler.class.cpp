@@ -9,7 +9,15 @@
 RequestHandler::RequestHandler(Request const & req) {
     this->_status_code = req.getStatus();
     this->_request["Method"] = req.getMethod();
-    this->_request["URI"] = req.getUri();
+    this->_request["URI"] = req.getUri().first + req.getUri().second; //getUri modified
+//    this->_request["URI"] = "/page.html";
+//    this->_request["URI"] = "/";
+//    this->_request["URI"] = "/favicon.ico";
+//    this->_request["URI"] = "/favicon.png";
+//    this->_request["URI"] = "/content/fox.jpg";
+//    this->_request["URI"] = "/xxx.html";
+//    this->_request["URI"] = "/script.js";
+//    this->_request["URI"] = "/style.css";
     this->_protocol_version = "HTTP/1.1";
     this->_request["If-Modified-Since"] = "Wed, 28 Feb 2022 15:27:00 GMT";
 
