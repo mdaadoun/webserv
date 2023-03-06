@@ -484,7 +484,12 @@ void	Config::checkClientBodyLimit()
 {
 	if (_clientBodyLimit.empty())
 		_clientBodyLimit = "4096";
-	else if (std::atoi(_clientBodyLimit.c_str()) <= 0)
+    for (int i = 0; i < _clientBodyLimit.length(); i++)
+    {
+        if (!isdigit(_clientBodyLimit[i]))
+            throw(Config::ErrorBadArgument());
+    }
+	if (std::atoi(_clientBodyLimit.c_str()) <= 0)
 		throw(Config::ErrorBadArgument());
 }
 
