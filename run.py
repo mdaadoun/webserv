@@ -13,24 +13,23 @@ def run_webserv(testfile):
 
     for t, test in enumerate(testfile):
         print("./webserv confile")
-        test_data = config.prepare_test(test)
+        test_data = config.prepare_test(test, 'webserv')
         if test_data is None:
             continue
         program = "./webserv"
         confile = ''
-        with open("tst/config.txt", "r") as conffile:
-            confile = conffile.readline()
-            print(confile)
+        with open("tst/config.txt", "r") as cf:
+            confile = cf.readline()
         subprocess.Popen([program, confile])
-        time.sleep(1)
+        time.sleep(0.1)
         tester.start(test_data, t)
-        time.sleep(1)
+        time.sleep(0.1)
 
 
 def run_remote(testfile):
     print("REMOTE SERVER TESTS:")
     for t, test in enumerate(testfile):
-        test_data = config.prepare_test(test)
+        test_data = config.prepare_test(test, 'remote')
         if test_data is None:
             continue
         else:

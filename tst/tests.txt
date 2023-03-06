@@ -1,2 +1,2 @@
-GET,/,0.0.0.0,80,HTTP/1.1:200,Server,Date,Content-Type;text/html,Last-Modified,Transfer-Encoding;chunked,Connection;keep-alive,ETag,Content-Encoding;gzip
-GET,/x,0.0.0.0,80,HTTP/1.1:404,Server,Date,Content-Type;text/html,Transfer-Encoding;chunked,Connection;keep-alive,Content-Encoding;gzip
+GET,/,0.0.0.0,8080,HTTP/1.1:200,Server,Date,Content-Type;text/html,Last-Modified,Transfer-Encoding;chunked,Connection;keep-alive,ETag,Content-Encoding;gzip
+GET,/x,0.0.0.0,8080,HTTP/1.1:404,Server,Date,Content-Type;text/html,Transfer-Encoding;chunked,Connection;keep-alive,Content-Encoding;gzip
