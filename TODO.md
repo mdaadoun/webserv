@@ -1,13 +1,13 @@
 # TODO
 
 ## CGI parsing
-    - [] Ajouter cgi_type, cgi_interpreter and cgi_directory to config parsing class
+* [] Ajouter cgi_type, cgi_interpreter and cgi_directory to config parsing class
 
 ## LOCATION and CGI check
-  - [x]: Cut uri in two with path (location) and file
-  - [ ]: fournir la config de l'instance server dans la requestHandler class pour :
-    - []: verifier les locations par rapport methods allowed
-    - []: verifier si la requete porte sur un CGI (path valid)
+* [x] Cut uri in two with path (location) and file
+  * [ ]: fournir la config de l'instance server dans la requestHandler class pour :
+    * []: verifier les locations par rapport methods allowed
+    * []: verifier si la requete porte sur un CGI (path valid)
 
 ## CGI
     [] construire l'environnement avec le parsing de la requete (cle/valeur de la query string)
@@ -18,6 +18,7 @@
 
 ## Body size limit
     [] test POST reqest body with the config client_body_limit
+      [] define a default value if not set
 
 ## Type of methods:
     [] if not GET, POST or DELETE: set the method UNKNOWN and set the error corresponding
