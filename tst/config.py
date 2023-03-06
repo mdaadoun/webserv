@@ -96,11 +96,11 @@ def editor():
         if ans in data.config_keys['exit']:
             editor_running = False
         if ans in data.config_keys['select']:
-            print("select ID > TODO")
+            print("select ID > TODO.md")
         if ans in data.config_keys['add']:
-            print("add new config > TODO")
+            print("add new config > TODO.md")
         if ans in data.config_keys['remove']:
-            print("remove new config > TODO")
+            print("remove new config > TODO.md")
         elif ans.strip() == '' or ans in data.config_keys['default']:
             conf = build_content()
             create_file(conf)

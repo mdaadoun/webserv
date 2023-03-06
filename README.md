@@ -5,7 +5,8 @@
 > * Analyser et valider le fichier de configuration
 > * Établir une connexion via un socket pour écouter les requêtes
 > * Implémenter le protocole HTTP et sa structure de requête/réponse
-> * Construire les requêtes HTTP et les réponses nécessaires, lire et envoyer le fichier demandé et délivrer une page web HTML.
+>   * Parser et traiter les requêtes HTTP.
+>   * Construire réponses nécessaires pour délivrer le résultat.
 > * (Optionnel) gérer les cookies et la gestion de session, ainsi que différents CGI.
 
 ## Compilation et utilisation
@@ -30,7 +31,7 @@ Pour compiler uniquement le main de tests unitaires
 ### Utilisation
 
 ```
-./webserv [OPTION] [CONFIG_FILE]
+./webserv [CONFIG_FILE]
 ```
 Pour utiliser le serveur
 
@@ -78,27 +79,25 @@ Pour utiliser le programme de tests unitaires
 7. **Support des scripts CGI** : implémentation de la logique pour exécuter des scripts CGI et fournir leurs résultats à l'utilisateur.
     * Ajouter la prise en charge de CGI pour gérer les scripts et les programmes externes.
 
-8. **Prise en charge des différentes méthodes HTTP** : implémentation des logiques pour prendre en charge les méthodes HTTP telles que GET, POST, PUT, DELETE, etc. L'objectif est d'obtnenir une gestion complète des requêtes.
+8. **Prise en charge des différentes méthodes HTTP** : implémentation des logiques pour prendre en charge les méthodes HTTP telles que GET, POST, DELETE, etc. 
+   * L'objectif est d'obtenir une gestion complète des requêtes.
 
 9. **Mise en place d'un système de configuration** : implémentation de la logique pour lire et utiliser un fichier de configuration pour les paramètres de configuration du serveur.
 
-10. **Optimisation des performances** ?
-
-11. **Tests et débogage** : effectuer des tests pour vérifier la conformité aux spécifications et corriger les erreurs éventuelles.
-    * Mise en place d'unit-test ?
+10. **Tests et débogage** : effectuer des tests pour vérifier la conformité aux spécifications et corriger les erreurs éventuelles.
     * Le testeur python est utilisé principalement pour comparer les résultats de webserv avec le serveur Nginx.
     * Compatibilité avec les navigateurs web courants.
+    * Testeurs fournis par le projet.
 
-12. **Documentation** : documenter le code pour une meilleure compréhension du projet.
+11. **Documentation** : documenter/commenter le code pour une meilleure compréhension du projet.
 
 * Autres considérations du sujet:
     * Utiliser des pages d'erreur par défaut si nécessaire.
     * Interdiction d'utiliser fork pour autre chose que CGI.
     * Capacité à servir des sites web entièrement statiques.
-    * Possibilité de télécharger des fichiers pour le client.
+    * Possibilité de télécharger des fichiers pour le client. (pdf ?)
     * Écouter sur plusieurs ports en fonction de la configuration.
-    * Stress testing pour garantir la disponibilité du serveur à tout moment.
-    * ?
+    * Stress testing pour garantir la disponibilité du serveur à tout moment. (voir Siege)
 
 ## 2) Le fichier de configuration :
 
@@ -118,8 +117,7 @@ Pour utiliser le programme de tests unitaires
 7. Pour les requêtes fragmentées, dé-fragmenter la requête et attendre EOF comme fin du corps.
 8. Pour la sortie du CGI, attendre EOF pour signifier la fin des données renvoyées si aucun content_length n'est renvoyé.
 9. Exécuter le CGI avec le fichier demandé en premier argument et dans le bon répertoire pour l'accès aux fichiers de chemin relatif.
-10. Fonctionner avec un seul type de CGI (Python!).
-11. Fournir des fichiers de configuration et des fichiers de base par défaut pour tester et démontrer les fonctionnalités. (Ameliorer en consequence le generateur de fichiers du testeur Python)
+12. Fournir des fichiers de configuration et des fichiers de base par défaut pour tester et démontrer les fonctionnalités.
 
 ## 3) Les étapes pour la partie bonus
 
@@ -153,9 +151,6 @@ Pour utiliser le programme de tests unitaires
   > chmod +x run.py
   > ./run.py
 ```
-* Il doit afficher de l'aide pour l'utilisation du testeur.
-* Le testeur peut être utilisé pour des vérifications rapides pendant le développement.
-* En fin de compte, le serveur doit être testé avec un navigateur et la différence avec un serveur Nginx doit être vérifiée.
 
 
 ## 5) Normes C++98 de l'équipe
@@ -216,9 +211,3 @@ Multiline comment:
 */
 Socket::Socket(void): _fd(-1) {}
 ```
-
-### 6) Git
-
-voir git flow
-* Fork/Branch functionality/Pull Request/Merge on branch dev
-* When ok, dev merge sur main et continuer sur dev

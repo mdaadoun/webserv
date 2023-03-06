@@ -1,3 +1,4 @@
 <?php
 echo "<h1>php cgi script ok!</h1>";
+# FORMULAIRE POSTING NAME AND TITLE AND ADAPT SCRIPT IF GET or POST REQUEST
 ?>
