@@ -6,7 +6,7 @@
 /*   By: tlafont <tlafont@student.42angouleme.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 12:36:19 by tlafont           #+#    #+#             */
-/*   Updated: 2023/03/06 15:22:16 by tlafont          ###   ########.fr       */
+/*   Updated: 2023/03/06 16:14:57 by tlafont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ void	requestTest()
 {
 	Request	req;
 	std::string	to_parse = generatorRequest();
-	req.parsing(to_parse);
+	req.parsing(to_parse, 10000);
 	std::cout << "========== result of parsing ==========" << std::endl;
 	std::cout << "\n** Start Line **" << std::endl;
 	std::cout	<< "status:\t" << req.getStatus() << std::endl

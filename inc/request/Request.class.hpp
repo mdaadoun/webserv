@@ -58,7 +58,7 @@ class Request
 		
 		//---- member methods ----//
 			// parsing the request received
-		void 		parsing(std::string const &req);
+		void 		parsing(std::string const &req, int const body_limit);
 
 	private:
 		//---- member objects ----//
@@ -110,7 +110,7 @@ class Request
 				// split URI for record CGI params
 		void	parseUri();
 				// parsing and record body data
-		void	parseBody();
+		void	parseBody(size_t body_limit);
 
 			// record in _env
 		void	setHeadersEnv(std::string const &header, std::string const &value);

@@ -6,7 +6,7 @@
 /*   By: amorel <amorel@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 14:30:23 by tlafont           #+#    #+#             */
-/*   Updated: 2023/03/06 15:51:30 by tlafont          ###   ########.fr       */
+/*   Updated: 2023/03/06 16:31:15 by tlafont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,9 +149,12 @@ bool ComSocket::isReceived()
 *  @param	void
 *  @return	void
 */
-void	ComSocket::parseRequest()
+void	ComSocket::parseRequest(int const nb_serv)
 {
-	this->_request.parsing(this->_received, this->_request.getM);
+	int	i;
+	std::string	limit = this->_config.getNServer(nb_serv)->getClientBodyLimit();
+	std::istringstream (limit) >> i;
+	this->_request.parsing(this->_received, i);
 }
 
 /*

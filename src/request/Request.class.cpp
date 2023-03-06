@@ -6,7 +6,7 @@
 /*   By: tlafont <tlafont@student.42angouleme.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 14:30:23 by tlafont           #+#    #+#             */
-/*   Updated: 2023/03/06 15:48:37 by tlafont          ###   ########.fr       */
+/*   Updated: 2023/03/06 16:32:26 by tlafont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -199,11 +199,11 @@ void	Request::initMapHeaders()
 *  @param   std::string const &
 *  @return  void
 */
-void	Request::parsing(std::string const &req)
+void	Request::parsing(std::string const &req, int const body_limit)
 {
 	this->_env.clear();
 	this->parseHeader(req);
-	this->parseBody();
+	this->parseBody(body_limit);
 }
 
 /*
@@ -591,7 +591,7 @@ void	Request::parseUri()
 *  @param   void
 *  @return  void
 */
-void	Request::parseBody()
+void	Request::parseBody(size_t body_limit)
 {
 	// check if body is a Chunked transfer encoding
 	if (this->_reqHeaders.find(TRANSFER_ENCODING) != this->_reqHeaders.end())
@@ -607,7 +607,12 @@ void	Request::parseBody()
 			if (start == std::string::npos || end == std::string::npos || start > end)
 				break;
 			this->_body.append(this->_to_parse, start, end - start);
-			if (this->_body.size() >= )
+			if (this->_body.size() >= body_limit && this->_status == 200)
+			{
+				//for debug
+				std::cerr << "$$$$$ Error: body limits overflow. $$$$$" << std::endl;
+				this->_status = 400;
+			}
 			start = end + 1;
 		}
 	}
