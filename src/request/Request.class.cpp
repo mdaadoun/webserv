@@ -6,7 +6,7 @@
 /*   By: tlafont <tlafont@student.42angouleme.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 14:30:23 by tlafont           #+#    #+#             */
-/*   Updated: 2023/03/06 10:30:19 by tlafont          ###   ########.fr       */
+/*   Updated: 2023/03/06 15:48:37 by tlafont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,6 +134,17 @@ std::map<std::string, std::string>	Request::getCgi() const
 }
 
 /*
+*  @brief   Getter for Body request parsed.
+*			Access to the parameters of body 
+*  @param   void
+*  @return  std::string
+*/
+std::string	Request::getBody() const
+{
+	return (this->_body);
+}
+
+/*
 *  @brief   Init map methods.
 *			Initialisation for the map of all methods
 *  @param   void
@@ -192,6 +203,7 @@ void	Request::parsing(std::string const &req)
 {
 	this->_env.clear();
 	this->parseHeader(req);
+	this->parseBody();
 }
 
 /*
@@ -217,7 +229,6 @@ void	Request::parseHeader(std::string const & req)
 	}
 	// for split Uri and CGI params
 	this->parseUri();
-	//end for headers
 }
 
 /*
@@ -571,6 +582,39 @@ void	Request::parseUri()
 			else
 				cgi_param.clear();
 		}
+	}
+}
+
+/*
+*  @brief   Parsing the body.
+*           Check and record body datas 
+*  @param   void
+*  @return  void
+*/
+void	Request::parseBody()
+{
+	// check if body is a Chunked transfer encoding
+	if (this->_reqHeaders.find(TRANSFER_ENCODING) != this->_reqHeaders.end())
+	{
+		size_t	start = 0;
+		size_t	end;
+		size_t	end_of_body = this->_to_parse.rfind("\r\n");
+		// record all body in a string without \r\n
+		while (start < end_of_body)
+		{
+			start = this->_to_parse.find("\r\n", start) + 2;
+			end = this->_to_parse.find("\r\n", start);
+			if (start == std::string::npos || end == std::string::npos || start > end)
+				break;
+			this->_body.append(this->_to_parse, start, end - start);
+			if (this->_body.size() >= )
+			start = end + 1;
+		}
+	}
+	else
+	{
+		// record body in a string 
+		this->_body = this->_to_parse.substr(0, this->_to_parse.size() - 2);
 	}
 }
 

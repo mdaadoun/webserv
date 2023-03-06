@@ -6,7 +6,7 @@
 /*   By: amorel <amorel@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 14:30:23 by tlafont           #+#    #+#             */
-/*   Updated: 2023/02/28 09:10:02 by tlafont          ###   ########.fr       */
+/*   Updated: 2023/03/06 15:48:42 by tlafont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,7 +147,7 @@ bool ComSocket::isReceived()
 */
 void	ComSocket::parseRequest()
 {
-	this->_request.parsing(this->_received);
+	this->_request.parsing(this->_received, this->_request.getM);
 }
 
 /*
