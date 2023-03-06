@@ -7,7 +7,7 @@
 #include <string>
 #include "../request/RequestHandler.class.hpp"
 #include "../request/Request.class.hpp"
-
+#include "../parsing/Parsing.hpp"
 
 
 class Response
@@ -24,7 +24,7 @@ class Response
         std::string getResponse(void) const;
 
 		//---- member methods ----//
-		void	buildResponse(Request const & req);
+		void	buildResponse(Request const & req, Parsing const &config);
 //		void	addBodyResponse(std::string& path);
 	
 	private:
