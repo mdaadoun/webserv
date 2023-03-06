@@ -6,7 +6,7 @@
 /*   By: amorel <amorel@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 08:29:43 by tlafont           #+#    #+#             */
-/*   Updated: 2023/02/28 16:03:19 by amorel           ###   ########.fr       */
+/*   Updated: 2023/03/06 12:39:41 by tlafont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,8 @@
 */
 Server::Server():	_port(2424),
 					_host("0.0.0.0"),
-					_auto_index("off"),
-					_index(),
-					_root("./www/html"),
 					_server_name("webserv"),
-					_max_size(1000000),
-					_locations(),
-					_error_file("error.html")
+					_config(Parsing("conf/config_default.ini"))
 {
 }
 
@@ -38,13 +33,8 @@ Server::Server():	_port(2424),
 */
 Server::Server(Parsing &config, int n_serv): _port(atoi(config.getNServer(n_serv)->getPort().c_str())),
 											_host(config.getNServer(n_serv)->getIp()),
-											_auto_index(config.getNServer(n_serv)->getAutoIndex()),
-											_index(config.getNServer(n_serv)->getIndex()),
-											_root(config.getNServer(n_serv)->getRoot()),
 											_server_name(config.getNServer(n_serv)->getServerName()),
-											_max_size(std::atoi(config.getNServer(n_serv)->getClientBodyLimit().c_str())),
-											_locations(config.getNServer(n_serv)->getLocations()),
-											_error_file("error.html")
+											_config(config)
 {
 }
 
@@ -69,13 +59,8 @@ Server	&Server::operator=(Server const &rhs)
 {
 	this->_port = rhs._port;
 	this->_host = rhs._host;
-	this->_auto_index = rhs._auto_index;
-	this->_index = rhs._index;
-	this->_root = rhs._root;
 	this->_server_name = rhs._server_name;
-	this->_max_size = rhs._max_size;
-	this->_locations = rhs._locations;
-	this->_error_file = rhs._error_file;
+	this->_config = rhs._config;
 	this->_new_socket = rhs._new_socket;
 	return (*this);
 }
@@ -128,7 +113,7 @@ void	Server::launch()
 */
 int	Server::createNewCom()
 {
-	ComSocket	*newCom = new ComSocket(this->_socket->getSocketFd(), this->_server_name);
+	ComSocket	*newCom = new ComSocket(this->_socket->getSocketFd(), this->_config);
 	this->_all_com.push_back(newCom);
 	return (newCom->getFdSocket());
 }

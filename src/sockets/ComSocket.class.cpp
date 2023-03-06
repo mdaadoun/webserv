@@ -6,7 +6,7 @@
 /*   By: amorel <amorel@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 14:30:23 by tlafont           #+#    #+#             */
-/*   Updated: 2023/02/28 09:10:02 by tlafont          ###   ########.fr       */
+/*   Updated: 2023/03/06 12:54:17 by tlafont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,11 @@
 *  @param   int
 *  @return  void
 */
-ComSocket::ComSocket(int fd, std::string serverName): _addr(), _fd_com(), _is_open(true), _is_send(false)
+ComSocket::ComSocket(int fd, Parsing const &config):	_addr(),
+														_fd_com(),
+														_is_open(true),
+														_is_send(false),
+														_config(config)
 {
 	// Accept a connection on a socket
 	socklen_t	size = sizeof(this->_addr);
@@ -27,7 +31,7 @@ ComSocket::ComSocket(int fd, std::string serverName): _addr(), _fd_com(), _is_op
 	// set non_bolcking the socket
 	if (fcntl(this->_fd_com, F_SETFL, O_NONBLOCK) == -1)
 	{
-		std::cerr << "Error: set non-blocking ComSocket: " << serverName << std::endl;
+		std::cerr << "Error: set non-blocking ComSocket" << std::endl;
 		throw std::runtime_error(strerror(errno));
 	}
 	// set options in socket for reuse address
@@ -160,7 +164,7 @@ void	ComSocket::setResponse()
 {
 	//to modify when parsing is done
 	std::string	request(this->_received);
-	this->_response.buildResponse(this->_request);
+	this->_response.buildResponse(this->_request, this->_config);
 }
 
 /*

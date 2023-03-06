@@ -6,7 +6,7 @@
 /*   By: amorel <amorel@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 08:31:33 by tlafont           #+#    #+#             */
-/*   Updated: 2023/02/28 15:35:49 by amorel           ###   ########.fr       */
+/*   Updated: 2023/03/06 12:37:46 by tlafont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,19 +66,14 @@ class Server
 		//---- member objects ----//
 		ListenSocket				*_socket;
 		std::vector<ComSocket *>	_all_com;
+		int							_new_socket;
 
-		//dans la map du parsing
-		int															_port;
-		std::string													_host;
-		std::string													_auto_index;
-		std::string													_index;
-		std::string													_root;
-		std::string													_server_name;
-		u_long														_max_size;
-		std::map<std::string, std::map<std::string, std::string> >	_locations;
-		// autre
-		std::string													_error_file;
-		int															_new_socket;
+		// for config sockets
+		int							_port;
+		std::string					_host;
+		std::string					_server_name;
+		//config after parsing
+		Parsing						_config;
 
 		//---- canonical form ----//
 				// default constructor
