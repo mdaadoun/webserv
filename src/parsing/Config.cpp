@@ -180,6 +180,16 @@ std::map<std::string, std::map<std::string, std::string> >	Config::getLocations(
 }
 
 /*
+*  @brief	Return attribute _cgi.
+*  @param	void
+*  @return	std::map<std::string, std::map<std::string, std::string> >
+*/
+std::map<std::string, std::map<std::string, std::string> >	Config::getCgi() const
+{
+    return _cgi;
+}
+
+/*
 *  @brief	Set attribute _ip with argument received.
 *  @param	const std::string &ip
 *  @return	void
@@ -317,6 +327,37 @@ void	Config::setLocations(std::ifstream &file, std::string buf)
 	}
 	_locations.insert(std::pair<std::string, std::map<std::string, std::string> >(location, tmp));
 	tmp.clear();
+}
+
+/*
+*  @brief	Parse and check argument to insert new member to attribute _cgi.
+*  @param	std::ifstream &file, std::string buf
+*  @return	void
+*/
+void	Config::setCgi(std::ifstream &file, std::string buf)
+{
+    empty = false;
+    if (buf.find(':') == std::string::npos)
+        throw (Config::ErrorBadArgument());
+
+    std::string	cgi = buf.substr(buf.find(':') + 1, buf.size() - 1);
+    std::string	key;
+    std::string	val;
+    std::map<std::string, std::string>	tmp;
+    while (!file.eof() && !buf.empty() && buf != "}")
+    {
+        getline(file, buf, '\n');
+        if (!buf.empty() && !file.eof() && buf != "{" && buf != "}")
+        {
+            if (buf[0] == '\t')
+                buf.erase(0, 1);
+            key = buf.substr(0, buf.find('='));
+            val = buf.substr(buf.find('=') + 1, buf.size() - 1);
+            tmp.insert(std::pair<std::string, std::string>(key, val));
+        }
+    }
+    _cgi.insert(std::pair<std::string, std::map<std::string, std::string> >(cgi, tmp));
+    tmp.clear();
 }
 
 /*
@@ -479,6 +520,11 @@ void	Config::checkErrorPages()
 }
 
 void	Config::checkLocations()
+{
+
+}
+
+void	Config::checkCgi()
 {
 
 }

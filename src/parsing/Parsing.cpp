@@ -124,6 +124,8 @@ void	Parsing::parseConfig(const std::string &path)
 		}
 		else if (buf.find("location:") != std::string::npos)
 			tmp.setLocations(file, buf);
+        else if (buf.find("cgi:") != std::string::npos)
+            tmp.setCgi(file, buf);
 	}
 	file.close();
 }
@@ -168,5 +170,6 @@ void	Parsing::checkConfig()
 		it->checkClientBodyLimit();
 		it->checkErrorPages();
 		it->checkLocations();
+        it->checkCgi();
 	}
 }

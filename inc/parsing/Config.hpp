@@ -34,6 +34,7 @@ class Config
 		std::string													_clientBodyLimit;
 		std::map<std::string, std::string>							_errorPages;
 		std::map<std::string, std::map<std::string, std::string> >	_locations;
+        std::map<std::string, std::map<std::string, std::string> >	_cgi;
 
 	public:
 		Config();
@@ -53,6 +54,7 @@ class Config
 		std::string													getClientBodyLimit() const;
 		std::map<std::string, std::string>							getErrorPages() const;
 		std::map<std::string, std::map<std::string, std::string> >	getLocations() const;
+        std::map<std::string, std::map<std::string, std::string> >	getCgi() const;
 
 		void	setIp(const std::string &ip);
 		void	setPort(const std::string &port);
@@ -64,6 +66,7 @@ class Config
 		void	setClientBodyLimit(const std::string &clientBodyLimit);
 		void	setErrorPages(const std::string &errorPage);
 		void	setLocations(std::ifstream &file, std::string buf);
+        void	setCgi(std::ifstream &file, std::string buf);
 
 		void	checkIP();
 		void	checkPort();
@@ -74,6 +77,7 @@ class Config
 		void	checkClientBodyLimit();
 		void	checkErrorPages();
 		void	checkLocations();
+        void	checkCgi();
 
 
 		void	printErrorPages(void);
