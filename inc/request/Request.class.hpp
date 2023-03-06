@@ -50,7 +50,7 @@ class Request
         std::string 						getRequest(void) const;
 		int									getStatus() const;
 		std::string							getMethod() const;
-		std::string							getUri() const;
+		std::pair<std::string, std::string>	getUri() const;
 		std::pair<int, int>					getVersion() const;
 		std::map<headerType, std::string>	getHeaders() const;
 		std::map<std::string, std::string>	getCgi() const;
@@ -63,9 +63,10 @@ class Request
 		//---- member objects ----//
 			//for parse the original request
 		std::string							_to_parse;
+		std::string							_all_uri;
 			
 			//for comp the methods
-		std::map<std::string, m_METHOD>	_methods;
+		std::map<std::string, m_METHOD>		_methods;
 			//for comp the headers
 		std::map<std::string, headerType>	_headers;
 			
@@ -77,7 +78,7 @@ class Request
 			//for record the method in header
 		m_METHOD							_rec_method;
 			// for record uri configuration
-		std::string							_uri;
+		std::pair<std::string, std::string>	_uri;
 			// for record version
 		std::pair<int, int>					_version;
 			// for record all CGI params

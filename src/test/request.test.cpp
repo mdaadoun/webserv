@@ -6,7 +6,7 @@
 /*   By: tlafont <tlafont@student.42angouleme.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 12:36:19 by tlafont           #+#    #+#             */
-/*   Updated: 2023/03/02 15:17:50 by tlafont          ###   ########.fr       */
+/*   Updated: 2023/03/06 10:19:49 by tlafont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ std::string	generatorRequest()
 	std::string req;
 	//---- start line ----//
 //	req += "GET /home.html HTTP/1.1\r\n";
-	req += "GET /cgi-bin/environment.pl?var1=val1&var2=val2&var3=val3 HTTP/1.0\r\n";
+	req += "GET /cgi-bin/?var1=val1&var2=val2&var3=val3 HTTP/1.0\r\n";
 	//---- headers ----//
 //	req += "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8\r\n";
 //	req += "Accept-Encoding: gzip, deflate, br\r\n";
@@ -95,7 +95,7 @@ void	requestTest()
 	std::cout << "\n** Start Line **" << std::endl;
 	std::cout	<< "status:\t" << req.getStatus() << std::endl
 				<< "Method:\t" << req.getMethod() << std::endl
-				<< "URI:\t" << req.getUri() << std::endl;
+				<< "URI:\t" << req.getUri().first << " : " << req.getUri().second << std::endl;
 	std::map<std::string, std::string>	cgi = req.getCgi();
 	if (cgi.empty())
 		std::cout << "not CGI params..." << std::endl;

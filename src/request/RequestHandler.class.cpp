@@ -9,7 +9,7 @@
 RequestHandler::RequestHandler(Request const & req) {
     this->_status_code = req.getStatus();
     this->_request["Method"] = req.getMethod();
-    this->_request["URI"] = req.getUri();
+    this->_request["URI"] = req.getUri().first + req.getUri().second; //getUri modified
 //    this->_request["URI"] = "/page.html";
 //    this->_request["URI"] = "/";
 //    this->_request["URI"] = "/favicon.ico";

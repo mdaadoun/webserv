@@ -6,7 +6,7 @@
 /*   By: tlafont <tlafont@student.42angouleme.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 14:30:23 by tlafont           #+#    #+#             */
-/*   Updated: 2023/03/02 17:04:34 by tlafont          ###   ########.fr       */
+/*   Updated: 2023/03/06 10:30:19 by tlafont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 *  @param   void
 *  @return  void
 */
-Request::Request(): _status(0), _rec_method(), _uri(), _cgi()
+Request::Request(): _status(0), _rec_method(), _cgi()
 {
 	this->initMapMethods();
 	this->initMapHeaders();
@@ -95,7 +95,7 @@ std::string	Request::getMethod() const
 *  @param   void
 *  @return  std::string
 */
-std::string	Request::getUri() const
+std::pair<std::string, std::string>	Request::getUri() const
 {
 	return (this->_uri);
 }
@@ -318,16 +318,16 @@ void	Request::recoveryUri(size_t end_of_req, size_t len)
 		this->_status = 400;
 	}
 	// extract the config uri
-	this->_uri = this->_to_parse.substr(len, len2 - len);
+	this->_all_uri = this->_to_parse.substr(len, len2 - len);
 	// check if config uri is properly established
-	if (this->_uri[0] == ':' && this->_status == 200)
+	if (this->_all_uri[0] == ':' && this->_status == 200)
 	{
 		//for debug mode
 		std::cerr << "$$$$$ Error: URI conf not properly established $$$$$" << std::endl;
 		this->_status = 400;
 	}
 	// check tyhe size of uri conf
-	if (this->_uri.length() > 10000000 && this->_status == 200)
+	if (this->_all_uri.length() > 10000000 && this->_status == 200)
 	{
 		//for debug mode
 		std::cerr << "$$$$$ Error: Uri conf too long $$$$$" << std::endl;
@@ -498,26 +498,48 @@ void	Request::setHeadersEnv(std::string const &header, std::string const &value)
 void	Request::parseUri()
 {
 	std::string	cgi_param;
-	std::string	to_parse = this->_uri;
+	std::string	uri_tmp;
+	std::string	to_parse = this->_all_uri;
 	size_t	len = to_parse.find_first_of('?');
 	// recover CGI params
 	if (len != std::string::npos)
 		cgi_param = to_parse.substr(to_parse.find('?') + 1);
-	this->_uri = to_parse.substr(0, len);
-	if (this->_uri.find("..") != std::string::npos && this->_status == 200)
+	uri_tmp = to_parse.substr(0, len);
+	if (uri_tmp.find("..") != std::string::npos && this->_status == 200)
 	{
 		//for debug
 		std::cerr << "$$$$$ Error: URI not correctly esrtablished $$$$$" << std::endl;
 		this->_status = 400;
 	}
-	if (this->_uri.size() > 1000 && this->_status == 200)
+	if (uri_tmp.size() > 1000 && this->_status == 200)
 	{
 		//for debug
 		std::cerr << "$$$$$ Error: Uri too long. $$$$$" << std::endl;
 		this->_status = 414;
 	}
+	// extract path and file of URI
+	size_t	pos = uri_tmp.rfind('/');
+	// check if path and uri is empty
+	if (pos == std::string::npos && uri_tmp.empty() && this->_status == 200)
+	{
+		//for debug
+		std::cerr << "$$$$$ Error: uri not set correctly. $$$$$" << std::endl;
+		this->_status = 400;
+	}
+	std::string	path = uri_tmp.substr(0, pos + 1);
+	// set/extract the path
+	if (pos == std::string::npos && !uri_tmp.empty())
+	{
+		path = "/";
+	}
+	else
+		path = uri_tmp.substr(0, pos + 1);
+	// extract uri file name
+	std::string	file = uri_tmp.substr(pos + 1, std::string::npos);
+	this->_uri = std::make_pair(path, file);
 	if (!cgi_param.empty())
 	{
+		// extract all cgi params
 		while (!cgi_param.empty())
 		{
 			size_t		len_params = cgi_param.find('&');
@@ -564,5 +586,5 @@ Request::~Request()
 	this->_methods.clear();
 	this->_headers.clear();
 	this->_reqHeaders.clear();
-	this->_uri.clear();
+	this->_all_uri.clear();
 }
