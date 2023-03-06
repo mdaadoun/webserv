@@ -6,7 +6,7 @@
 /*   By: tlafont <tlafont@student.42angouleme.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 14:10:59 by tlafont           #+#    #+#             */
-/*   Updated: 2023/02/24 12:36:32 by tlafont          ###   ########.fr       */
+/*   Updated: 2023/03/06 12:42:30 by tlafont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@
 #include <sys/socket.h>
 #include "response/Response.class.hpp"
 #include "request/Request.class.hpp"
-
+#include "../parsing/Parsing.hpp"
 
 class ComSocket
 {
@@ -37,7 +37,7 @@ class ComSocket
 		//---- canonical form ----//
 			// constructors //
 				// overload constructor
-		ComSocket(int fd, std::string serverName);
+		ComSocket(int fd, Parsing const &config);
 			// destructor //
 		~ComSocket();
 		//---- getters methods ----//
@@ -64,6 +64,7 @@ class ComSocket
 		std::string			_received;
 		Response			_response;
 		Request				_request;
+		Parsing				_config;
 
 		//---- private methods ----//
 			// canonical form
