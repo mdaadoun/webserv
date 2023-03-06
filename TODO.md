@@ -53,6 +53,10 @@ cgi:php
 * [ ] DOWNLOAD a file: add a pdf file and a link to download it
 * [ ] DELETE a file: DELETE request to delete file if location method allowed
 
+## Cookie and Session
+* In the response, add to the header a cookie
+* In the response, get and set the session id
+
 ## Others:
 * [ ] implement autoindex (in config file, default is autoindex=off) (check what correct behavior is expected with it, is it really asked by the subject ?)
 * [ ] comment and clean reponse/requestHandler classes
