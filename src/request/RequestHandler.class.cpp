@@ -8,8 +8,9 @@
 */
 RequestHandler::RequestHandler(Request const & req) {
     this->_status_code = req.getStatus();
-    this->_request["Method"] = req.getMethod();
-    this->_request["URI"] = req.getUri().first + req.getUri().second; //getUri modified
+    this->_request_method = req.getMethod();
+    this->_request["URI"] = req.getUri().first + req.getUri().second;
+    // change to this->_request_route = req.getUri().first and this->_request_file = req.getUri().second
 //    this->_request["URI"] = "/page.html";
 //    this->_request["URI"] = "/";
 //    this->_request["URI"] = "/favicon.ico";
@@ -19,7 +20,7 @@ RequestHandler::RequestHandler(Request const & req) {
 //    this->_request["URI"] = "/script.js";
 //    this->_request["URI"] = "/style.css";
     this->_protocol_version = "HTTP/1.1";
-    this->_request["If-Modified-Since"] = "Wed, 28 Feb 2022 15:27:00 GMT";
+    this->_request["If-Modified-Since"] = "Wed, 28 Feb 2022 15:27:00 GMT"; // replace with _request_last_modified
 
     // need also the server config to get those :
     this->_files_root = "./www/html";
@@ -202,7 +203,7 @@ void RequestHandler::postMethod() {
 *  @return  void
 */
 void RequestHandler::run(void) {
-    switch (RequestHandler::resolveMethod(this->_request["Method"])) {
+    switch (RequestHandler::resolveMethod(this->_request_method)) {
         case GET:
             this->getMethod();
             break;
@@ -258,7 +259,6 @@ std::string RequestHandler::getProtocolVersion() const {
     return this->_protocol_version;
 }
 
-// DATE GENERATION TO FIX
 std::string RequestHandler::getDate() {
     std::string date;
     time_t now_time = std::time(NULL);
