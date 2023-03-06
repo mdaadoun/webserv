@@ -16,6 +16,12 @@ cgi:php
 }
 ```
 * [ ] 'cgi-bin' is default cgi directory if not given
+* [ ] like for locations, will deal with in the type:
+  * std::map<std::string, std::map<std::string, std::string> >	_cgi_list;
+
+## REQUEST
+* [ ] to void	ComSocket::setResponse(), pass the config of the current server to build the response
+  * this->_response.buildResponse(this->_request, this->_config);
 
 ## LOCATION and CGI check
 * [ ] In the requestHandler, if after the request parsing status code is 200 :
@@ -37,6 +43,7 @@ cgi:php
 ## Body size limit
 * [ ] test POST reqest body with the config client_body_limit
   * [ ] define a default value if not set
+  * u_long _max_size; (Server.class.hpp)
 
 ## Type of methods:
 * [ ] if not GET, POST or DELETE: set the method UNKNOWN and set the error corresponding
