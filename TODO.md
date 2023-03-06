@@ -1,7 +1,21 @@
 # TODO
 
 ## CGI parsing
-* [ ] Ajouter cgi_type, cgi_interpreter and cgi_directory to config parsing class
+* [ ] Ajouter a config parsing class multiple cgi :
+```
+cgi:python
+{
+    file=.py
+    interpreter=/usr/bin/python3
+    directory=cgi-bin
+}
+cgi:php
+{
+    file=.php
+    interpreter=/usr/bin/php
+}
+```
+* 'cgi-bin' is default cgi directory if not given
 
 ## LOCATION and CGI check
 * [x] Cut uri in two with path (location) and file
