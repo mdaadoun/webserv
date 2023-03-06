@@ -117,8 +117,7 @@ Pour utiliser le programme de tests unitaires
 7. Pour les requêtes fragmentées, dé-fragmenter la requête et attendre EOF comme fin du corps.
 8. Pour la sortie du CGI, attendre EOF pour signifier la fin des données renvoyées si aucun content_length n'est renvoyé.
 9. Exécuter le CGI avec le fichier demandé en premier argument et dans le bon répertoire pour l'accès aux fichiers de chemin relatif.
-10. Fonctionner avec un seul type de CGI (Python!).
-11. Fournir des fichiers de configuration et des fichiers de base par défaut pour tester et démontrer les fonctionnalités. (Ameliorer en consequence le generateur de fichiers du testeur Python)
+12. Fournir des fichiers de configuration et des fichiers de base par défaut pour tester et démontrer les fonctionnalités.
 
 ## 3) Les étapes pour la partie bonus
 
@@ -152,9 +151,6 @@ Pour utiliser le programme de tests unitaires
   > chmod +x run.py
   > ./run.py
 ```
-* Il doit afficher de l'aide pour l'utilisation du testeur.
-* Le testeur peut être utilisé pour des vérifications rapides pendant le développement.
-* En fin de compte, le serveur doit être testé avec un navigateur et la différence avec un serveur Nginx doit être vérifiée.
 
 
 ## 5) Normes C++98 de l'équipe
@@ -215,9 +211,3 @@ Multiline comment:
 */
 Socket::Socket(void): _fd(-1) {}
 ```
-
-### 6) Git
-
-voir git flow
-* Fork/Branch functionality/Pull Request/Merge on branch dev
-* When ok, dev merge sur main et continuer sur dev
