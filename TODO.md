@@ -5,9 +5,9 @@
 
 ## LOCATION and CGI check
 * [x] Cut uri in two with path (location) and file
-  * [ ]: fournir la config de l'instance server dans la requestHandler class pour :
-    * []: verifier les locations par rapport methods allowed
-    * []: verifier si la requete porte sur un CGI (path valid)
+  * [ ] fournir la config de l'instance server dans la requestHandler class pour :
+    * [] verifier les locations par rapport methods allowed
+    * [] verifier si la requete porte sur un CGI (path valid)
 
 ## CGI
     [] construire l'environnement avec le parsing de la requete (cle/valeur de la query string)
