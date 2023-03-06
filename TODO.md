@@ -1,7 +1,7 @@
 # TODO
 
 ## CGI parsing
-* [ ] Ajouter a config parsing class multiple cgi :
+* [ ] Add a config parsing class multiple cgi :
 ```
 cgi:python
 {
@@ -15,9 +15,13 @@ cgi:php
     interpreter=/usr/bin/php
 }
 ```
-* 'cgi-bin' is default cgi directory if not given
+* [ ] 'cgi-bin' is default cgi directory if not given
 
 ## LOCATION and CGI check
+* [ ] In the requestHandler, if after the request parsing status code is 200 :
+  * [ ] Check if method is allowed to the requested path/route location
+  * [ ] Check if the file is of CGI type (POST method is only for cgi file)
+    * [ ] Else go on with static files reading (improve GET DELETE method with error gestion)
 * [x] Cut uri in two with path (location) and file
   * [ ] fournir la config de l'instance server dans la requestHandler class pour :
     * [ ] verifier les locations par rapport methods allowed
@@ -43,9 +47,13 @@ cgi:php
 * [ ] DELETE a file: DELETE request to delete file if location method allowed
 
 ## Others:
-* [ ] implement autoindex (check what behavior is expected with it)
+* [ ] implement autoindex (in config file, default is autoindex=off) (check what correct behavior is expected with it, is it really asked by the subject ?)
 * [ ] comment and clean reponse/requestHandler classes
 * [ ] Server output cleaning, add a timestamp and a clear INFO message 
+
+## To Fix:
+* [ ] RequestHandler::checkLastModified(), doesn't work anymore, should give a 304 Not Modified depending date diff
+* [ ] RequestHandler::getDate(), the date format is not correct
 
 ## Tests:
 * [ ] Comprendre et manipuler le tester fourni : ubuntu_tester et ubuntu_cgi_tester
