@@ -6,7 +6,7 @@
 /*   By: amorel <amorel@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 14:30:23 by tlafont           #+#    #+#             */
-/*   Updated: 2023/03/01 16:40:32 by amorel           ###   ########.fr       */
+/*   Updated: 2023/03/06 12:51:01 by tlafont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,9 @@ std::string	Response::getResponse() const
 *  @param   std::string & (to modify when Request class established)
 *  @return  void
 */
-void	Response::buildResponse(Request const &req)
+void	Response::buildResponse(Request const &req, Parsing const &config)
 {
+	(void)config; // pour link la config ...
     RequestHandler rh(req);
     rh.run();
 
