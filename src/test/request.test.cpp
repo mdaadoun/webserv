@@ -6,7 +6,7 @@
 /*   By: tlafont <tlafont@student.42angouleme.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 12:36:19 by tlafont           #+#    #+#             */
-/*   Updated: 2023/03/06 16:14:57 by tlafont          ###   ########.fr       */
+/*   Updated: 2023/03/07 09:02:01 by tlafont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ std::string	generatorRequest()
 //	req += "Cache-Control: max-age=0\r\n";
 	req += "User-Agent: Mozilla/5.0 (Linux; Intel OS X 10.9; rv:50.0) Gecko/20100101 Firefox/50.0\r\n";
 	req += "Host: developer.mozilla.org\r\n";
-	req += "Transfer-Encoding: chunked\r\n";
+//	req += "Transfer-Encoding: chunked\r\n";
 	req += "Referer: https://developer.mozilla.org/testpage.html\r\n";
 	req += "Accept-Language: en-US,en;q=0.5\r\n";
 	req += "Connection: keep-alive\r\n\r\n";

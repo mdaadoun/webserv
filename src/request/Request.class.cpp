@@ -6,7 +6,7 @@
 /*   By: tlafont <tlafont@student.42angouleme.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 14:30:23 by tlafont           #+#    #+#             */
-/*   Updated: 2023/03/06 16:32:26 by tlafont          ###   ########.fr       */
+/*   Updated: 2023/03/07 09:04:15 by tlafont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -596,30 +596,38 @@ void	Request::parseBody(size_t body_limit)
 	// check if body is a Chunked transfer encoding
 	if (this->_reqHeaders.find(TRANSFER_ENCODING) != this->_reqHeaders.end())
 	{
-		size_t	start = 0;
-		size_t	end;
-		size_t	end_of_body = this->_to_parse.rfind("\r\n");
+		std::string	tmp;
 		// record all body in a string without \r\n
-		while (start < end_of_body)
+		while (!this->_to_parse.empty())
 		{
-			start = this->_to_parse.find("\r\n", start) + 2;
-			end = this->_to_parse.find("\r\n", start);
-			if (start == std::string::npos || end == std::string::npos || start > end)
-				break;
-			this->_body.append(this->_to_parse, start, end - start);
-			if (this->_body.size() >= body_limit && this->_status == 200)
+			size_t	end_of_body = this->_to_parse.rfind("\r\n");
+			size_t	len = this->_to_parse.find("\r\n");
+			if (len && len != end_of_body)
 			{
-				//for debug
-				std::cerr << "$$$$$ Error: body limits overflow. $$$$$" << std::endl;
-				this->_status = 400;
+				tmp += this->_to_parse.substr(0, len);
+				if (tmp.size() >= body_limit && this->_status == 200)
+				{
+					//for debug
+					std::cerr << "$$$$$ Error: body limits overflow. $$$$$" << std::endl;
+					this->_status = 400;
+				}
+				this->_to_parse.erase(0, len + 2);	
 			}
-			start = end + 1;
+			else
+				this->_to_parse.erase(0, len + 2);
 		}
+		this->_body = tmp;
 	}
 	else
 	{
 		// record body in a string 
 		this->_body = this->_to_parse.substr(0, this->_to_parse.size() - 2);
+		if (this->_body.size() >= body_limit && this->_status == 200)
+		{
+			//for debug
+			std::cerr << "$$$$$ Error: body limits overflow. $$$$$" << std::endl;
+			this->_status = 400;
+		}
 	}
 }
 
