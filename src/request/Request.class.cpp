@@ -6,7 +6,7 @@
 /*   By: tlafont <tlafont@student.42angouleme.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 14:30:23 by tlafont           #+#    #+#             */
-/*   Updated: 2023/03/06 10:30:19 by tlafont          ###   ########.fr       */
+/*   Updated: 2023/03/07 09:04:15 by tlafont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,6 +134,17 @@ std::map<std::string, std::string>	Request::getCgi() const
 }
 
 /*
+*  @brief   Getter for Body request parsed.
+*			Access to the parameters of body 
+*  @param   void
+*  @return  std::string
+*/
+std::string	Request::getBody() const
+{
+	return (this->_body);
+}
+
+/*
 *  @brief   Init map methods.
 *			Initialisation for the map of all methods
 *  @param   void
@@ -188,10 +199,11 @@ void	Request::initMapHeaders()
 *  @param   std::string const &
 *  @return  void
 */
-void	Request::parsing(std::string const &req)
+void	Request::parsing(std::string const &req, int const body_limit)
 {
 	this->_env.clear();
 	this->parseHeader(req);
+	this->parseBody(body_limit);
 }
 
 /*
@@ -217,7 +229,6 @@ void	Request::parseHeader(std::string const & req)
 	}
 	// for split Uri and CGI params
 	this->parseUri();
-	//end for headers
 }
 
 /*
@@ -570,6 +581,52 @@ void	Request::parseUri()
 				cgi_param.erase(0, len_params + 1);
 			else
 				cgi_param.clear();
+		}
+	}
+}
+
+/*
+*  @brief   Parsing the body.
+*           Check and record body datas 
+*  @param   void
+*  @return  void
+*/
+void	Request::parseBody(size_t body_limit)
+{
+	// check if body is a Chunked transfer encoding
+	if (this->_reqHeaders.find(TRANSFER_ENCODING) != this->_reqHeaders.end())
+	{
+		std::string	tmp;
+		// record all body in a string without \r\n
+		while (!this->_to_parse.empty())
+		{
+			size_t	end_of_body = this->_to_parse.rfind("\r\n");
+			size_t	len = this->_to_parse.find("\r\n");
+			if (len && len != end_of_body)
+			{
+				tmp += this->_to_parse.substr(0, len);
+				if (tmp.size() >= body_limit && this->_status == 200)
+				{
+					//for debug
+					std::cerr << "$$$$$ Error: body limits overflow. $$$$$" << std::endl;
+					this->_status = 400;
+				}
+				this->_to_parse.erase(0, len + 2);	
+			}
+			else
+				this->_to_parse.erase(0, len + 2);
+		}
+		this->_body = tmp;
+	}
+	else
+	{
+		// record body in a string 
+		this->_body = this->_to_parse.substr(0, this->_to_parse.size() - 2);
+		if (this->_body.size() >= body_limit && this->_status == 200)
+		{
+			//for debug
+			std::cerr << "$$$$$ Error: body limits overflow. $$$$$" << std::endl;
+			this->_status = 400;
 		}
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: amorel <amorel@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 08:29:43 by tlafont           #+#    #+#             */
-/*   Updated: 2023/03/06 12:39:41 by tlafont          ###   ########.fr       */
+/*   Updated: 2023/03/06 16:23:16 by tlafont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,13 @@ Server::Server():	_port(2424),
 *  @param	int
 *  @return	void
 */
-Server::Server(Parsing &config, int n_serv): _port(atoi(config.getNServer(n_serv)->getPort().c_str())),
-											_host(config.getNServer(n_serv)->getIp()),
-											_server_name(config.getNServer(n_serv)->getServerName()),
-											_config(config)
+Server::Server(Parsing &config, int n_serv)
 {
+	this->_port = atoi(config.getNServer(n_serv)->getPort().c_str());
+	this->_nb_server = n_serv;
+	this->_host = config.getNServer(n_serv)->getIp();
+	this->_config = config;
+	this->_server_name = config.getNServer(n_serv)->getServerName();
 }
 
 /*
@@ -146,7 +148,7 @@ void	Server::comManagement(Manager &manager)
 		{
 			// parsing string request received
 			std::cout << "@@@@@@@@ Parsing request @@@@@@@@\n";
-			com->parseRequest();
+			com->parseRequest(this->_nb_server);
 			try
 			{
 				//set the response in a string
