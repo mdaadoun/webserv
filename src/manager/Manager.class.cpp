@@ -6,7 +6,7 @@
 /*   By: amorel <amorel@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 11:45:44 by tlafont           #+#    #+#             */
-/*   Updated: 2023/03/06 12:24:21 by tlafont          ###   ########.fr       */
+/*   Updated: 2023/03/07 10:32:45 by amorel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -223,7 +223,7 @@ void	Manager::serverMenu()
 {
 	std::string input;
 	std::getline(std::cin, input);
-	if (input == "exit")
+	if (input.empty() || input == "exit")
 	{
 		std::cout << "webserver is being closed..." << std::endl;
 		stopProgram();

@@ -6,7 +6,7 @@
 /*   By: amorel <amorel@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 15:13:14 by amorel            #+#    #+#             */
-/*   Updated: 2023/02/28 19:34:09 by amorel           ###   ########.fr       */
+/*   Updated: 2023/03/07 11:02:37 by amorel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ Config::Config(const Config &copy)
     this->_clientBodyLimit = copy.getClientBodyLimit();
     this->_errorPages = copy.getErrorPages();
     this->_locations = copy.getLocations();
+    this->_cgi = copy.getCgi();
 }
 
 /*
@@ -55,6 +56,7 @@ Config::~Config()
 	empty = true;
 	_errorPages.clear();
 	_locations.clear();
+	_cgi.clear();
 }
 
 /*
@@ -76,6 +78,7 @@ Config &Config::operator=(const Config &copy)
     this->_clientBodyLimit = copy.getClientBodyLimit();
     this->_errorPages = copy.getErrorPages();
     this->_locations = copy.getLocations();
+    this->_cgi = copy.getCgi();
     return *this;
 }
 
@@ -177,6 +180,16 @@ std::map<std::string, std::string>	Config::getErrorPages() const
 std::map<std::string, std::map<std::string, std::string> >	Config::getLocations() const
 {
 	return _locations;
+}
+
+/*
+*  @brief	Return attribute _cgi.
+*  @param	void
+*  @return	std::map<std::string, std::map<std::string, std::string> >
+*/
+std::map<std::string, std::map<std::string, std::string> >	Config::getCgi() const
+{
+    return _cgi;
 }
 
 /*
@@ -310,6 +323,8 @@ void	Config::setLocations(std::ifstream &file, std::string buf)
 		{
 			if (buf[0] == '\t')
 				buf.erase(0, 1);
+			else if (buf.compare(0, 4, "    ") == 0)
+				buf.erase(0, 4);
 			key = buf.substr(0, buf.find('='));
 			val = buf.substr(buf.find('=') + 1, buf.size() - 1);
 			tmp.insert(std::pair<std::string, std::string>(key, val));
@@ -317,6 +332,41 @@ void	Config::setLocations(std::ifstream &file, std::string buf)
 	}
 	_locations.insert(std::pair<std::string, std::map<std::string, std::string> >(location, tmp));
 	tmp.clear();
+}
+
+/*
+*  @brief	Parse and check argument to insert new member to attribute _cgi.
+*  @param	std::ifstream &file, std::string buf
+*  @return	void
+*/
+void	Config::setCgi(std::ifstream &file, std::string buf)
+{
+    empty = false;
+    if (buf.find(':') == std::string::npos)
+        throw (Config::ErrorBadArgument());
+
+    std::string	cgi = buf.substr(buf.find(':') + 1, buf.size() - 1);
+    std::string	key;
+    std::string	val;
+    std::map<std::string, std::string>	tmp;
+    while (!file.eof() && !buf.empty() && buf != "}")
+    {
+        getline(file, buf, '\n');
+        if (!buf.empty() && !file.eof() && buf != "{" && buf != "}")
+        {
+            if (buf[0] == '\t')
+                buf.erase(0, 1);
+			else if (buf.compare(0, 4, "    ") == 0)
+				buf.erase(0, 4);
+            key = buf.substr(0, buf.find('='));
+            val = buf.substr(buf.find('=') + 1, buf.size() - 1);
+            tmp.insert(std::pair<std::string, std::string>(key, val));
+        }
+    }
+	if (tmp.find("directory") == tmp.end())
+    	tmp.insert(std::pair<std::string, std::string>("directory", "cgi-bin"));
+    _cgi.insert(std::pair<std::string, std::map<std::string, std::string> >(cgi, tmp));
+    tmp.clear();
 }
 
 /*
@@ -443,7 +493,12 @@ void	Config::checkClientBodyLimit()
 {
 	if (_clientBodyLimit.empty())
 		_clientBodyLimit = "4096";
-	else if (std::atoi(_clientBodyLimit.c_str()) <= 0)
+    for (std::string::size_type i = 0; i < _clientBodyLimit.length(); i++)
+    {
+        if (!isdigit(_clientBodyLimit[i]))
+            throw(Config::ErrorBadArgument());
+    }
+	if (std::atoi(_clientBodyLimit.c_str()) <= 0)
 		throw(Config::ErrorBadArgument());
 }
 
@@ -483,6 +538,11 @@ void	Config::checkLocations()
 
 }
 
+void	Config::checkCgi()
+{
+
+}
+
 /*
 *  @brief	Print all member of attribute _errorPages.
 *  @param	void
@@ -515,7 +575,26 @@ void	Config::printLocations()
 			std::cout << it->first << " - " << itm->first << ":" << itm->second << std::endl;
 		std::cout << "-------------------------------" << std::endl;
 	}
-	std::cout << std::endl;
+}
+
+/*
+*  @brief	Print all member of attribute _errorPages.
+*  @param	void
+*  @return	void
+*/
+void	Config::printCgi()
+{
+    std::map <std::string, std::map<std::string, std::string> >::iterator	it;
+    std::map<std::string, std::string>::iterator							itm;
+
+
+    for (it = _cgi.begin(); it != _cgi.end(); it++)
+    {
+        for (itm = it->second.begin(); itm != it->second.end(); itm++)
+            std::cout << it->first << " - " << itm->first << ":" << itm->second << std::endl;
+        std::cout << "-------------------------------" << std::endl;
+    }
+    std::cout << std::endl;
 }
 
 /*
