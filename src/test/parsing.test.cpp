@@ -12,21 +12,36 @@
 
 #include "test.hpp"
 
+static void printConfigContent(Config *config)
+{
+    std::cout << "getIp: " << config->getIp() << std::endl;
+    std::cout << "getPort: " << config->getPort() << std::endl;
+    std::cout << "getListen: " << config->getListen() << std::endl;
+    std::cout << "getRoot: " << config->getRoot() << std::endl;
+    std::cout << "getIndex: " << config->getIndex() << std::endl;
+    std::cout << "getautoIndex: " << config->getAutoIndex() << std::endl;
+    std::cout << "getServerName: " << config->getServerName() << std::endl;
+    std::cout << "getClientBodyLimit: " << config->getClientBodyLimit() << std::endl;
+    config->printErrorPages();
+    config->printLocations();
+    config->printCgi();
+}
+
 static void  Def_Parsing()
 {
     try
     {
-        std::cout << "===Default Constructor and print content of map===" << std::endl;
+        std::cout << "===Default Constructor and print content of Config===" << std::endl;
         Parsing parser;
 
         std::cout << "Number of servers : ";
         std::cout << parser.getServers().size() << std::endl;
         for (std::string::size_type i = 0; i < parser.getServers().size(); i++)
         {
-            std::cout << "server " << parser.getNServer(i)->getServerName() << std::endl;
-            parser.getNServer(i)->printErrorPages();
-            parser.getNServer(i)->printLocations();
-            parser.getNServer(i)->printCgi();
+            std::cout << "========================================================" << std::endl;
+            std::cout << "Server name: " << parser.getNServer(i)->getServerName() << std::endl;
+            printConfigContent(parser.getNServer(i));
+            std::cout << "========================================================" << std::endl;
         }
     }
     catch (std::exception &e)
@@ -35,28 +50,28 @@ static void  Def_Parsing()
     }
 }
 
-// static void  Over_Parsing()
-// {
-//     try
-//     {
-//         std::cout << "===Overload Constructor and print content of map===" << std::endl;
-//         Config parser("conf/config_test_over.ini");
-//         std::vector<std::map<std::string, std::string> > list = parser.getList();
-//         std::vector<std::map<std::string, std::string> >::iterator it;
-//         std::cout << "Vector Size" << std::endl;
-//         std::cout << list.size() << std::endl;
-//         it = list.begin();
-//         while (it != list.end())
-//         {
-//             parser.printMap(it);
-//             it++;
-//         }
-//     }
-//     catch (std::exception &e)
-//     {
-//         std::cout << e.what() << std::endl;
-//     }
-// }
+ static void  Over_Parsing()
+ {
+     try
+     {
+         std::cout << "===Overload Constructor and print content of Config===" << std::endl;
+         Parsing parser("conf/config_test_over.ini");
+
+         std::cout << "Number of servers : ";
+         std::cout << parser.getServers().size() << std::endl;
+         for (std::string::size_type i = 0; i < parser.getServers().size(); i++)
+         {
+             std::cout << "========================================================" << std::endl;
+             std::cout << "Server name: " << parser.getNServer(i)->getServerName() << std::endl;
+             printConfigContent(parser.getNServer(i));
+             std::cout << "========================================================" << std::endl;
+         }
+     }
+     catch (std::exception &e)
+     {
+         std::cout << e.what() << std::endl;
+     }
+ }
 
 // static void  Copy_Parsing()
 // {
@@ -158,7 +173,7 @@ void    parsingTest()
      std::cout << "===Welcome in parsing test===" << std::endl;
      std::cout << "Select your tests :" << std::endl;
      std::cout << "1 - Default Constructor and print content of Config" << std::endl;
-    // std::cout << "2 - Overload Constructor and print content of map" << std::endl;
+     std::cout << "2 - Overload Constructor and print content of Config" << std::endl;
     // std::cout << "3 - Copy Constructor and print content of map" << std::endl;
     // std::cout << "4 - Default Constructor and use getter" << std::endl;
     // std::cout << "8 - Test Specific config file in directory conf" << std::endl;
@@ -176,9 +191,9 @@ void    parsingTest()
          case 1:
              Def_Parsing();
              break;
-        // case 2:
-        //     Over_Parsing();
-        //     break;
+         case 2:
+             Over_Parsing();
+             break;
         // case 3:
         //     Copy_Parsing();
         //     break;
