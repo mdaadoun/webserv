@@ -15,7 +15,7 @@ cgi:php
     interpreter=/usr/bin/php
 }
 ```
-* [ ] 'cgi-bin' is default cgi directory if not given
+* [X] 'cgi-bin' is default cgi directory if not given
 * [X] like for locations, will deal with in the type:
   * std::map<std::string, std::map<std::string, std::string> >	_cgi;
 
