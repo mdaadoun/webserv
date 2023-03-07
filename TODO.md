@@ -1,7 +1,7 @@
 # TODO
 
 ## CGI parsing
-* [ ] Add a config parsing class multiple cgi :
+* [X] Add a config parsing class multiple cgi :
 ```
 cgi:python
 {
@@ -16,8 +16,8 @@ cgi:php
 }
 ```
 * [ ] 'cgi-bin' is default cgi directory if not given
-* [ ] like for locations, will deal with in the type:
-  * std::map<std::string, std::map<std::string, std::string> >	_cgi_list;
+* [X] like for locations, will deal with in the type:
+  * std::map<std::string, std::map<std::string, std::string> >	_cgi;
 
 ## REQUEST
 * [ ] to void	ComSocket::setResponse(), pass the config of the current server to build the response
