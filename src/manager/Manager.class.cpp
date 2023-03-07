@@ -159,8 +159,8 @@ void	Manager::initConnections()
 }
 
 /*
-*	@brief	stop the conmnections.
-*			close and delete properly datas before exit program
+*	@brief	stop the connections.
+*			close and delete properly data before to exit program
 *	@param	void
 *	@return	void
 */

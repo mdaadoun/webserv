@@ -24,7 +24,7 @@ class Response
         std::string getResponse(void) const;
 
 		//---- member methods ----//
-		void	buildResponse(Request const & req, Parsing const &config);
+		void	buildResponse(Request const & req, Config * config);
 //		void	addBodyResponse(std::string& path);
 	
 	private:

@@ -15,10 +15,9 @@
 
 class RequestHandler {
 public:
-    RequestHandler(Request const & req);
-//    RequestHandler(Server &serv, Request &req);
+    // constructor/destructor
+    RequestHandler(Request const & req, Config * conf);
     ~RequestHandler(void);
-
 
     // setters
     void setStatusCode(int code);
@@ -31,6 +30,9 @@ public:
     std::string getBody() const;
     std::string getDate();
 
+    // main
+    void run(void);
+
     // utils
     void initStatusCodeBook();
     int getStatusCode();
@@ -38,7 +40,6 @@ public:
 
     std::map<std::string, std::string> &getRequest(void);
 
-    void run(void);
 
     // Readings
     bool checkLastModified(std::string & path);

@@ -56,10 +56,9 @@ std::string	Response::getResponse() const
 *  @param   std::string & (to modify when Request class established)
 *  @return  void
 */
-void	Response::buildResponse(Request const &req, Parsing const &config)
+void	Response::buildResponse(Request const &req, Config *config)
 {
-	(void)config; // pour link la config ...
-    RequestHandler rh(req);
+    RequestHandler rh(req, config);
     rh.run();
 
     std::string header_sep = "\r\n";

@@ -6,7 +6,7 @@
 *  @param   void
 *  @return  void
 */
-RequestHandler::RequestHandler(Request const & req) {
+RequestHandler::RequestHandler(Request const & req, Config *conf) {
     this->_status_code = req.getStatus();
     this->_request_method = req.getMethod();
     this->_request["URI"] = req.getUri().first + req.getUri().second;
@@ -23,11 +23,13 @@ RequestHandler::RequestHandler(Request const & req) {
     this->_request["If-Modified-Since"] = "Wed, 28 Feb 2022 15:27:00 GMT"; // replace with _request_last_modified
 
     // need also the server config to get those :
-    this->_files_root = "./www/html";
-    this->_index_file = "index.html";
-    this->_400_file = "400.html";
-    this->_404_file = "404.html";
-    this->_500_file = "500.html";
+    this->_files_root = conf->getRoot();
+    this->_index_file = conf->getIndex();
+//    this->_files_root = "./www/html";
+//    this->_index_file = "index.html";
+//    this->_400_file = "400.html";
+//    this->_404_file = "404.html";
+//    this->_500_file = "500.html";
 }
 
 /*
@@ -199,10 +201,16 @@ void RequestHandler::postMethod() {
 
 /*
 *  @brief   run the request method to each possibilities
+ *          check first if the method is allowed to the given location
+ *          check if it is a cgi script
+ *          deal with static files
 *  @param   void
 *  @return  void
 */
 void RequestHandler::run(void) {
+    // Check before if method is accepted to the given location
+    // Check if it is a CGI script
+    // else
     switch (RequestHandler::resolveMethod(this->_request_method)) {
         case GET:
             this->getMethod();

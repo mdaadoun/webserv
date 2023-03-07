@@ -153,7 +153,7 @@ void	Server::comManagement(Manager &manager)
 			{
 				//set the response in a string
 				std::cout << "@@@@@@@@ Setting response @@@@@@@@\n";
-				com->setResponse();
+				com->setResponse(this->_nb_server);
 				// send the response
 				std::cout << "@@@@@@@@ Send response @@@@@@@@\n";
 				com->sendResponse();

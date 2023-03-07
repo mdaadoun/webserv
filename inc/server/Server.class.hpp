@@ -73,6 +73,7 @@ class Server
 		int							_port;
 		std::string					_host;
 		std::string					_server_name;
+
 		//config after parsing
 		Parsing						_config;
 
