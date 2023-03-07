@@ -30,6 +30,10 @@ public:
     std::string getContentType() const;
     std::string getBody() const;
     std::string getDate();
+    std::string getMethod() const;
+    std::string getRequestLocation() const;
+    std::string getRequestFile() const;
+    std::string getRequestURI() const;
 
     // main
     void run(void);
@@ -47,20 +51,15 @@ public:
     std::string readContent(std::string & path);
 
     // Methods
-    void getMethod();
-    void headMethod();
-    void postMethod();
-    void connectMethod();
-    void deleteMethod();
-    void putMethod();
-    void optionsMethod();
-    void traceMethod();
+    void runGETMethod();
+    void runHEADMethod();
+    void runPOSTMethod();
+    void runDELETEMethod();
 
     m_METHOD resolveMethod(std::string & method);
 
 private:
     std::map<std::string, std::string> _request;
-//    std::map<std::string, std::string> _response;
 
     // CONFIG data
     std::string													_auto_index;
@@ -77,13 +76,15 @@ private:
     std::string                                                 _413_file;
     std::string                                                 _500_file;
     std::string                                                 _503_file;
-    std::map<std::string, std::map<std::string, std::string> >	_locations;
-    std::map<std::string, std::map<std::string, std::string> >	_cgi_list;
+    std::map<std::basic_string<char>, std::map<std::basic_string<char>, std::basic_string<char> > > _locations;
+    std::map<std::basic_string<char>, std::map<std::basic_string<char>, std::basic_string<char> > >	_cgi_list;
 
     // REQUEST/RESPONSE data
     std::map<int, std::string>                                  _status_code_registry;
     int                                                         _status_code;
     std::string                                                 _request_method;
+    std::string                                                 _request_location;
+    std::string                                                 _request_file;
     std::string                                                 _protocol_version;
     std::string                                                 _content_type;
     std::string                                                 _body;
