@@ -6,7 +6,7 @@
 /*   By: amorel <amorel@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 15:13:14 by amorel            #+#    #+#             */
-/*   Updated: 2023/02/28 19:34:09 by amorel           ###   ########.fr       */
+/*   Updated: 2023/03/07 10:23:26 by amorel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ Config::Config(const Config &copy)
     this->_clientBodyLimit = copy.getClientBodyLimit();
     this->_errorPages = copy.getErrorPages();
     this->_locations = copy.getLocations();
+    this->_cgi = copy.getCgi();
 }
 
 /*
@@ -55,6 +56,7 @@ Config::~Config()
 	empty = true;
 	_errorPages.clear();
 	_locations.clear();
+	_cgi.clear();
 }
 
 /*
@@ -76,6 +78,7 @@ Config &Config::operator=(const Config &copy)
     this->_clientBodyLimit = copy.getClientBodyLimit();
     this->_errorPages = copy.getErrorPages();
     this->_locations = copy.getLocations();
+    this->_cgi = copy.getCgi();
     return *this;
 }
 
@@ -320,6 +323,8 @@ void	Config::setLocations(std::ifstream &file, std::string buf)
 		{
 			if (buf[0] == '\t')
 				buf.erase(0, 1);
+			else if (buf.compare(0, 4, "    ") == 0)
+				buf.erase(0, 4);
 			key = buf.substr(0, buf.find('='));
 			val = buf.substr(buf.find('=') + 1, buf.size() - 1);
 			tmp.insert(std::pair<std::string, std::string>(key, val));
@@ -351,6 +356,8 @@ void	Config::setCgi(std::ifstream &file, std::string buf)
         {
             if (buf[0] == '\t')
                 buf.erase(0, 1);
+			else if (buf.compare(0, 4, "    ") == 0)
+				buf.erase(0, 4);
             key = buf.substr(0, buf.find('='));
             val = buf.substr(buf.find('=') + 1, buf.size() - 1);
             tmp.insert(std::pair<std::string, std::string>(key, val));
@@ -566,7 +573,6 @@ void	Config::printLocations()
 			std::cout << it->first << " - " << itm->first << ":" << itm->second << std::endl;
 		std::cout << "-------------------------------" << std::endl;
 	}
-	std::cout << std::endl;
 }
 
 /*
