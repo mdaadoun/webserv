@@ -6,7 +6,7 @@
 /*   By: amorel <amorel@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 08:31:33 by tlafont           #+#    #+#             */
-/*   Updated: 2023/03/06 12:37:46 by tlafont          ###   ########.fr       */
+/*   Updated: 2023/03/06 16:15:58 by tlafont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ class Server
 		ListenSocket				*_socket;
 		std::vector<ComSocket *>	_all_com;
 		int							_new_socket;
+		int							_nb_server;
 
 		// for config sockets
 		int							_port;

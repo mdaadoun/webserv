@@ -6,7 +6,7 @@
 /*   By: tlafont <tlafont@student.42angouleme.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 14:10:59 by tlafont           #+#    #+#             */
-/*   Updated: 2023/03/06 12:42:30 by tlafont          ###   ########.fr       */
+/*   Updated: 2023/03/06 16:03:00 by tlafont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ class ComSocket
 
 		//---- member methods ----//
 		bool	isReceived();
-		void	parseRequest();
+		void	parseRequest(int const nb_serv);
 		void	setResponse();
 		void	sendResponse();
 		void	clear();
@@ -59,6 +59,7 @@ class ComSocket
 		//---- member object ----//
 		struct sockaddr_in	_addr;
 		int					_fd_com;
+		int					_nb_server;
 		bool				_is_open;
 		bool				_is_send;
 		std::string			_received;
