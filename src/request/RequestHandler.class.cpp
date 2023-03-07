@@ -200,6 +200,15 @@ void RequestHandler::postMethod() {
 }
 
 /*
+*  @brief   get route and check with config locations method permissions
+*  @param   void
+*  @return  bool, true if method is allowed, else false
+*/
+bool        RequestHandler::checkIfMethodIsAllowed() {
+    return false;
+}
+
+/*
 *  @brief   run the request method to each possibilities
  *          check first if the method is allowed to the given location
  *          check if it is a cgi script
@@ -209,35 +218,37 @@ void RequestHandler::postMethod() {
 */
 void RequestHandler::run(void) {
     // Check before if method is accepted to the given location
-    // Check if it is a CGI script
-    // else
-    switch (RequestHandler::resolveMethod(this->_request_method)) {
-        case GET:
-            this->getMethod();
-            break;
-        case HEAD:
-            this->headMethod();
-            break;
-        case POST:
-            std::cout << "run the Post method" << std::endl;
-            break;
-        case DELETE:
-            std::cout << "run the delete method" << std::endl;
-            break;
-        case PUT:
-            std::cout << "run the Put method" << std::endl;
-            break;
-        case CONNECT:
-            std::cout << "run the Connect method" << std::endl;
-            break;
-        case OPTIONS:
-            std::cout << "run the Options method" << std::endl;
-            break;
-        case TRACE:
-            std::cout << "run the Put method" << std::endl;
-            break;
-        default:
-            std::cout << "Not a known method, error ?" << std::endl;
+    if (checkIfMethodIsAllowed()) {
+        // Check if it is a CGI script
+        // else
+        switch (RequestHandler::resolveMethod(this->_request_method)) {
+            case GET:
+                this->getMethod();
+                break;
+            case HEAD:
+                this->headMethod();
+                break;
+            case POST:
+                std::cout << "run the Post method" << std::endl;
+                break;
+            case DELETE:
+                std::cout << "run the delete method" << std::endl;
+                break;
+            case PUT:
+                std::cout << "run the Put method" << std::endl;
+                break;
+            case CONNECT:
+                std::cout << "run the Connect method" << std::endl;
+                break;
+            case OPTIONS:
+                std::cout << "run the Options method" << std::endl;
+                break;
+            case TRACE:
+                std::cout << "run the Put method" << std::endl;
+                break;
+            default:
+                std::cout << "Not a known method, error ?" << std::endl;
+        }
     }
 }
 

@@ -66,6 +66,10 @@ cgi:php
 * [ ] RequestHandler::checkLastModified(), doesn't work anymore, should give a 304 Not Modified depending date diff
 * [ ] RequestHandler::getDate(), the date format is not correct
 
+## Cleaning:
+* Request class -> could be renamed RequestParsing
+* the server could use a format to each info console output : TIMESTAMP SERVER_NAME INFO (white, green, red colors for info, success and error)
+
 ## Tests:
 * [ ] Comprendre et manipuler le tester fourni : ubuntu_tester et ubuntu_cgi_tester
 * [ ] Siege et stress test ? (voir bareme de correction)
