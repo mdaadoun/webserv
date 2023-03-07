@@ -6,7 +6,7 @@
 /*   By: amorel <amorel@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 14:56:44 by amorel            #+#    #+#             */
-/*   Updated: 2023/02/28 01:47:15 by amorel           ###   ########.fr       */
+/*   Updated: 2023/03/07 12:51:23 by amorel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,9 @@ class Config
 		void	printErrorPages(void);
 		void	printLocations(void);
         void	printCgi(void);
+
+		void	clear(void);
+		void	insertLocation(std::string location, std::map<std::string, std::string> tmp);
 
 		class ErrorFileException : public std::exception
     {
