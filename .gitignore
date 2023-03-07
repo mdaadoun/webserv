@@ -9,3 +9,4 @@ webserv_test
 .vscode
 tags
 obj
+*.swp
