@@ -6,7 +6,7 @@
 /*   By: amorel <amorel@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 15:13:14 by amorel            #+#    #+#             */
-/*   Updated: 2023/03/07 11:02:37 by amorel           ###   ########.fr       */
+/*   Updated: 2023/03/07 12:52:19 by amorel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -316,7 +316,7 @@ void	Config::setLocations(std::ifstream &file, std::string buf)
 	std::string	key;
 	std::string	val;
 	std::map<std::string, std::string>	tmp;
-	while (!file.eof() && !buf.empty() && buf != "}")
+	while (!file.eof() && buf != "}")
 	{
 		getline(file, buf, '\n');
 		if (!buf.empty() && !file.eof() && buf != "{" && buf != "}")
@@ -331,6 +331,11 @@ void	Config::setLocations(std::ifstream &file, std::string buf)
 		}
 	}
 	_locations.insert(std::pair<std::string, std::map<std::string, std::string> >(location, tmp));
+	if (_locations.empty())
+	{
+		tmp.insert(std::pair<std::string, std::string>("allow_methods", "GET"));
+		_locations.insert(std::pair<std::string, std::map<std::string, std::string> >("/", tmp));
+	}
 	tmp.clear();
 }
 
@@ -349,7 +354,7 @@ void	Config::setCgi(std::ifstream &file, std::string buf)
     std::string	key;
     std::string	val;
     std::map<std::string, std::string>	tmp;
-    while (!file.eof() && !buf.empty() && buf != "}")
+    while (!file.eof() && buf != "}")
     {
         getline(file, buf, '\n');
         if (!buf.empty() && !file.eof() && buf != "{" && buf != "}")
@@ -595,6 +600,30 @@ void	Config::printCgi()
         std::cout << "-------------------------------" << std::endl;
     }
     std::cout << std::endl;
+}
+
+
+/*
+*  @brief	Clear
+*  @param	void
+*  @return	void
+*/
+void	Config::clear()
+{
+	this->_locations.clear();
+	this->_cgi.clear();
+	this->_errorPages.clear();
+
+}
+
+/*
+*  @brief	Inserts a location in _locations
+*  @param	void
+*  @return	void
+*/
+void	Config::insertLocation(std::string location, std::map<std::string, std::string> tmp)
+{
+	this->_locations.insert(std::pair<std::string, std::map<std::string, std::string> >(location, tmp));
 }
 
 /*
