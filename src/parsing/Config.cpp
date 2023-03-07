@@ -6,7 +6,7 @@
 /*   By: amorel <amorel@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 15:13:14 by amorel            #+#    #+#             */
-/*   Updated: 2023/03/07 10:23:26 by amorel           ###   ########.fr       */
+/*   Updated: 2023/03/07 11:02:37 by amorel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -363,6 +363,8 @@ void	Config::setCgi(std::ifstream &file, std::string buf)
             tmp.insert(std::pair<std::string, std::string>(key, val));
         }
     }
+	if (tmp.find("directory") == tmp.end())
+    	tmp.insert(std::pair<std::string, std::string>("directory", "cgi-bin"));
     _cgi.insert(std::pair<std::string, std::map<std::string, std::string> >(cgi, tmp));
     tmp.clear();
 }
