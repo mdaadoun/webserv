@@ -24,6 +24,7 @@ public:
     void setContentType(std::string path);
 
     // response getters
+    int         getStatusCode();
     std::string getStatusCodeString();
     std::string getProtocolVersion() const;
     std::string getContentType() const;
@@ -34,8 +35,8 @@ public:
     void run(void);
 
     // utils
-    void initStatusCodeBook();
-    int getStatusCode();
+//    void initStatusCodeRegistry();
+    bool        checkIfMethodIsAllowed();
     std::string getErrorPagePath();
 
     std::map<std::string, std::string> &getRequest(void);
