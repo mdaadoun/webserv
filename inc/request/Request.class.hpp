@@ -53,11 +53,12 @@ class Request
 		std::pair<std::string, std::string>	getUri() const;
 		std::pair<int, int>					getVersion() const;
 		std::map<headerType, std::string>	getHeaders() const;
-		std::map<std::string, std::string>	getCgi() const;
+		std::map<std::string, std::string>	getCgi() const;	
+		std::string							getBody() const;
 		
 		//---- member methods ----//
 			// parsing the request received
-		void 		parsing(std::string const &req);
+		void 		parsing(std::string const &req, int const body_limit);
 
 	private:
 		//---- member objects ----//
@@ -71,11 +72,11 @@ class Request
 		std::map<std::string, headerType>	_headers;
 			
 
-			//code status of request
+			// code status of request
 		int									_status;
-			//for record the header in request
+			// for record the header in request
 		std::map<headerType, std::string>	_reqHeaders;
-			//for record the method in header
+			// for record the method in header
 		m_METHOD							_rec_method;
 			// for record uri configuration
 		std::pair<std::string, std::string>	_uri;
@@ -83,6 +84,9 @@ class Request
 		std::pair<int, int>					_version;
 			// for record all CGI params
 		std::map<std::string, std::string>	_cgi;
+			// for record body datas
+		std::string							_body;
+
 
 			//for record all headers when is parsed
 		std::map<std::string, std::string>	_env; //rename this
@@ -105,6 +109,8 @@ class Request
 		void	parseProtocolHeaders();
 				// split URI for record CGI params
 		void	parseUri();
+				// parsing and record body data
+		void	parseBody(size_t body_limit);
 
 			// record in _env
 		void	setHeadersEnv(std::string const &header, std::string const &value);

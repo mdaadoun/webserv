@@ -6,7 +6,7 @@
 /*   By: amorel <amorel@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 11:45:44 by tlafont           #+#    #+#             */
-/*   Updated: 2023/02/28 19:33:58 by amorel           ###   ########.fr       */
+/*   Updated: 2023/03/06 12:24:21 by tlafont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,21 +154,8 @@ void	Manager::initConnections()
 		this->_connections[(*it)->getSocketFd()] = (*it)->getSocketFd();
 	}
 	g_this = this;
-	signal(SIGINT, Manager::signalQuit);
-}
-
-/*
-*	@brief	Signal ctrl + c management.
-*			quit properly the prog when ctrl+c is called
-*	@param	int
-*	@return	void
-*/
-void	Manager::signalQuit(int val)
-{
-    (void) val;
-	g_this->stopProgram();
-    throw std::runtime_error("Error::Runtime Error");
-	//exit(val);
+	//for debug
+	signal(SIGINT, SIG_IGN);
 }
 
 /*
@@ -179,18 +166,8 @@ void	Manager::signalQuit(int val)
 */
 void	Manager::stopProgram()
 {
-	/*std::vector<Server *>::iterator	it = this->_servers.begin();
-	std::vector<Server *>::iterator	ite = this->_servers.end();
-	for (; it != ite; it++)
-	{
-		std::cout << "is deleted\n";
-		delete *it;
-	}
-	this->_config.~Parsing();
-	this->_servers.clear();*/
 	this->_connections.clear();
-	//set to ZERO fds?
-	std::cout << "Webserv properly closed...!" <<  std::endl;
+	throw (Manager::EndOfWebserv());
 }
 
 /*
@@ -213,6 +190,9 @@ void	Manager::managementProcess()
 		int max_fd = (*it_max).second + 1;
 		if (select(max_fd, &this->_read_fds, &this->_write_fds, NULL, NULL) == -1)
 			throw(std::runtime_error(strerror(errno)));
+		// exit possibilities of webserv
+		if (FD_ISSET(0, &this->_read_fds))
+			this->serverMenu();
 		// check_and_work for all server
 		std::vector<Server *>::iterator	it = this->_servers.begin();
 		std::vector<Server *>::iterator	ite = this->_servers.end();
@@ -231,6 +211,45 @@ void	Manager::managementProcess()
 			serv->comManagement(*this);
 		}
 	}
+}
+
+/*
+*	@brief	Manage the webserv.
+*			Handle exit or restart webserv
+*	@param	void
+*	@return	void
+*/
+void	Manager::serverMenu()
+{
+	std::string input;
+	std::getline(std::cin, input);
+	if (input == "exit")
+	{
+		std::cout << "webserver is being closed..." << std::endl;
+		stopProgram();
+	}
+	else if (input == "help")
+	{
+		std::cout	<< "Please use one of these commands:" << std::endl
+					<< std::endl
+					<< "\thelp\t\tFor this help" << std::endl
+					<< "\texit\t\tShut down the server" << std::endl;
+	}
+	else
+	{
+		std::cout << "Command not found.\n\tType [help] for available commands" << std::endl;
+	}
+}
+
+/*
+*	@brief	Class member for exit webserv.
+*			close webserv properly
+*	@param	void
+*	@return	void
+*/
+char const	*Manager::EndOfWebserv::what() const throw()
+{
+	return ("Webserv properly closed...!");
 }
 
 /*

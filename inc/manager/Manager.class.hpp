@@ -6,7 +6,7 @@
 /*   By: amorel <amorel@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 11:45:00 by tlafont           #+#    #+#             */
-/*   Updated: 2023/02/28 15:26:23 by amorel           ###   ########.fr       */
+/*   Updated: 2023/03/06 12:04:59 by tlafont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,13 @@ class Manager
 			// manage alls connections
 		void	managementProcess();
 
+		//---- class member ----//
+		class EndOfWebserv : public std::exception
+		{
+			public:
+				char const	*what() const throw();
+		};
+
 	private:
 		//---- member objects ----//
 			// list of fds for select() and tmp for save datas
@@ -72,8 +79,8 @@ class Manager
 		Manager(Manager const &rhs);
 			// assignment operator //
 		Manager	&operator=(Manager const & rhs);
-			// handler signal ctrlC //
-		static void	signalQuit(int val);
+			// menu of webserv //
+		void	serverMenu();
 			// exit the program //
 		void	stopProgram();
 };
