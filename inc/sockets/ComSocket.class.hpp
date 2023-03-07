@@ -51,7 +51,7 @@ class ComSocket
 		//---- member methods ----//
 		bool	isReceived();
 		void	parseRequest(int const nb_serv);
-		void	setResponse();
+		void	setResponse(int const nb_serv);
 		void	sendResponse();
 		void	clear();
 

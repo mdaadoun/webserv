@@ -17,10 +17,15 @@
 *  @param   void
 *  @return  void
 */
-Response::Response()
-{
-    this->_response = "HTTP/1.1 200 OK\r\nContent-Type:text/html\r\n\r\n<pre>---> response from Server...\n\nrequest sent to server:\n";
-}
+Response::Response() {}
+
+/*
+*  @brief   Destructor.
+*           Destroy all member objects
+*  @param   void
+*  @return  void
+*/
+Response::~Response() {}
 
 /*
 *  @brief   Assignment operator.
@@ -32,16 +37,6 @@ Response	&Response::operator=(Response const &rhs)
 {
 	(void)rhs;
 	return (*this);
-}
-
-/*
-*  @brief   Destructor.
-*           Destroy all member objects
-*  @param   void
-*  @return  void
-*/
-Response::~Response()
-{
 }
 
 /*
@@ -61,10 +56,9 @@ std::string	Response::getResponse() const
 *  @param   std::string & (to modify when Request class established)
 *  @return  void
 */
-void	Response::buildResponse(Request const &req, Parsing const &config)
+void	Response::buildResponse(Request const &req, Config *config)
 {
-	(void)config; // pour link la config ...
-    RequestHandler rh(req);
+    RequestHandler rh(req, config);
     rh.run();
 
     std::string header_sep = "\r\n";
@@ -79,7 +73,7 @@ void	Response::buildResponse(Request const &req, Parsing const &config)
     this->_response += header_sep;
     this->_response += "Date: " + rh.getDate();
     this->_response += header_sep;
-    this->_response += "Server: Webserv/0.1 (Ubuntu) OpenSSL 1.1.1f PHP/7.4";
+    this->_response += "Server: Webserv/0.1 (Ubuntu) OpenSSL 1.1.1f PHP/7.4"; //getServerName()
 //    this->_response += header_sep;
 //	this->_response += "Content-Length: " + rh.getContentLength();
 //    this->_response += header_sep;

@@ -163,11 +163,11 @@ void	ComSocket::parseRequest(int const nb_serv)
 *  @param	void
 *  @return	void
 */
-void	ComSocket::setResponse()
+void	ComSocket::setResponse(int const nb_serv)
 {
 	//to modify when parsing is done
 	std::string	request(this->_received);
-	this->_response.buildResponse(this->_request, this->_config);
+	this->_response.buildResponse(this->_request, this->_config.getNServer(nb_serv));
 }
 
 /*
