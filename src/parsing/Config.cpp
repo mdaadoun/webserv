@@ -484,7 +484,7 @@ void	Config::checkClientBodyLimit()
 {
 	if (_clientBodyLimit.empty())
 		_clientBodyLimit = "4096";
-    for (int i = 0; i < _clientBodyLimit.length(); i++)
+    for (std::string::size_type i = 0; i < _clientBodyLimit.length(); i++)
     {
         if (!isdigit(_clientBodyLimit[i]))
             throw(Config::ErrorBadArgument());
@@ -567,6 +567,26 @@ void	Config::printLocations()
 		std::cout << "-------------------------------" << std::endl;
 	}
 	std::cout << std::endl;
+}
+
+/*
+*  @brief	Print all member of attribute _errorPages.
+*  @param	void
+*  @return	void
+*/
+void	Config::printCgi()
+{
+    std::map <std::string, std::map<std::string, std::string> >::iterator	it;
+    std::map<std::string, std::string>::iterator							itm;
+
+
+    for (it = _cgi.begin(); it != _cgi.end(); it++)
+    {
+        for (itm = it->second.begin(); itm != it->second.end(); itm++)
+            std::cout << it->first << " - " << itm->first << ":" << itm->second << std::endl;
+        std::cout << "-------------------------------" << std::endl;
+    }
+    std::cout << std::endl;
 }
 
 /*

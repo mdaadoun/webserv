@@ -82,6 +82,7 @@ class Config
 
 		void	printErrorPages(void);
 		void	printLocations(void);
+        void	printCgi(void);
 
 		class ErrorFileException : public std::exception
     {

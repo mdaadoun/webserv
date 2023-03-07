@@ -12,27 +12,28 @@
 
 #include "test.hpp"
 
-//static void  Def_Parsing()
-//{
-//    try
-//    {
-//        std::cout << "===Default Constructor and print content of map===" << std::endl;
-//        Parsing parser;
-//
-//        std::cout << "Number of servers : ";
-//        std::cout << parser.getServers().size() << std::endl;
-//        for (std::string::size_type i = 0; i < parser.getServers().size(); i++)
-//        {
-//            std::cout << "server " << parser.getNServer(i)->getServerName() << std::endl;
-//            parser.getNServer(i)->printErrorPages();
-//            parser.getNServer(i)->printLocations();
-//        }
-//    }
-//    catch (std::exception &e)
-//    {
-//        std::cout << e.what() << std::endl;
-//    }
-//}
+static void  Def_Parsing()
+{
+    try
+    {
+        std::cout << "===Default Constructor and print content of map===" << std::endl;
+        Parsing parser;
+
+        std::cout << "Number of servers : ";
+        std::cout << parser.getServers().size() << std::endl;
+        for (std::string::size_type i = 0; i < parser.getServers().size(); i++)
+        {
+            std::cout << "server " << parser.getNServer(i)->getServerName() << std::endl;
+            parser.getNServer(i)->printErrorPages();
+            parser.getNServer(i)->printLocations();
+            parser.getNServer(i)->printCgi();
+        }
+    }
+    catch (std::exception &e)
+    {
+        std::cout << e.what() << std::endl;
+    }
+}
 
 // static void  Over_Parsing()
 // {
@@ -151,32 +152,30 @@
 
 void    parsingTest()
 {
+     std::string file;
+     std::string input;
 
-//    Def_Parsing();
-    // std::string file;
-    // std::string input;
-
-    // std::cout << "===Welcome in parsing test===" << std::endl;
-    // std::cout << "Select your tests :" << std::endl;
-    // std::cout << "1 - Default Constructor and print content of map" << std::endl;
+     std::cout << "===Welcome in parsing test===" << std::endl;
+     std::cout << "Select your tests :" << std::endl;
+     std::cout << "1 - Default Constructor and print content of Config" << std::endl;
     // std::cout << "2 - Overload Constructor and print content of map" << std::endl;
     // std::cout << "3 - Copy Constructor and print content of map" << std::endl;
     // std::cout << "4 - Default Constructor and use getter" << std::endl;
     // std::cout << "8 - Test Specific config file in directory conf" << std::endl;
     // std::cout << "9 - All tests" << std::endl;
 
-    // std::cout << "Command : ";
-    // std::getline(std::cin, input);
-    // if (std::cin.eof())
-   //  {
-    //     std::cout << std::endl;
-        // return ;
-    // }
-    // switch (atoi(input.c_str()))
-    // {
-      //   case 1:
-         //    Def_Parsing();
-          //   break;
+     std::cout << "Command : ";
+     std::getline(std::cin, input);
+     if (std::cin.eof())
+     {
+         std::cout << std::endl;
+         return ;
+     }
+     switch (atoi(input.c_str()))
+     {
+         case 1:
+             Def_Parsing();
+             break;
         // case 2:
         //     Over_Parsing();
         //     break;
@@ -203,8 +202,8 @@ void    parsingTest()
         //     Copy_Parsing();
         //     Getter_Parsing();
         //     break;
-       //  default:
-          //   std::cout << "Good Bye !" << std::endl;
-          //   break;
-    // }
+         default:
+             std::cout << "Good Bye !" << std::endl;
+             break;
+     }
 }
