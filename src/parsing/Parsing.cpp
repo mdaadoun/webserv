@@ -6,7 +6,7 @@
 /*   By: amorel <amorel@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 15:28:36 by amorel            #+#    #+#             */
-/*   Updated: 2023/02/28 19:33:22 by amorel           ###   ########.fr       */
+/*   Updated: 2023/03/07 12:52:59 by amorel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,12 +74,13 @@ Parsing &Parsing::operator=(const Parsing &copy)
 */
 void	Parsing::parseConfig(const std::string &path)
 {
-	std::ifstream			file;
-	std::string				buf;
-	Config					tmp;
-	std::string::size_type	pos;
-    std::string				key;
-    std::string				value;
+	std::ifstream						file;
+	std::string							buf;
+	Config								tmp;
+	std::map<std::string, std::string>	tmpmap;
+	std::string::size_type				pos;
+    std::string							key;
+    std::string							value;
 
 	file.open(path.c_str());
 	if (file.fail())
@@ -90,8 +91,14 @@ void	Parsing::parseConfig(const std::string &path)
 	{
 		getline(file, buf, '\n');
 		pos = buf.find('=');
-		if (buf.empty() || file.eof())
+		if (file.eof())
 		{
+			if (tmp.getLocations().empty())
+			{
+				tmpmap.insert(std::pair<std::string, std::string>("allow_methods", "GET"));
+				tmp.insertLocation("/", tmpmap);
+				tmpmap.clear();
+			}
 			if (!tmp.empty)
 				this->_servers.insert(_servers.end(), tmp);
 			break ;
@@ -100,7 +107,14 @@ void	Parsing::parseConfig(const std::string &path)
 		{
 			if (tmp.empty)
 				continue;
+			if (tmp.getLocations().empty())
+			{
+				tmpmap.insert(std::pair<std::string, std::string>("allow_methods", "GET"));
+				tmp.insertLocation("/", tmpmap);
+				tmpmap.clear();
+			}
 			this->_servers.insert(_servers.end(), tmp);
+			tmp.clear();
 		}
 		else if (buf.find('=') != std::string::npos)
 		{

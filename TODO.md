@@ -2,22 +2,8 @@
 
 ## CGI parsing
 * [X] Add a config parsing class multiple cgi :
-```
-cgi:python
-{
-    file=.py
-    interpreter=/usr/bin/python3
-    directory=cgi-bin
-}
-cgi:php
-{
-    file=.php
-    interpreter=/usr/bin/php
-}
-```
 * [X] 'cgi-bin' is default cgi directory if not given
-* [X] like for locations, will deal with in the type:
-  * std::map<std::string, std::map<std::string, std::string> >	_cgi;
+* [ ] Add a default location if no location given, default is '/' with only 'GET' method allowed
 
 ## REQUEST
 * [ ] to void	ComSocket::setResponse(), pass the config of the current server to build the response
@@ -65,6 +51,10 @@ cgi:php
 ## To Fix:
 * [ ] RequestHandler::checkLastModified(), doesn't work anymore, should give a 304 Not Modified depending date diff
 * [ ] RequestHandler::getDate(), the date format is not correct
+
+## Cleaning:
+* Request class -> could be renamed RequestParsing
+* the server could use a format to each info console output : TIMESTAMP SERVER_NAME INFO (white, green, red colors for info, success and error)
 
 ## Tests:
 * [ ] Comprendre et manipuler le tester fourni : ubuntu_tester et ubuntu_cgi_tester
