@@ -6,7 +6,7 @@
 /*   By: tlafont <tlafont@student.42angouleme.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 14:10:59 by tlafont           #+#    #+#             */
-/*   Updated: 2023/02/17 13:43:45 by tlafont          ###   ########.fr       */
+/*   Updated: 2023/03/08 11:16:49 by fleblanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@
 
 // includes
 
-#include "ISocket.class.hpp"
+#include "ASocket.class.hpp"
 
-class BindSocket : public ISocket
+class BindSocket : public ASocket
 {
 	public:
 		//---- canonical form ----//

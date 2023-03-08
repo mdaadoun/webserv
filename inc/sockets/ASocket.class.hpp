@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ISocket.class.hpp                                  :+:      :+:    :+:   */
+/*   ASocket.class.hpp                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tlafont <tlafont@student.42angouleme.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 11:37:07 by tlafont           #+#    #+#             */
-/*   Updated: 2023/02/20 07:56:55 by tlafont          ###   ########.fr       */
+/*   Updated: 2023/03/08 11:16:40 by fleblanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,15 +31,15 @@ typedef unsigned short      uint16_t;
 typedef	unsigned long		u_long;
 
 // class interface
-class ISocket
+class ASocket
 {
 	public:
 	    //---- canonical form ----//
 			// constructors //
 				// overload constructor
-		ISocket(int dom, int serv, int protoc, int port, std::string &host);
+		ASocket(int dom, int serv, int protoc, int port, std::string &host);
 			// destructor //
-	    virtual ~ISocket(void);
+	    virtual ~ASocket(void);
 			
 	    //---- getter methods ----//
 		int					getSocketFd() const;
@@ -60,9 +60,9 @@ class ISocket
 		struct sockaddr_in	_addr;
 
 	private:
-    	ISocket(void);
-	    ISocket(const ISocket& rhs);
-	    ISocket  &operator=(const ISocket& rhs);
+    	ASocket(void);
+	    ASocket(const ASocket& rhs);
+	    ASocket  &operator=(const ASocket& rhs);
 };
 
 #endif

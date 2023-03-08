@@ -6,7 +6,7 @@
 #    By: amorel <amorel@student.42angouleme.fr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/15 16:04:29 by fleblanc          #+#    #+#              #
-#    Updated: 2023/03/01 12:57:38 by tlafont          ###   ########.fr        #
+#    Updated: 2023/03/08 11:17:49 by fleblanc         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,9 +45,9 @@ SRCNAME	= main.cpp \
 SRCCLASS = server/Server.class.cpp \
 		   request/Request.class.cpp \
 		   response/Response.class.cpp \
+		   sockets/ASocket.class.cpp \
 		   sockets/BindSocket.class.cpp \
 		   sockets/ComSocket.class.cpp \
-		   sockets/ISocket.class.cpp \
 		   sockets/ListenSocket.class.cpp \
 		   parsing/Config.cpp \
 		   parsing/Parsing.cpp \

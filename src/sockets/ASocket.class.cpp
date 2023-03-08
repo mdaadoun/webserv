@@ -1,34 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ISocket.class.cpp                                  :+:      :+:    :+:   */
+/*   ASocket.class.cpp                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tlafont <tlafont@student.42angouleme.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 12:06:39 by tlafont           #+#    #+#             */
-/*   Updated: 2023/02/21 12:27:55 by tlafont          ###   ########.fr       */
+/*   Updated: 2023/03/08 11:15:41 by fleblanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "sockets/ISocket.class.hpp"
+#include "sockets/ASocket.class.hpp"
 
 /*
-*  @brief	Default constructor of the class ISocket.
+*  @brief	Default constructor of the class ASocket.
 *           Initialize the socket without any parameters
 *  @param	void
 *  @return	void
 */
-ISocket::ISocket()
+ASocket::ASocket()
 {
 }
 
 /*
-*  @brief	Overload constructor of the class ISocket.
+*  @brief	Overload constructor of the class ASocket.
 *           Initialize the socket with parameters
 *  @param	int , int , int , int , unsigned long
 *  @return	void
 */
-ISocket::ISocket(int dom, int serv, int protoc, int port, std::string &host)
+ASocket::ASocket(int dom, int serv, int protoc, int port, std::string &host)
 {
 	//set values in address struct for connection
 	this->_addr.sin_family = dom;
@@ -50,10 +50,10 @@ ISocket::ISocket(int dom, int serv, int protoc, int port, std::string &host)
 /*
 *  @brief	Copy  constructor.
 *           Initialize the socket with other socket
-*  @param	ISocket &
+*  @param	ASocket &
 *  @return	void
 */
-ISocket::ISocket(const ISocket& rhs)
+ASocket::ASocket(const ASocket& rhs)
 {
 	*this = rhs;
 }
@@ -61,10 +61,10 @@ ISocket::ISocket(const ISocket& rhs)
 /*
 *  @brief	Assignment operator.
 *           Copy other socket in this socket
-*  @param	ISocket &
-*  @return	Isocket &
+*  @param	ASocket &
+*  @return	ASocket &
 */
-ISocket  &ISocket::operator=(const ISocket& rhs)
+ASocket  &ASocket::operator=(const ASocket& rhs)
 {
 	(void)rhs;
 	return (*this);
@@ -76,7 +76,7 @@ ISocket  &ISocket::operator=(const ISocket& rhs)
 *  @param	int
 *  @return	void
 */
-void	ISocket::testConnection(int data, std::string const &err)
+void	ASocket::testConnection(int data, std::string const &err)
 {
 	if (data < 0)
 	{
@@ -91,7 +91,7 @@ void	ISocket::testConnection(int data, std::string const &err)
 *  @param	void
 *  @return	int
 */
-int	ISocket::getSocketFd() const
+int	ASocket::getSocketFd() const
 {
 	return (this->_sock_fd);
 }
@@ -102,7 +102,7 @@ int	ISocket::getSocketFd() const
 *  @param	void
 *  @return	int
 */
-int	ISocket::getConnection() const
+int	ASocket::getConnection() const
 {
 	return (this->_connec);
 }
@@ -113,7 +113,7 @@ int	ISocket::getConnection() const
 *  @param	void
 *  @return	struct sockaddr_in
 */
-struct sockaddr_in	ISocket::getAddress() const
+struct sockaddr_in	ASocket::getAddress() const
 {
 	return (this->_addr);
 }
@@ -124,6 +124,6 @@ struct sockaddr_in	ISocket::getAddress() const
 *  @param	void
 *  @return	void
 */
-ISocket::~ISocket()
+ASocket::~ASocket()
 {
 }

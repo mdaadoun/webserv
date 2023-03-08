@@ -6,7 +6,7 @@
 /*   By: tlafont <tlafont@student.42angouleme.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 14:30:23 by tlafont           #+#    #+#             */
-/*   Updated: 2023/02/20 07:54:03 by tlafont          ###   ########.fr       */
+/*   Updated: 2023/03/08 11:17:29 by fleblanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 *  @return  void
 */
 BindSocket::BindSocket(int dom, int serv, int protoc, int port, std::string &host):
-ISocket(dom, serv, protoc, port, host)
+ASocket(dom, serv, protoc, port, host)
 {
 	//establish the connection to network and test
 	for (int i = 0; i < 6; i++)

@@ -6,7 +6,7 @@
 /*   By: amorel <amorel@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 15:41:09 by fleblanc          #+#    #+#             */
-/*   Updated: 2023/03/01 12:37:54 by tlafont          ###   ########.fr       */
+/*   Updated: 2023/03/08 11:18:30 by fleblanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 #include <cstdlib>
 
 #include "sockets/BindSocket.class.hpp"
-#include "sockets/ISocket.class.hpp"
+#include "sockets/ASocket.class.hpp"
 #include "sockets/ListenSocket.class.hpp"
 #include "../inc/parsing/Parsing.hpp"
 #include "cgi/CgiHandler.class.hpp"
