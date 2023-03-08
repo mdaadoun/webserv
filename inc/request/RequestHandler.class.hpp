@@ -39,7 +39,6 @@ public:
     void run(void);
 
     // utils
-//    void initStatusCodeRegistry();
     bool        checkIfMethodIsAllowed();
     std::string getErrorPagePath();
 
@@ -49,6 +48,10 @@ public:
     // Readings
     bool checkLastModified(std::string & path);
     std::string readContent(std::string & path);
+
+    // CGI
+    bool checkIfCGI(void);
+    void runCGI(void);
 
     // Methods
     void runGETMethod();
@@ -67,15 +70,16 @@ private:
     std::string													_files_root;
     std::string													_server_name;
     u_long														_client_body_size_limit;
-    std::string                                                 _400_file;
-    std::string                                                 _401_file;
-    std::string                                                 _403_file;
-    std::string                                                 _404_file;
-    std::string                                                 _405_file;
-    std::string                                                 _410_file;
-    std::string                                                 _413_file;
-    std::string                                                 _500_file;
-    std::string                                                 _503_file;
+    std::map<std::string, std::string>                          _errorPages;
+//    std::string                                                 _400_file;
+//    std::string                                                 _401_file;
+//    std::string                                                 _403_file;
+//    std::string                                                 _404_file;
+//    std::string                                                 _405_file;
+//    std::string                                                 _410_file;
+//    std::string                                                 _413_file;
+//    std::string                                                 _500_file;
+//    std::string                                                 _503_file;
     std::map<std::basic_string<char>, std::map<std::basic_string<char>, std::basic_string<char> > > _locations;
     std::map<std::basic_string<char>, std::map<std::basic_string<char>, std::basic_string<char> > >	_cgi_list;
 

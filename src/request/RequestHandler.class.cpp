@@ -19,11 +19,7 @@ RequestHandler::RequestHandler(Request const & req, Config *conf) {
     this->_index_file = conf->getIndex();
     this->_locations = conf->getLocations();
     this->_cgi_list = conf->getCgi();
-
-    // create a function to set all the error pages
-//    this->_400_file = "400.html";
-//    this->_404_file = "404.html";
-//    this->_500_file = "500.html";
+    this->_errorPages = conf->getErrorPages();
 }
 
 /*
@@ -38,7 +34,6 @@ RequestHandler::~RequestHandler() {}
 std::map<std::string, std::string> &RequestHandler::getRequest(void){
     return this->_request;
 }
-
 
 bool RequestHandler::checkLastModified(std::string & path) {
     std::string if_modified_since_str = this->_request["If-Modified-Since"];
@@ -98,42 +93,22 @@ void RequestHandler::setContentType(std::string path)
         _content_type = "text/plain";
 }
 
-//move to utils
+/*
+*  @brief   get the corresponding file of the status code
+ *          if the file doesnt open, fall back on default error.html
+*  @param   void
+*  @return  std::string file path
+*/
 std::string RequestHandler::getErrorPagePath() {
     std::ofstream		file;
     std::string path = this->_files_root + "/";
-    switch (this->getStatusCode()) {
-        case(400):
-            path += this->_400_file;
-            break;
-        case(401):
-            path += this->_401_file;
-            break;
-        case(403):
-            path += this->_403_file;
-            break;
-        case(404):
-            path += this->_404_file;
-            break;
-        case(405):
-            path += this->_405_file;
-            break;
-        case(410):
-            path += this->_410_file;
-            break;
-        case(413):
-            path += this->_413_file;
-            break;
-        case(500):
-            path += this->_500_file;
-            break;
-        case(503):
-            path += this->_503_file;
-            break;
-        default:
-            break;
+    std::map<std::string, std::string>::iterator it;
+    for (it = _errorPages.begin(); it != _errorPages.end(); ++it) {
+        int error = std::atoi(it->first.substr(it->first.size() - 3).c_str());
+        if (error == this->getStatusCode()) {
+            path += it->second;
+        }
     }
-
     file.open(path.c_str(), std::ifstream::in);
     if (file.is_open() == false) {
         path = this->_files_root + "/error.html";
@@ -202,6 +177,7 @@ bool checkIfMethod(std::string allowed_methods, std::string request_method) {
 
 /*
 *  @brief   get route and check with config locations method permissions
+ *          loc string is used to remove the trailing / in path to fix the checking
 *  @param   void
 *  @return  bool, true if method is allowed, else false
 */
@@ -210,7 +186,11 @@ bool RequestHandler::checkIfMethodIsAllowed() {
     std::map<std::basic_string<char>, std::basic_string<char> >::const_iterator inner_it;
 
     for(it = _locations.begin(); it != _locations.end(); ++it) {
-        if (this->getRequestLocation() == it->first) {
+        std::string loc = this->getRequestLocation();
+        if (!loc.empty() && loc[loc.length() - 1] == '/') {
+            loc.erase(loc.length() - 1);
+        }
+        if (this->getRequestLocation() == it->first || loc == it->first) {
             for(inner_it = it->second.begin(); inner_it != it->second.end(); ++inner_it) {
                 if (inner_it->first == "allow_methods") {
                     if (checkIfMethod(inner_it->second, this->getMethod())) {
@@ -223,6 +203,25 @@ bool RequestHandler::checkIfMethodIsAllowed() {
     return false;
 }
 
+bool RequestHandler::checkIfCGI() {
+    std::map<std::string, std::map<std::string, std::string> >::iterator it;
+    for (it = _cgi_list.begin(); it != _cgi_list.end(); ++it) {
+        std::string key1 = it->first;
+        std::map<std::string, std::string> inner_map = it->second;
+        std::map<std::string, std::string>::iterator inner_it;
+        for (inner_it = inner_map.begin(); inner_it != inner_map.end(); ++inner_it) {
+            std::string key2 = inner_it->first;
+            std::string value = inner_it->second;
+            std::cout << key1 << ":" << key2 << " - " << value << std::endl;
+        }
+    }
+    return false;
+}
+
+void RequestHandler::runCGI() {
+    std::cout << "CGI";
+}
+
 /*
 *  @brief   run the request method to each possibilities
  *          check first if the method is allowed to the given location
@@ -232,21 +231,23 @@ bool RequestHandler::checkIfMethodIsAllowed() {
 *  @return  void
 */
 void RequestHandler::run(void) {
-    if (checkIfMethodIsAllowed()) {
-        // Check if it is a CGI script else :
-        switch (RequestHandler::resolveMethod(this->_request_method)) {
-            case GET:
-                this->runGETMethod();
-                break;
-            case HEAD:
-                this->runHEADMethod();
-                break;
-            case POST:
-                this->runPOSTMethod();
-                break;
-            case DELETE:
-                this->runDELETEMethod();
-                break;
+    if (this->checkIfMethodIsAllowed()) {
+        if (this->checkIfCGI()) {
+            this->runCGI();
+        } else {
+            switch (RequestHandler::resolveMethod(this->_request_method)) {
+                case GET:
+                    this->runGETMethod();
+                    break;
+                case HEAD:
+                    this->runHEADMethod();
+                    break;
+                case POST:
+                    this->runPOSTMethod();
+                    break;
+                case DELETE:
+                    this->runDELETEMethod();
+                    break;
 //            case PUT:
 //                std::cout << "run the Put method" << std::endl;
 //                break;
@@ -259,8 +260,9 @@ void RequestHandler::run(void) {
 //            case TRACE:
 //                std::cout << "run the Put method" << std::endl;
 //                break;
-            default:
-                std::cout << "UNKNOWN method, set error here ?" << std::endl;
+                default:
+                    std::cout << "UNKNOWN method, set error here ?" << std::endl;
+            }
         }
     } else {
         this->setStatusCode(405);
