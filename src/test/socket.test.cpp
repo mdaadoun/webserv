@@ -6,7 +6,7 @@
 /*   By: amorel <amorel@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 10:03:15 by tlafont           #+#    #+#             */
-/*   Updated: 2023/03/01 12:41:14 by tlafont          ###   ########.fr       */
+/*   Updated: 2023/03/08 14:27:08 by fleblanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,20 @@ void	socketTest()  // propose to become a main for testing
 	}
 	catch (std::exception &e)
 	{
-		std::cout << e.what() << std::endl;
+		std::cerr << e.what() << std::endl;
+	}
+	try
+	{
+		BindSocket	bsock(AF_INET, SOCK_STREAM, 0, 1000000, host);
+
+		std::cout << "getter fd socket = " << bsock.getSocketFd() << std::endl;
+		std::cout << "getter connection socket = " << bsock.getConnection() << std::endl;
+		std::cout << "getter address socket = " << bsock.getAddress().sin_addr.s_addr << std::endl;
+		std::cout << "\nSocket connection passed...\n\n";
+	}
+	catch (std::exception &e)
+	{
+		std::cerr << e.what() << std::endl;
 	}
 
 	std::cout << "---ListenSocket--- :" << std::endl;
@@ -45,6 +58,22 @@ void	socketTest()  // propose to become a main for testing
 	}
 	catch (std::exception &e)
 	{
-		std::cout << e.what() << std::endl;
+		std::cerr << e.what() << std::endl;
+	}
+
+	try
+	{
+		ListenSocket	lsock(AF_INET, SOCK_STREAM, 0, 1000000, host, 10);
+
+		std::cout << "getter fd socket = " << lsock.getSocketFd() << std::endl;
+		std::cout << "getter connection socket = " << lsock.getConnection() << std::endl;
+		std::cout << "getter address socket = " << lsock.getAddress().sin_addr.s_addr << std::endl;
+		std::cout << "getter backlog socket = " << lsock.getBcklog() << std::endl;
+		std::cout << "getter listen socket = " << lsock.getListen() << std::endl;
+		std::cout << "\nSocket connection passed...\n\n";
+	}
+	catch (std::exception &e)
+	{
+		std::cerr << e.what() << std::endl;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: amorel <amorel@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 15:41:09 by fleblanc          #+#    #+#             */
-/*   Updated: 2023/03/08 11:18:30 by fleblanc         ###   ########.fr       */
+/*   Updated: 2023/03/09 14:13:51 by fleblanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 #include "sockets/BindSocket.class.hpp"
 #include "sockets/ASocket.class.hpp"
 #include "sockets/ListenSocket.class.hpp"
-#include "../inc/parsing/Parsing.hpp"
+#include "parsing/Parsing.hpp"
 #include "cgi/CgiHandler.class.hpp"
 #include "request/Request.class.hpp"
 #include "request/RequestHandler.class.hpp"
@@ -34,5 +34,5 @@ void	responseTest(void);
 void	cgiTest(void);
 void	requestTest(void);
 void    handlerRequestTest(void);
-
+void	serverTest(void);
 #endif

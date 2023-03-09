@@ -6,7 +6,7 @@
 /*   By: amorel <amorel@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 12:47:09 by fleblanc          #+#    #+#             */
-/*   Updated: 2023/03/01 12:35:54 by tlafont          ###   ########.fr       */
+/*   Updated: 2023/03/09 15:21:08 by fleblanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,15 @@ int main(int argc, char **argv)
 	else
 	{
 		std::cout << "Select your tests :" << std::endl;
-		std::cout << "1 - Socket tests" << std::endl;
-        std::cout << "2 - Parsing tests" << std::endl;
-        std::cout << "3 - Cgi tests" << std::endl;
-        std::cout << "4 - parse request tests" << std::endl;
-        std::cout << "5 - Handling request tests" << std::endl;
-        std::cout << "6 - Response test" << std::endl;
+        std::cout << "1 - Parsing tests" << std::endl;
+		std::cout << "2 - Socket tests" << std::endl;
+        std::cout << "3 - Request tests" << std::endl;
+        std::cout << "4 - Handling request tests" << std::endl;
+        std::cout << "5 - Response test" << std::endl;
+        std::cout << "6 - Server test" << std::endl;
+        std::cout << "7 - Cgi tests" << std::endl;
 		std::cout << "9 - All tests" << std::endl;
-
+		std::cout << std::endl;
 		std::cout << "Command : ";
 		std::getline(std::cin, input);
 		if (std::cin.eof())
@@ -40,30 +41,34 @@ int main(int argc, char **argv)
 	switch (atoi(input.c_str()))
 	{
 		case 1:
-			socketTest();
+			parsingTest();
 			break;
         case 2:
-            parsingTest();
+			socketTest();
             break;
         case 3:
-            cgiTest();
+			requestTest();
             break;
         case 4:
-            requestTest();
-            break;
-        case 5:
             handlerRequestTest();
             break;
-        case 6:
-            responseTest();
+        case 5:
+			responseTest();
             break;
-		case 9:
-			socketTest();
-			parsingTest();
+        case 6:
+			serverTest();
+            break;
+		case 7:
             cgiTest();
+			break;
+		case 9:
+			parsingTest();
+			socketTest();
 			requestTest();
             handlerRequestTest();
 			responseTest();
+			serverTest();
+            cgiTest();
 			break;
 		default:
 			std::cout << "Good Bye !" << std::endl;

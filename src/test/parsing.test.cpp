@@ -6,7 +6,7 @@
 /*   By: amorel <amorel@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 17:53:06 by dlaidet           #+#    #+#             */
-/*   Updated: 2023/03/07 10:10:33 by amorel           ###   ########.fr       */
+/*   Updated: 2023/03/09 14:29:08 by fleblanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,7 +170,7 @@ void    parsingTest()
      std::string file;
      std::string input;
 
-     std::cout << "===Welcome in parsing test===" << std::endl;
+     std::cout << "\033[0;34m # Welcome in parsing test #\033[0;0m" << std::endl;
      std::cout << "Select your tests :" << std::endl;
      std::cout << "1 - Default Constructor and print content of Config" << std::endl;
      std::cout << "2 - Overload Constructor and print content of Config" << std::endl;

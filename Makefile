@@ -6,7 +6,7 @@
 #    By: amorel <amorel@student.42angouleme.fr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/15 16:04:29 by fleblanc          #+#    #+#              #
-#    Updated: 2023/03/08 11:17:49 by fleblanc         ###   ########.fr        #
+#    Updated: 2023/03/09 14:20:16 by fleblanc         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -61,7 +61,8 @@ SRCTEST	= test/main.test.cpp \
 		  test/handlerRequest.test.cpp \
 		  test/cgi.test.cpp \
 		  test/response.test.cpp \
-		  test/request.test.cpp
+		  test/request.test.cpp \
+		  test/server.test.cpp
 
 SRCNAME += $(SRCCLASS)
 
@@ -103,7 +104,7 @@ all:	serv test
 
 serv:	$(NAME)
 
-test:	$(NAME_T)
+unit:	$(NAME_T)
 
 parsing: test
 		clear

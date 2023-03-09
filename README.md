@@ -24,7 +24,7 @@ make serv
 Pour compiler uniquement le projet (le serveur)
 
 ```
-make test
+make unit
 ```
 Pour compiler uniquement le main de tests unitaires
 
