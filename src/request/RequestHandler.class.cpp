@@ -13,7 +13,7 @@ RequestHandler::RequestHandler(Request const & req, Config *conf) {
     this->_request_file = req.getUri().second;
     this->_protocol_version = "HTTP/1.1";
 
-    this->_request["If-Modified-Since"] = "Wed, 28 Feb 2022 15:27:00 GMT"; // replace with a getter
+    this->_request_IfModifiedSince = "Wed, 28 Feb 2022 15:27:00 GMT"; // replace with a getter
 
     this->_files_root = conf->getRoot();
     this->_index_file = conf->getIndex();
@@ -30,13 +30,8 @@ RequestHandler::RequestHandler(Request const & req, Config *conf) {
 */
 RequestHandler::~RequestHandler() {}
 
-
-std::map<std::string, std::string> &RequestHandler::getRequest(void){
-    return this->_request;
-}
-
 bool RequestHandler::checkLastModified(std::string & path) {
-    std::string if_modified_since_str = this->_request["If-Modified-Since"];
+    std::string if_modified_since_str = this->_request_IfModifiedSince;
 
     if (if_modified_since_str.length() > 0) {
         struct tm if_modified_since_tm;
@@ -72,6 +67,7 @@ std::string RequestHandler::readContent(std::string & path) {
 
 void RequestHandler::setContentType(std::string path)
 {
+    std::string file = this->_request_file;
     std::string type = path.substr(path.rfind(".") + 1, path.size() - path.rfind("."));
     if (type == "html")
         _content_type = "text/html";
@@ -130,7 +126,6 @@ std::string RequestHandler::getErrorPagePath() {
 *  @return  void
 */
 void RequestHandler::runGETMethod() {
-    std::map<std::string, std::string> req = this->getRequest();
     std::string         path;
 
     if (this->getRequestURI() == "/") {
@@ -203,23 +198,46 @@ bool RequestHandler::checkIfMethodIsAllowed() {
     return false;
 }
 
+/*
+*  @brief   check if the request file and location is a correct cgi config
+*  @param   void
+*  @return  bool after check
+*/
 bool RequestHandler::checkIfCGI() {
     std::map<std::string, std::map<std::string, std::string> >::iterator it;
-    for (it = _cgi_list.begin(); it != _cgi_list.end(); ++it) {
-        std::string key1 = it->first;
-        std::map<std::string, std::string> inner_map = it->second;
-        std::map<std::string, std::string>::iterator inner_it;
-        for (inner_it = inner_map.begin(); inner_it != inner_map.end(); ++inner_it) {
-            std::string key2 = inner_it->first;
-            std::string value = inner_it->second;
-            std::cout << key1 << ":" << key2 << " - " << value << std::endl;
+    std::string file = this->_request_file;
+    if (file.size()) {
+        std::string type = file.substr(file.rfind("."), file.size() - file.rfind("."));
+        for (it = _cgi_list.begin(); it != _cgi_list.end(); ++it) {
+            std::string key = it->first;
+            std::map<std::string, std::string>::iterator inner_it;
+            bool cgi = false;
+            for (inner_it = it->second.begin(); inner_it != it->second.end(); ++inner_it) {
+                if (inner_it->first == "file" && inner_it->second == type) {
+                    cgi = true;
+                }
+            }
+            if (cgi) {
+                for (inner_it = it->second.begin(); inner_it != it->second.end(); ++inner_it) {
+                    if (inner_it->first == "directory") {
+                        std::string test = this->_request_location;
+                        if (test.size() && test.at(0) == '/') {
+                            test.erase(0, 1);
+                        }
+                        if (test.size() && test.at(test.size() - 1) == '/') {
+                            test.erase(test.length() - 1, 1);
+                        }
+                        if (test != inner_it->second)
+                            return false;
+                    } else if (inner_it->first == "interpreter") {
+                        this->_cgi_interpreter = inner_it->second;
+                    }
+                }
+                return true;
+            }
         }
     }
     return false;
-}
-
-void RequestHandler::runCGI() {
-    std::cout << "CGI";
 }
 
 /*
@@ -233,7 +251,8 @@ void RequestHandler::runCGI() {
 void RequestHandler::run(void) {
     if (this->checkIfMethodIsAllowed()) {
         if (this->checkIfCGI()) {
-            this->runCGI();
+            CgiHandler cgi(*this);
+            this->_body = cgi.executeCgi();
         } else {
             switch (RequestHandler::resolveMethod(this->_request_method)) {
                 case GET:
@@ -373,6 +392,10 @@ std::string RequestHandler::getRequestFile() const {
     return this->_request_file;
 }
 
+std::string RequestHandler::getRoot() const {
+    return this->_files_root;
+}
+
 std::string RequestHandler::getMethod() const {
     return this->_request_method;
 }
@@ -387,6 +410,10 @@ void RequestHandler::setStatusCode(int sc) {
 
 int RequestHandler::getStatusCode() {
     return this->_status_code;
+}
+
+std::string RequestHandler::getCgiInterpreter() const {
+    return this->_cgi_interpreter;
 }
 
 // move to utils
@@ -451,12 +478,7 @@ std::string RequestHandler::getBody(void) const{
 */
 std::ostream &operator<<(std::ostream &out, RequestHandler &rh) {
     std::map<std::string, std::string>::iterator it;
-    out << "request:\n";
-    for (it = rh.getRequest().begin(); it != rh.getRequest().end(); it++) {
-        out << it->first << " : " << it->second << std::endl;
-    }
     out << "results after handling:\n";
-
     out << "Content Type:" << rh.getContentType() << std::endl;
     out << "Status Code:" << rh.getStatusCodeString() << std::endl;
     out << "Body:" << rh.getBody() << std::endl;

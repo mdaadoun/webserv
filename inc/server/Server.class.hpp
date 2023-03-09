@@ -79,7 +79,7 @@ class Server
 
 		//---- canonical form ----//
 				// default constructor
-		Server();
+//		Server();
 };
 
 #endif

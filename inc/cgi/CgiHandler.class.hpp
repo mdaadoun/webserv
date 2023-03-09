@@ -4,14 +4,20 @@
 
 # include <iostream>
 # include <map>
+//#include <sys/types.h>
+#include <sys/wait.h>
+# include <unistd.h>
+# include <fcntl.h>
 //# include "../request/Request.class.hpp"
 //# include "../parsing/Config.hpp"
 //# include "../location/Location.class.hpp"
+# include "request/RequestHandler.class.hpp"
+
+class RequestHandler;
 
 class CgiHandler {
 public:
-    CgiHandler(void);
-//    CgiHandler(Request &request, Config &config, Location &location);
+    CgiHandler(RequestHandler const &rh);
     CgiHandler(CgiHandler const &src);
     ~CgiHandler(void);
 
@@ -19,23 +25,20 @@ public:
 
     void                                set_env(void);
     std::map<std::string, std::string> &get_env(void);
+    char **                             get_env_char();
 
     // execute script and return body
     std::string		executeCgi();
 
-
 private:
-//    Config                              _conf;
-//    Request                             _request;
-//    Location                            _loc;
+//    RequestHandler const &              _request;
     std::string                         _script;
-    std::string                         _cgi_type;
     std::string                         _cgi_interpreter;
     std::map<std::string, std::string>	_env;
+    char **                              _env_char;
     std::string							_body; // cgi output
 
 };
-
 
 std::ostream &operator<<(std::ostream &out, CgiHandler &ch);
 

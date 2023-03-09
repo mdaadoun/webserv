@@ -18,12 +18,12 @@
 *  @param	void
 *  @return	void
 */
-Server::Server():	_port(2424),
-					_host("0.0.0.0"),
-					_server_name("webserv"),
-					_config(Parsing("conf/config_default.ini"))
-{
-}
+//Server::Server():	_port(2424),
+//					_host("0.0.0.0"),
+//					_server_name("webserv"),
+//					_config(Parsing("conf/config_default.ini"))
+//{
+//}
 
 /*
 *  @brief	Overload constructor of the class ISocket.

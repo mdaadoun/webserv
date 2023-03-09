@@ -12,6 +12,7 @@
 # include "parsing/Config.hpp"
 # include "parsing/Parsing.hpp"
 # include "request/Request.class.hpp"
+# include "cgi/CgiHandler.class.hpp"
 
 class RequestHandler {
 public:
@@ -31,9 +32,11 @@ public:
     std::string getBody() const;
     std::string getDate();
     std::string getMethod() const;
+    std::string getRoot() const;
     std::string getRequestLocation() const;
     std::string getRequestFile() const;
     std::string getRequestURI() const;
+    std::string getCgiInterpreter() const;
 
     // main
     void run(void);
@@ -62,8 +65,6 @@ public:
     m_METHOD resolveMethod(std::string & method);
 
 private:
-    std::map<std::string, std::string> _request;
-
     // CONFIG data
     std::string													_auto_index;
     std::string													_index_file;
@@ -84,6 +85,7 @@ private:
     std::map<std::basic_string<char>, std::map<std::basic_string<char>, std::basic_string<char> > >	_cgi_list;
 
     // REQUEST/RESPONSE data
+    std::string                                                 _request_IfModifiedSince;
     std::map<int, std::string>                                  _status_code_registry;
     int                                                         _status_code;
     std::string                                                 _request_method;
@@ -92,6 +94,8 @@ private:
     std::string                                                 _protocol_version;
     std::string                                                 _content_type;
     std::string                                                 _body;
+
+    std::string                                                 _cgi_interpreter;
 };
 
 std::ostream &operator<<(std::ostream &out, RequestHandler &rh);
