@@ -12,6 +12,7 @@ RequestHandler::RequestHandler(Request const & req, Config *conf) {
     this->_request_location = req.getUri().first;
     this->_request_file = req.getUri().second;
     this->_protocol_version = "HTTP/1.1";
+    this->_query_string = req.getCgi();
 
     this->_request_IfModifiedSince = "Wed, 28 Feb 2022 15:27:00 GMT"; // replace with a getter
 
@@ -394,6 +395,10 @@ std::string RequestHandler::getRequestFile() const {
 
 std::string RequestHandler::getRoot() const {
     return this->_files_root;
+}
+
+std::map<std::string, std::string> RequestHandler::getQueryString() const {
+    return this->_query_string;
 }
 
 std::string RequestHandler::getMethod() const {

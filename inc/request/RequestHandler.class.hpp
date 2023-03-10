@@ -37,6 +37,7 @@ public:
     std::string getRequestFile() const;
     std::string getRequestURI() const;
     std::string getCgiInterpreter() const;
+    std::map<std::string, std::string> getQueryString() const;
 
     // main
     void run(void);
@@ -72,15 +73,7 @@ private:
     std::string													_server_name;
     u_long														_client_body_size_limit;
     std::map<std::string, std::string>                          _errorPages;
-//    std::string                                                 _400_file;
-//    std::string                                                 _401_file;
-//    std::string                                                 _403_file;
-//    std::string                                                 _404_file;
-//    std::string                                                 _405_file;
-//    std::string                                                 _410_file;
-//    std::string                                                 _413_file;
-//    std::string                                                 _500_file;
-//    std::string                                                 _503_file;
+    std::map<std::string, std::string>                         _query_string;
     std::map<std::basic_string<char>, std::map<std::basic_string<char>, std::basic_string<char> > > _locations;
     std::map<std::basic_string<char>, std::map<std::basic_string<char>, std::basic_string<char> > >	_cgi_list;
 

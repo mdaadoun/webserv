@@ -36,7 +36,9 @@ private:
     std::string                         _cgi_interpreter;
     std::map<std::string, std::string>	_env;
     char **                              _env_char;
-    std::string							_body; // cgi output
+    std::string							_body;
+    std::string							_method;
+    std::string                      	_query_string;
 
 };
 

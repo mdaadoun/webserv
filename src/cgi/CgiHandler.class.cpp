@@ -1,5 +1,17 @@
 #include "../../inc/cgi/CgiHandler.class.hpp"
 
+std::string recomposeQueryString(std::map<std::string, std::string> &query) {
+    std::ostringstream oss;
+    for (std::map<std::string, std::string>::iterator it = query.begin(); it != query.end(); ++it) {
+        if (it != query.begin()) {
+            oss << "&";
+        }
+        oss << it->first << "=" << it->second;
+    }
+    std::cout << oss.str() << std::endl;
+    return (oss.str());
+}
+
 /*
 *  @brief   Default constructor.
 *  @param   void
@@ -14,6 +26,9 @@ CgiHandler::CgiHandler(RequestHandler const & rh) {
     }
     this->_script = currentDir + root + rh.getRequestURI();
     this->_cgi_interpreter = rh.getCgiInterpreter();
+    std::map<std::string, std::string> tmp = rh.getQueryString();
+    this->_query_string = recomposeQueryString(tmp);
+    this->_method = rh.getMethod();
     this->set_env();
 }
 
@@ -39,6 +54,7 @@ CgiHandler	&CgiHandler::operator=(CgiHandler const &src)
     return *this;
 }
 
+
 /*
 *  @brief   Set the environment variables
 *  @param   void
@@ -52,12 +68,12 @@ void		CgiHandler::set_env(void) {
     this->_env["REDIRECT_STATUS"] = "200";
     this->_env["SCRIPT_NAME"] = this->_script;
     this->_env["SCRIPT_FILENAME"] = this->_script;
-//    this->_env["REQUEST_METHOD"] = _request.getMethod();
+    this->_env["REQUEST_METHOD"] = this->_method;
 //    this->_env["CONTENT_LENGTH"] = this->_body.length() as string;
 //    this->_env["CONTENT_TYPE"] = ;
 //    this->_env["PATH_INFO"] = _request.getRequestLocation();
 //    this->_env["PATH_TRANSLATED"] = _request.getRequestLocation();
-//    this->_env["QUERY_STRING"] = _request.getQueryString();
+    this->_env["QUERY_STRING"] = this->_query_string;
 //    this->_env["REMOTE_ADDR"] = ?;
 //    this->_env["REMOTE_IDENT"] = ?;
 //    this->_env["REMOTE_USER"] = ?;
@@ -101,22 +117,9 @@ std::map<std::string, std::string> & CgiHandler::get_env(void) {
 */
 std::string CgiHandler::executeCgi() {
     pid_t		pid;
-    // Save the current stdin and stdout file descriptors
-//    int			saveStdin, saveStdout;
-//    saveStdin = dup(STDIN_FILENO);
-//    saveStdout = dup(STDOUT_FILENO);
-
-//    FILE	*fIn = tmpfile();
-//    FILE	*fOut = tmpfile();
-//    long	fdIn = fileno(fIn);
-//    long	fdOut = fileno(fOut);
-//    write(fdIn, _body.c_str(), _body.size());
-//    lseek(fdIn, 0, SEEK_SET);
-
-//    // Create pipes for stdin and stdout redirection solution 2 ?
-//    int pipeIn[2], pipeOut[2];
-//    pipe(pipeIn);
-//    pipe(pipeOut);
+    int pipeIn[2], pipeOut[2];
+    pipe(pipeIn);
+    pipe(pipeOut);
 
     char		**env = get_env_char();
     pid = fork();
@@ -125,47 +128,29 @@ std::string CgiHandler::executeCgi() {
     } else if (!pid) {
         char *const args[] = { const_cast<char*>(this->_cgi_interpreter.c_str()),
                                const_cast<char*>(this->_script.c_str()), NULL };
-//        dup2(fdIn, STDIN_FILENO);
-//        dup2(fdOut, STDOUT_FILENO);
+        close(pipeIn[1]);
+        dup2(pipeIn[0], STDIN_FILENO);
+        close(pipeIn[0]);
+        close(pipeOut[0]);
+        dup2(pipeOut[1], STDOUT_FILENO);
+        close(pipeOut[1]);
 
-//        // Redirect stdin and stdout to the pipes
-//        dup2(pipeIn[0], STDIN_FILENO);
-//        dup2(pipeOut[1], STDOUT_FILENO);
-//
-//        // Close the unused ends of the pipes
-//        close(pipeIn[1]);
-//        close(pipeOut[0]);
-//
-//        // Write the request body to stdin
-//        write(pipeIn[1], _body.c_str(), _body.size());
-//        lseek(pipeIn[1], 0, SEEK_SET);
-
-        std::cout << "Execute" <<  this->_cgi_interpreter << std::endl;
         execve(this->_cgi_interpreter.c_str(), args, env);
-        std::cerr << "Execve Error 500." << std::endl;
+        std::cerr << "Execve failed, Error 500." << std::endl;
     } else {
-//        char	buffer[] = {0};
+        close(pipeIn[0]);
+        close(pipeOut[1]);
+        char	buffer[1024];
+        waitpid(pid, NULL, 0);
 
-        waitpid(-1, NULL, 0);
-//        lseek(fdOut, 0, SEEK_SET);
-
-//        int ret = 1;
-//        while (ret > 0)
-//        {
-//            memset(buffer, 0, 1024);
-//            ret = read(fdOut, buffer, 1024 - 1);
-//            this->_body += buffer;
-//        }
+        int ret = 1;
+        while (ret > 0)
+        {
+            memset(buffer, 0, 1024);
+            ret = read(pipeOut[0], buffer, 1024 - 1);
+            this->_body += buffer;
+        }
     }
-
-//    dup2(saveStdin, STDIN_FILENO);
-//    dup2(saveStdout, STDOUT_FILENO);
-//    fclose(fIn);
-//    fclose(fOut);
-//    close(fdIn);
-//    close(fdOut);
-//    close(saveStdin);
-//    close(saveStdout);
 
     for (size_t i = 0; env[i]; i++)
         delete[] env[i];
