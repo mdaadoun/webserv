@@ -31,6 +31,11 @@ RequestHandler::RequestHandler(Request const & req, Config *conf) {
 */
 RequestHandler::~RequestHandler() {}
 
+/*
+*  @brief   Compare a date from header IfModifiedSince with the modified date of the file
+*  @param   std::string & path file to check the date with the header parameter IfModifiedSince
+*  @return  bool true if the file have been modified after the date IfModifiedSince
+*/
 bool RequestHandler::checkLastModified(std::string & path) {
     std::string if_modified_since_str = this->_request_IfModifiedSince;
 
@@ -50,6 +55,12 @@ bool RequestHandler::checkLastModified(std::string & path) {
     return false;
 }
 
+/*
+*  @brief   Main file reader.
+*           Return the content of any file.
+*  @param   void
+*  @return  std::string file content
+*/
 std::string RequestHandler::readContent(std::string & path) {
     std::ofstream		file;
     std::stringstream	buffer;
@@ -66,9 +77,13 @@ std::string RequestHandler::readContent(std::string & path) {
     return buffer.str();
 }
 
+/*
+*  @brief   Set the Mime content type for the response
+*  @param   void
+*  @return  void
+*/
 void RequestHandler::setContentType(std::string path)
 {
-    std::string file = this->_request_file;
     std::string type = path.substr(path.rfind(".") + 1, path.size() - path.rfind("."));
     if (type == "html")
         _content_type = "text/html";
@@ -157,6 +172,11 @@ void RequestHandler::runPOSTMethod() {
     std::cout << "run the Post method" << std::endl;
 }
 
+/*
+*  @brief   check if a method is allowed to a specific location
+*  @param   void
+*  @return  std::string location
+*/
 bool checkIfMethod(std::string allowed_methods, std::string request_method) {
     std::stringstream ss(allowed_methods);
     std::vector<std::string> methods;

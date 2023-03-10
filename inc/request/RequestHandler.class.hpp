@@ -25,19 +25,19 @@ public:
     void setContentType(std::string path);
 
     // response getters
-    int         getStatusCode();
-    std::string getStatusCodeString();
-    std::string getProtocolVersion() const;
-    std::string getContentType() const;
-    std::string getBody() const;
-    std::string getDate();
-    std::string getMethod() const;
-    std::string getRoot() const;
-    std::string getRequestLocation() const;
-    std::string getRequestFile() const;
-    std::string getRequestURI() const;
-    std::string getCgiInterpreter() const;
-    std::map<std::string, std::string> getQueryString() const;
+    int                                 getStatusCode();
+    std::string                         getStatusCodeString();
+    std::string                         getProtocolVersion() const;
+    std::string                         getContentType() const;
+    std::string                         getBody() const;
+    std::string                         getDate();
+    std::string                         getMethod() const;
+    std::string                         getRoot() const;
+    std::string                         getRequestLocation() const;
+    std::string                         getRequestFile() const;
+    std::string                         getRequestURI() const;
+    std::string                         getCgiInterpreter() const;
+    std::map<std::string, std::string>  getQueryString() const;
 
     // main
     void run(void);
@@ -73,7 +73,8 @@ private:
     std::string													_server_name;
     u_long														_client_body_size_limit;
     std::map<std::string, std::string>                          _errorPages;
-    std::map<std::string, std::string>                         _query_string;
+    std::map<std::string, std::string>                          _query_string;
+    std::string                                                 _cgi_interpreter;
     std::map<std::basic_string<char>, std::map<std::basic_string<char>, std::basic_string<char> > > _locations;
     std::map<std::basic_string<char>, std::map<std::basic_string<char>, std::basic_string<char> > >	_cgi_list;
 
@@ -87,8 +88,6 @@ private:
     std::string                                                 _protocol_version;
     std::string                                                 _content_type;
     std::string                                                 _body;
-
-    std::string                                                 _cgi_interpreter;
 };
 
 std::ostream &operator<<(std::ostream &out, RequestHandler &rh);

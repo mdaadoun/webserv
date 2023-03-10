@@ -1,5 +1,7 @@
 #include "../../inc/cgi/CgiHandler.class.hpp"
 
+
+// parsing std::map<std::string, std::string> to string
 std::string recomposeQueryString(std::map<std::string, std::string> &query) {
     std::ostringstream oss;
     for (std::map<std::string, std::string>::iterator it = query.begin(); it != query.end(); ++it) {
@@ -14,6 +16,7 @@ std::string recomposeQueryString(std::map<std::string, std::string> &query) {
 
 /*
 *  @brief   Default constructor.
+ *          Get the needed data to set the execution.
 *  @param   void
 *  @return  void
 */
@@ -54,9 +57,8 @@ CgiHandler	&CgiHandler::operator=(CgiHandler const &src)
     return *this;
 }
 
-
 /*
-*  @brief   Set the environment variables
+*  @brief   Set the environment variables needed for execve
 *  @param   void
 *  @return  void
 */
@@ -85,7 +87,7 @@ void		CgiHandler::set_env(void) {
 /*
 *  @brief   get the environment as a char * for execve
 *  @param   void
-*  @return  std::map<std::string, std::string> &
+*  @return  char ** env
 */
 char **CgiHandler::get_env_char(void) {
 
@@ -104,7 +106,7 @@ char **CgiHandler::get_env_char(void) {
 /*
 *  @brief   get the environment
 *  @param   void
-*  @return  std::map<std::string, std::string> &
+*  @return  std::map<std::string, std::string> & _env
 */
 std::map<std::string, std::string> & CgiHandler::get_env(void) {
     return this->_env;
@@ -112,8 +114,8 @@ std::map<std::string, std::string> & CgiHandler::get_env(void) {
 
 /*
 *  @brief   execute the given script and return the output
-*  @param   const std::string &script
-*  @return  std::string
+*  @param   void
+*  @return  std::string body
 */
 std::string CgiHandler::executeCgi() {
     pid_t		pid;
@@ -128,6 +130,8 @@ std::string CgiHandler::executeCgi() {
     } else if (!pid) {
         char *const args[] = { const_cast<char*>(this->_cgi_interpreter.c_str()),
                                const_cast<char*>(this->_script.c_str()), NULL };
+
+        std::cout << this->_cgi_interpreter << ", " << this->_script << std::endl;
         close(pipeIn[1]);
         dup2(pipeIn[0], STDIN_FILENO);
         close(pipeIn[0]);

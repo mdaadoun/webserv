@@ -9,15 +9,11 @@
 #include "../request/Request.class.hpp"
 #include "../parsing/Parsing.hpp"
 
-
 class Response
 {
 	public:
-		//---- canonical form ----//
-			// constructors //
+        // constructor and destructor
 		Response();
-
-			// destructor //
 		~Response();
 
 		//---- getter ----//
@@ -25,12 +21,9 @@ class Response
 
 		//---- member methods ----//
 		void	buildResponse(Request const & req, Config * config);
-//		void	addBodyResponse(std::string& path);
-	
 	private:
+        Response	&operator=(Response const &rhs);
 		std::string		_response;
-
-		Response	&operator=(Response const &rhs);
 };
 
 std::ostream &operator<<(std::ostream &out, Response &rh);
