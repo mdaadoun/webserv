@@ -519,7 +519,7 @@ void	Request::parseUri()
 	if (uri_tmp.find("..") != std::string::npos && this->_status == 200)
 	{
 		//for debug
-		std::cerr << "$$$$$ Error: URI not correctly esrtablished $$$$$" << std::endl;
+		std::cerr << "$$$$$ Error: URI not correctly established $$$$$" << std::endl;
 		this->_status = 400;
 	}
 	if (uri_tmp.size() > 1000 && this->_status == 200)

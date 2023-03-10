@@ -12,7 +12,7 @@
 
 #include "test.hpp"
 
-void	responseTest(void)
+void	responseTest()
 {
 	std::cout << "\033[0;34m # Response test # \033[0;0m" << std::endl;
 //    Response rs;

@@ -30,9 +30,9 @@ Parsing::Parsing()
 *  @param	const std::string &path
 *  @return	void
 */
-Parsing::Parsing(const std::string &path)
+Parsing::Parsing(const std::string &file)
 {
-	Parsing::parseConfig(path);
+	Parsing::parseConfig(file);
 	Parsing::checkConfig();
 }
 
@@ -72,7 +72,7 @@ Parsing &Parsing::operator=(const Parsing &copy)
 *  @param	const std::string &path
 *  @return	void
 */
-void	Parsing::parseConfig(const std::string &path)
+void	Parsing::parseConfig(const std::string &configfile)
 {
 	std::ifstream						file;
 	std::string							buf;
@@ -82,7 +82,7 @@ void	Parsing::parseConfig(const std::string &path)
     std::string							key;
     std::string							value;
 
-	file.open(path.c_str());
+	file.open(configfile.c_str());
 	if (file.fail())
 	{
 		throw(Config::ErrorFileException());

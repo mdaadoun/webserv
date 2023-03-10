@@ -14,13 +14,13 @@
 
 void	cgiTest(void)
 {
-    CgiHandler ch;
-	std::string body;
-    std::cout << "\033[0;34m # CGI test # \033[0;0m" << std::endl;
-
-    std::cout << ch << std::endl;
-
-    body = ch.executeCgi();
-
-    std::cout << body << std::endl;
+//    CgiHandler ch;
+//	std::string body;
+//    std::cout << "\033[0;34m # CGI test # \033[0;0m" << std::endl;
+//
+//    std::cout << ch << std::endl;
+//
+//    body = ch.executeCgi();
+//
+//    std::cout << body << std::endl;
 }

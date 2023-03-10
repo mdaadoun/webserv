@@ -12,6 +12,7 @@
 # include "parsing/Config.hpp"
 # include "parsing/Parsing.hpp"
 # include "request/Request.class.hpp"
+# include "cgi/CgiHandler.class.hpp"
 
 class RequestHandler {
 public:
@@ -24,18 +25,24 @@ public:
     void setContentType(std::string path);
 
     // response getters
-    int         getStatusCode();
-    std::string getStatusCodeString();
-    std::string getProtocolVersion() const;
-    std::string getContentType() const;
-    std::string getBody() const;
-    std::string getDate();
+    int                                 getStatusCode();
+    std::string                         getStatusCodeString();
+    std::string                         getProtocolVersion() const;
+    std::string                         getContentType() const;
+    std::string                         getBody() const;
+    std::string                         getDate();
+    std::string                         getMethod() const;
+    std::string                         getRoot() const;
+    std::string                         getRequestLocation() const;
+    std::string                         getRequestFile() const;
+    std::string                         getRequestURI() const;
+    std::string                         getCgiInterpreter() const;
+    std::map<std::string, std::string>  getQueryString() const;
 
     // main
     void run(void);
 
     // utils
-//    void initStatusCodeRegistry();
     bool        checkIfMethodIsAllowed();
     std::string getErrorPagePath();
 
@@ -46,44 +53,38 @@ public:
     bool checkLastModified(std::string & path);
     std::string readContent(std::string & path);
 
+    // CGI
+    bool checkIfCGI(void);
+    void runCGI(void);
+
     // Methods
-    void getMethod();
-    void headMethod();
-    void postMethod();
-    void connectMethod();
-    void deleteMethod();
-    void putMethod();
-    void optionsMethod();
-    void traceMethod();
+    void runGETMethod();
+    void runHEADMethod();
+    void runPOSTMethod();
+    void runDELETEMethod();
 
     m_METHOD resolveMethod(std::string & method);
 
 private:
-    std::map<std::string, std::string> _request;
-//    std::map<std::string, std::string> _response;
-
     // CONFIG data
     std::string													_auto_index;
     std::string													_index_file;
     std::string													_files_root;
     std::string													_server_name;
     u_long														_client_body_size_limit;
-    std::string                                                 _400_file;
-    std::string                                                 _401_file;
-    std::string                                                 _403_file;
-    std::string                                                 _404_file;
-    std::string                                                 _405_file;
-    std::string                                                 _410_file;
-    std::string                                                 _413_file;
-    std::string                                                 _500_file;
-    std::string                                                 _503_file;
-    std::map<std::string, std::map<std::string, std::string> >	_locations;
-    std::map<std::string, std::map<std::string, std::string> >	_cgi_list;
+    std::map<std::string, std::string>                          _errorPages;
+    std::map<std::string, std::string>                          _query_string;
+    std::string                                                 _cgi_interpreter;
+    std::map<std::basic_string<char>, std::map<std::basic_string<char>, std::basic_string<char> > > _locations;
+    std::map<std::basic_string<char>, std::map<std::basic_string<char>, std::basic_string<char> > >	_cgi_list;
 
     // REQUEST/RESPONSE data
+    std::string                                                 _request_IfModifiedSince;
     std::map<int, std::string>                                  _status_code_registry;
     int                                                         _status_code;
     std::string                                                 _request_method;
+    std::string                                                 _request_location;
+    std::string                                                 _request_file;
     std::string                                                 _protocol_version;
     std::string                                                 _content_type;
     std::string                                                 _body;

@@ -31,7 +31,7 @@ class Config
 		std::string													_index;
 		std::string													_autoIndex;
 		std::string													_serverName;
-		std::string													_clientBodyLimit;
+        std::string													_clientBodyLimit;
 		std::map<std::string, std::string>							_errorPages;
 		std::map<std::string, std::map<std::string, std::string> >	_locations;
         std::map<std::string, std::map<std::string, std::string> >	_cgi;
@@ -52,6 +52,7 @@ class Config
 		std::string													getAutoIndex() const;
 		std::string													getServerName() const;
 		std::string													getClientBodyLimit() const;
+        std::string                                                 getDirectory() const;
 		std::map<std::string, std::string>							getErrorPages() const;
 		std::map<std::string, std::map<std::string, std::string> >	getLocations() const;
         std::map<std::string, std::map<std::string, std::string> >	getCgi() const;

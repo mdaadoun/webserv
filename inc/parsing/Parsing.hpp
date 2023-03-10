@@ -22,7 +22,7 @@ class Parsing
 
 	public:
 		Parsing();
-		Parsing(const std::string &path);
+		Parsing(const std::string &file);
         Parsing(const Parsing &copy);
 		~Parsing();
 
@@ -30,6 +30,6 @@ class Parsing
 
 		std::vector<class Config>	getServers() const;
 		class Config				*getNServer(int n);
-		void						parseConfig(const std::string &path);
+		void						parseConfig(const std::string &file);
 		void						checkConfig();
 };

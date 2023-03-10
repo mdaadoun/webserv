@@ -2,34 +2,25 @@
 #include "../../inc/request/RequestHandler.class.hpp"
 
 /*
-*  @brief   Default constructor. // Temporary will move to a Server config+request constructor
+*  @brief   Main constructor. Join the request and the config together.
 *  @param   void
 *  @return  void
 */
 RequestHandler::RequestHandler(Request const & req, Config *conf) {
     this->_status_code = req.getStatus();
     this->_request_method = req.getMethod();
-    this->_request["URI"] = req.getUri().first + req.getUri().second;
-    // change to this->_request_route = req.getUri().first and this->_request_file = req.getUri().second
-//    this->_request["URI"] = "/page.html";
-//    this->_request["URI"] = "/";
-//    this->_request["URI"] = "/favicon.ico";
-//    this->_request["URI"] = "/favicon.png";
-//    this->_request["URI"] = "/content/fox.jpg";
-//    this->_request["URI"] = "/xxx.html";
-//    this->_request["URI"] = "/script.js";
-//    this->_request["URI"] = "/style.css";
+    this->_request_location = req.getUri().first;
+    this->_request_file = req.getUri().second;
     this->_protocol_version = "HTTP/1.1";
-    this->_request["If-Modified-Since"] = "Wed, 28 Feb 2022 15:27:00 GMT"; // replace with _request_last_modified
+    this->_query_string = req.getCgi();
 
-    // need also the server config to get those :
+    this->_request_IfModifiedSince = "Wed, 28 Feb 2022 15:27:00 GMT"; // replace with a getter
+
     this->_files_root = conf->getRoot();
     this->_index_file = conf->getIndex();
-//    this->_files_root = "./www/html";
-//    this->_index_file = "index.html";
-//    this->_400_file = "400.html";
-//    this->_404_file = "404.html";
-//    this->_500_file = "500.html";
+    this->_locations = conf->getLocations();
+    this->_cgi_list = conf->getCgi();
+    this->_errorPages = conf->getErrorPages();
 }
 
 /*
@@ -40,14 +31,13 @@ RequestHandler::RequestHandler(Request const & req, Config *conf) {
 */
 RequestHandler::~RequestHandler() {}
 
-
-std::map<std::string, std::string> &RequestHandler::getRequest(void){
-    return this->_request;
-}
-
-
+/*
+*  @brief   Compare a date from header IfModifiedSince with the modified date of the file
+*  @param   std::string & path file to check the date with the header parameter IfModifiedSince
+*  @return  bool true if the file have been modified after the date IfModifiedSince
+*/
 bool RequestHandler::checkLastModified(std::string & path) {
-    std::string if_modified_since_str = this->_request["If-Modified-Since"];
+    std::string if_modified_since_str = this->_request_IfModifiedSince;
 
     if (if_modified_since_str.length() > 0) {
         struct tm if_modified_since_tm;
@@ -65,6 +55,12 @@ bool RequestHandler::checkLastModified(std::string & path) {
     return false;
 }
 
+/*
+*  @brief   Main file reader.
+*           Return the content of any file.
+*  @param   void
+*  @return  std::string file content
+*/
 std::string RequestHandler::readContent(std::string & path) {
     std::ofstream		file;
     std::stringstream	buffer;
@@ -81,6 +77,11 @@ std::string RequestHandler::readContent(std::string & path) {
     return buffer.str();
 }
 
+/*
+*  @brief   Set the Mime content type for the response
+*  @param   void
+*  @return  void
+*/
 void RequestHandler::setContentType(std::string path)
 {
     std::string type = path.substr(path.rfind(".") + 1, path.size() - path.rfind("."));
@@ -104,41 +105,22 @@ void RequestHandler::setContentType(std::string path)
         _content_type = "text/plain";
 }
 
+/*
+*  @brief   get the corresponding file of the status code
+ *          if the file doesnt open, fall back on default error.html
+*  @param   void
+*  @return  std::string file path
+*/
 std::string RequestHandler::getErrorPagePath() {
     std::ofstream		file;
     std::string path = this->_files_root + "/";
-    switch (this->getStatusCode()) {
-        case(400):
-            path += this->_400_file;
-            break;
-        case(401):
-            path += this->_401_file;
-            break;
-        case(403):
-            path += this->_403_file;
-            break;
-        case(404):
-            path += this->_404_file;
-            break;
-        case(405):
-            path += this->_405_file;
-            break;
-        case(410):
-            path += this->_410_file;
-            break;
-        case(413):
-            path += this->_413_file;
-            break;
-        case(500):
-            path += this->_500_file;
-            break;
-        case(503):
-            path += this->_503_file;
-            break;
-        default:
-            break;
+    std::map<std::string, std::string>::iterator it;
+    for (it = _errorPages.begin(); it != _errorPages.end(); ++it) {
+        int error = std::atoi(it->first.substr(it->first.size() - 3).c_str());
+        if (error == this->getStatusCode()) {
+            path += it->second;
+        }
     }
-
     file.open(path.c_str(), std::ifstream::in);
     if (file.is_open() == false) {
         path = this->_files_root + "/error.html";
@@ -159,26 +141,17 @@ std::string RequestHandler::getErrorPagePath() {
 *  @param   void
 *  @return  void
 */
-void RequestHandler::getMethod() {
-    std::map<std::string, std::string> req = this->getRequest();
+void RequestHandler::runGETMethod() {
     std::string         path;
 
-    if (req["URI"] == "/") {
-        path = this->_files_root + req["URI"] + this->_index_file;
+    if (this->getRequestURI() == "/") {
+        // Check if there is autoindex, else it is a 404 ?
+        path = this->_files_root + this->getRequestURI() + this->_index_file;
     } else {
-        path = this->_files_root + req["URI"];
+        path = this->_files_root + this->getRequestURI();
     }
     this->setContentType(path);
     this->_body = readContent(path);
-
-    if (this->getStatusCode() >= 400) {
-        path = getErrorPagePath();
-        this->setContentType(path);
-        this->_body = readContent(path);
-    }
-
-//    if (this->getStatusCode() == 304)
-//        this->_body = "";
 }
 
 /*
@@ -186,25 +159,105 @@ void RequestHandler::getMethod() {
 *  @param   void
 *  @return  void
 */
-void RequestHandler::headMethod() {
-    this->getMethod();
+void RequestHandler::runHEADMethod() {
+    this->runGETMethod();
     this->_body = "";
 }
 
-void RequestHandler::deleteMethod() {
+void RequestHandler::runDELETEMethod() {
     std::cout << "run the Delete method" << std::endl;
 }
 
-void RequestHandler::postMethod() {
+void RequestHandler::runPOSTMethod() {
     std::cout << "run the Post method" << std::endl;
 }
 
 /*
+*  @brief   check if a method is allowed to a specific location
+*  @param   void
+*  @return  std::string location
+*/
+bool checkIfMethod(std::string allowed_methods, std::string request_method) {
+    std::stringstream ss(allowed_methods);
+    std::vector<std::string> methods;
+    std::string method;
+    while (std::getline(ss, method, ' ')) {
+        methods.push_back(method);
+    }
+    for (std::vector<std::string>::size_type i = 0; i < methods.size(); ++i) {
+        if (methods[i] == request_method)
+            return true;
+    }
+    return false;
+}
+
+/*
 *  @brief   get route and check with config locations method permissions
+ *          loc string is used to remove the trailing / in path to fix the checking
 *  @param   void
 *  @return  bool, true if method is allowed, else false
 */
-bool        RequestHandler::checkIfMethodIsAllowed() {
+bool RequestHandler::checkIfMethodIsAllowed() {
+    std::map<std::basic_string<char>, std::map<std::basic_string<char>, std::basic_string<char> > >::const_iterator it;
+    std::map<std::basic_string<char>, std::basic_string<char> >::const_iterator inner_it;
+
+    for(it = _locations.begin(); it != _locations.end(); ++it) {
+        std::string loc = this->getRequestLocation();
+        if (!loc.empty() && loc[loc.length() - 1] == '/') {
+            loc.erase(loc.length() - 1);
+        }
+        if (this->getRequestLocation() == it->first || loc == it->first) {
+            for(inner_it = it->second.begin(); inner_it != it->second.end(); ++inner_it) {
+                if (inner_it->first == "allow_methods") {
+                    if (checkIfMethod(inner_it->second, this->getMethod())) {
+                        return true;
+                    }
+                }
+            }
+        }
+    }
+    return false;
+}
+
+/*
+*  @brief   check if the request file and location is a correct cgi config
+*  @param   void
+*  @return  bool after check
+*/
+bool RequestHandler::checkIfCGI() {
+    std::map<std::string, std::map<std::string, std::string> >::iterator it;
+    std::string file = this->_request_file;
+    if (file.size()) {
+        std::string type = file.substr(file.rfind("."), file.size() - file.rfind("."));
+        for (it = _cgi_list.begin(); it != _cgi_list.end(); ++it) {
+            std::string key = it->first;
+            std::map<std::string, std::string>::iterator inner_it;
+            bool cgi = false;
+            for (inner_it = it->second.begin(); inner_it != it->second.end(); ++inner_it) {
+                if (inner_it->first == "file" && inner_it->second == type) {
+                    cgi = true;
+                }
+            }
+            if (cgi) {
+                for (inner_it = it->second.begin(); inner_it != it->second.end(); ++inner_it) {
+                    if (inner_it->first == "directory") {
+                        std::string test = this->_request_location;
+                        if (test.size() && test.at(0) == '/') {
+                            test.erase(0, 1);
+                        }
+                        if (test.size() && test.at(test.size() - 1) == '/') {
+                            test.erase(test.length() - 1, 1);
+                        }
+                        if (test != inner_it->second)
+                            return false;
+                    } else if (inner_it->first == "interpreter") {
+                        this->_cgi_interpreter = inner_it->second;
+                    }
+                }
+                return true;
+            }
+        }
+    }
     return false;
 }
 
@@ -217,39 +270,52 @@ bool        RequestHandler::checkIfMethodIsAllowed() {
 *  @return  void
 */
 void RequestHandler::run(void) {
-    // Check before if method is accepted to the given location
-    if (checkIfMethodIsAllowed()) {
-        // Check if it is a CGI script
-        // else
-        switch (RequestHandler::resolveMethod(this->_request_method)) {
-            case GET:
-                this->getMethod();
-                break;
-            case HEAD:
-                this->headMethod();
-                break;
-            case POST:
-                std::cout << "run the Post method" << std::endl;
-                break;
-            case DELETE:
-                std::cout << "run the delete method" << std::endl;
-                break;
-            case PUT:
-                std::cout << "run the Put method" << std::endl;
-                break;
-            case CONNECT:
-                std::cout << "run the Connect method" << std::endl;
-                break;
-            case OPTIONS:
-                std::cout << "run the Options method" << std::endl;
-                break;
-            case TRACE:
-                std::cout << "run the Put method" << std::endl;
-                break;
-            default:
-                std::cout << "Not a known method, error ?" << std::endl;
+    if (this->checkIfMethodIsAllowed()) {
+        if (this->checkIfCGI()) {
+            CgiHandler cgi(*this);
+            this->_body = cgi.executeCgi();
+        } else {
+            switch (RequestHandler::resolveMethod(this->_request_method)) {
+                case GET:
+                    this->runGETMethod();
+                    break;
+                case HEAD:
+                    this->runHEADMethod();
+                    break;
+                case POST:
+                    this->runPOSTMethod();
+                    break;
+                case DELETE:
+                    this->runDELETEMethod();
+                    break;
+//            case PUT:
+//                std::cout << "run the Put method" << std::endl;
+//                break;
+//            case CONNECT:
+//                std::cout << "run the Connect method" << std::endl;
+//                break;
+//            case OPTIONS:
+//                std::cout << "run the Options method" << std::endl;
+//                break;
+//            case TRACE:
+//                std::cout << "run the Put method" << std::endl;
+//                break;
+                default:
+                    std::cout << "UNKNOWN method, set error here ?" << std::endl;
+            }
         }
+    } else {
+        this->setStatusCode(405);
     }
+
+    if (this->getStatusCode() != 200) {
+        std::string path = getErrorPagePath();
+        this->setContentType(path);
+        this->_body = readContent(path);
+    }
+
+//    if (this->getStatusCode() == 304)
+//        this->_body = "";
 }
 
 m_METHOD RequestHandler::resolveMethod(std::string &met) {
@@ -261,14 +327,14 @@ m_METHOD RequestHandler::resolveMethod(std::string &met) {
         return POST;
     else if (met == "DELETE")
         return DELETE;
-    else if (met == "PUT")
-        return PUT;
-    else if (met == "CONNECT")
-        return CONNECT;
-    else if (met == "OPTIONS")
-        return OPTIONS;
-    else if (met == "TRACE")
-        return TRACE;
+//    else if (met == "PUT")
+//        return PUT;
+//    else if (met == "CONNECT")
+//        return CONNECT;
+//    else if (met == "OPTIONS")
+//        return OPTIONS;
+//    else if (met == "TRACE")
+//        return TRACE;
     else
         return ERROR;
 }
@@ -278,6 +344,7 @@ std::string RequestHandler::getProtocolVersion() const {
     return this->_protocol_version;
 }
 
+// move to utils
 std::string RequestHandler::getDate() {
     std::string date;
     time_t now_time = std::time(NULL);
@@ -338,14 +405,43 @@ std::string RequestHandler::getDate() {
     return date;
 }
 
-int RequestHandler::getStatusCode() {
-    return this->_status_code;
+std::string RequestHandler::getRequestLocation() const {
+    return this->_request_location;
+}
+
+std::string RequestHandler::getRequestFile() const {
+    return this->_request_file;
+}
+
+std::string RequestHandler::getRoot() const {
+    return this->_files_root;
+}
+
+std::map<std::string, std::string> RequestHandler::getQueryString() const {
+    return this->_query_string;
+}
+
+std::string RequestHandler::getMethod() const {
+    return this->_request_method;
+}
+
+std::string RequestHandler::getRequestURI() const {
+    return this->_request_location + this->_request_file;
 }
 
 void RequestHandler::setStatusCode(int sc) {
     this->_status_code = sc;
 }
 
+int RequestHandler::getStatusCode() {
+    return this->_status_code;
+}
+
+std::string RequestHandler::getCgiInterpreter() const {
+    return this->_cgi_interpreter;
+}
+
+// move to utils
 std::string RequestHandler::getStatusCodeString() {
     this->_status_code_registry[100] = "100 Continue";
     this->_status_code_registry[101] = "101 Switching Protocols";
@@ -407,12 +503,7 @@ std::string RequestHandler::getBody(void) const{
 */
 std::ostream &operator<<(std::ostream &out, RequestHandler &rh) {
     std::map<std::string, std::string>::iterator it;
-    out << "request:\n";
-    for (it = rh.getRequest().begin(); it != rh.getRequest().end(); it++) {
-        out << it->first << " : " << it->second << std::endl;
-    }
     out << "results after handling:\n";
-
     out << "Content Type:" << rh.getContentType() << std::endl;
     out << "Status Code:" << rh.getStatusCodeString() << std::endl;
     out << "Body:" << rh.getBody() << std::endl;

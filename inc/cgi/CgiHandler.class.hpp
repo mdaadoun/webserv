@@ -4,38 +4,40 @@
 
 # include <iostream>
 # include <map>
-//# include "../request/Request.class.hpp"
-//# include "../parsing/Config.hpp"
-//# include "../location/Location.class.hpp"
+#include <sys/wait.h>
+# include <unistd.h>
+# include <fcntl.h>
+# include "request/RequestHandler.class.hpp"
+
+class RequestHandler;
 
 class CgiHandler {
 public:
-    CgiHandler(void);
-//    CgiHandler(Request &request, Config &config, Location &location);
-    CgiHandler(CgiHandler const &src);
+    // default constructor and destructor
+    CgiHandler(RequestHandler const &rh);
     ~CgiHandler(void);
 
+    // constructor by copy and = overloading
+    CgiHandler(CgiHandler const &src);
     CgiHandler	&operator=(CgiHandler const &src);
 
+    // env methods
     void                                set_env(void);
     std::map<std::string, std::string> &get_env(void);
+    char **                             get_env_char();
 
     // execute script and return body
     std::string		executeCgi();
 
-
 private:
-//    Config                              _conf;
-//    Request                             _request;
-//    Location                            _loc;
-    std::string                         _script;
-    std::string                         _cgi_type;
-    std::string                         _cgi_interpreter;
+    char **                              _env_char;
     std::map<std::string, std::string>	_env;
-    std::string							_body; // cgi output
-
+    std::string                         _script;
+    std::string                         _cgi_interpreter;
+    std::string							_body;
+    std::string							_method;
+    std::string                      	_query_string;
 };
-
 
 std::ostream &operator<<(std::ostream &out, CgiHandler &ch);
 
