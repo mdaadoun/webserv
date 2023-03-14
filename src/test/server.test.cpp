@@ -16,9 +16,9 @@ void	serverTest(void)
 {
 	std::cout << "\033[0;34m # Server Test #\033[0;0m" << std::endl;
 
-	Server def;
-	ListenSocket*	test;
-	
-	test = def.getSocket();
-	std::cout << test << std::endl;
+//	Server def;
+//	ListenSocket*	test;
+//
+//	test = def.getSocket();
+//	std::cout << test << std::endl;
 }

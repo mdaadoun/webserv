@@ -55,7 +55,7 @@ static void  Def_Parsing()
      try
      {
          std::cout << "===Overload Constructor and print content of Config===" << std::endl;
-         Parsing parser("conf/config_test_over.ini");
+         Parsing parser("conf/config_test_copy.ini");
 
          std::cout << "Number of servers : ";
          std::cout << parser.getServers().size() << std::endl;
@@ -73,36 +73,29 @@ static void  Def_Parsing()
      }
  }
 
-// static void  Copy_Parsing()
-// {
-//     try
-//     {
-//         std::cout << "===Copy Constructor and print content of map===" << std::endl;
-//         Config parser("conf/config_test_copy.ini");
-//         std::vector<std::map<std::string, std::string> > list = parser.getList();
-//         std::vector<std::map<std::string, std::string> >::iterator it;
-//         it = list.begin();
-//         while (it != list.end())
-//         {
-//             parser.printMap(it);
-//             it++;
-//         }
-//         std::cout << "===Making Copy===" << std::endl;
-//         Config copy(parser);
-//         std::vector<std::map<std::string, std::string> > clist = copy.getList();
-//         std::vector<std::map<std::string, std::string> >::iterator cit;
-//         cit = clist.begin();
-//         while (cit != clist.end())
-//         {
-//             parser.printMap(cit);
-//             cit++;
-//         }
-//     }
-//     catch (std::exception &e)
-//     {
-//         std::cout << e.what() << std::endl;
-//     }
-// }
+ static void  Copy_Parsing()
+ {
+     try
+     {
+         std::cout << "===Copy Constructor and print content of Config===" << std::endl;
+         Parsing parser("conf/config_test_copy.ini");
+         Parsing copy(parser);
+
+         std::cout << "Number of servers : ";
+         std::cout << copy.getServers().size() << std::endl;
+         for (std::string::size_type i = 0; i < copy.getServers().size(); i++)
+         {
+             std::cout << "========================================================" << std::endl;
+             std::cout << "Server name: " << copy.getNServer(i)->getServerName() << std::endl;
+             printConfigContent(copy.getNServer(i));
+             std::cout << "========================================================" << std::endl;
+         }
+     }
+     catch (std::exception &e)
+     {
+         std::cout << e.what() << std::endl;
+     }
+ }
 
 // static void  Getter_Parsing()
 // {
@@ -174,10 +167,10 @@ void    parsingTest()
      std::cout << "Select your tests :" << std::endl;
      std::cout << "1 - Default Constructor and print content of Config" << std::endl;
      std::cout << "2 - Overload Constructor and print content of Config" << std::endl;
-    // std::cout << "3 - Copy Constructor and print content of map" << std::endl;
+     std::cout << "3 - Copy Constructor and print content of Config" << std::endl;
     // std::cout << "4 - Default Constructor and use getter" << std::endl;
     // std::cout << "8 - Test Specific config file in directory conf" << std::endl;
-    // std::cout << "9 - All tests" << std::endl;
+     std::cout << "9 - All tests" << std::endl;
 
      std::cout << "Command : ";
      std::getline(std::cin, input);
@@ -194,9 +187,9 @@ void    parsingTest()
          case 2:
              Over_Parsing();
              break;
-        // case 3:
-        //     Copy_Parsing();
-        //     break;
+         case 3:
+             Copy_Parsing();
+             break;
         // case 4:
         //     Getter_Parsing();
         //     break;
@@ -211,12 +204,12 @@ void    parsingTest()
         //     }
         //     Spec_Parsing(file);
         //     break;
-        // case 9:
-        //     Def_Parsing();
-        //     Over_Parsing();
-        //     Copy_Parsing();
+         case 9:
+             Def_Parsing();
+             Over_Parsing();
+             Copy_Parsing();
         //     Getter_Parsing();
-        //     break;
+             break;
          default:
              std::cout << "Good Bye !" << std::endl;
              break;
