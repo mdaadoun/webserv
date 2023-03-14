@@ -8,8 +8,16 @@
     <title>Python form</title>
 </head>
 <body>
-<h2>CORRECT FILE AND CORRECT DIRECTORY (PYTHON)</h2>
+<h2>CORRECT FILE AND CORRECT DIRECTORY (PYTHON) - POST</h2>
 <form action="cgi-bin/index.py">
+    <label for="name">Name:</label><br>
+    <input type="text" name="name"><br>
+    <label for="password">Password:</label><br>
+    <input type="password" name="password">
+    <button>Submit</button>
+</form>
+<h2>CORRECT FILE AND CORRECT DIRECTORY (PYTHON) - POST</h2>
+<form action="cgi-bin/index.py" method="post">
     <label for="name">Name:</label><br>
     <input type="text" name="name"><br>
     <label for="password">Password:</label><br>

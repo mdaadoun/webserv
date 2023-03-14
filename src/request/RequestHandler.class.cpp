@@ -13,6 +13,7 @@ RequestHandler::RequestHandler(Request const & req, Config *conf) {
     this->_request_file = req.getUri().second;
     this->_protocol_version = "HTTP/1.1";
     this->_query_string = req.getCgi();
+    this->_request_body = req.getBody();
 
     this->_request_IfModifiedSince = "Wed, 28 Feb 2022 15:27:00 GMT"; // replace with a getter
 
@@ -228,33 +229,36 @@ bool RequestHandler::checkIfCGI() {
     std::map<std::string, std::map<std::string, std::string> >::iterator it;
     std::string file = this->_request_file;
     if (file.size()) {
-        std::string type = file.substr(file.rfind("."), file.size() - file.rfind("."));
-        for (it = _cgi_list.begin(); it != _cgi_list.end(); ++it) {
-            std::string key = it->first;
-            std::map<std::string, std::string>::iterator inner_it;
-            bool cgi = false;
-            for (inner_it = it->second.begin(); inner_it != it->second.end(); ++inner_it) {
-                if (inner_it->first == "file" && inner_it->second == type) {
-                    cgi = true;
-                }
-            }
-            if (cgi) {
+        size_t dot = file.rfind(".");
+        if (dot != file.npos) {
+            std::string type = file.substr(dot, file.size() - dot);
+            for (it = _cgi_list.begin(); it != _cgi_list.end(); ++it) {
+                std::string key = it->first;
+                std::map<std::string, std::string>::iterator inner_it;
+                bool cgi = false;
                 for (inner_it = it->second.begin(); inner_it != it->second.end(); ++inner_it) {
-                    if (inner_it->first == "directory") {
-                        std::string test = this->_request_location;
-                        if (test.size() && test.at(0) == '/') {
-                            test.erase(0, 1);
-                        }
-                        if (test.size() && test.at(test.size() - 1) == '/') {
-                            test.erase(test.length() - 1, 1);
-                        }
-                        if (test != inner_it->second)
-                            return false;
-                    } else if (inner_it->first == "interpreter") {
-                        this->_cgi_interpreter = inner_it->second;
+                    if (inner_it->first == "file" && inner_it->second == type) {
+                        cgi = true;
                     }
                 }
-                return true;
+                if (cgi) {
+                    for (inner_it = it->second.begin(); inner_it != it->second.end(); ++inner_it) {
+                        if (inner_it->first == "directory") {
+                            std::string test = this->_request_location;
+                            if (test.size() && test.at(0) == '/') {
+                                test.erase(0, 1);
+                            }
+                            if (test.size() && test.at(test.size() - 1) == '/') {
+                                test.erase(test.length() - 1, 1);
+                            }
+                            if (test != inner_it->second)
+                                return false;
+                        } else if (inner_it->first == "interpreter") {
+                            this->_cgi_interpreter = inner_it->second;
+                        }
+                    }
+                    return true;
+                }
             }
         }
     }

@@ -84,10 +84,12 @@ private:
     int                                                         _status_code;
     std::string                                                 _request_method;
     std::string                                                 _request_location;
+
+    std::string                                                 _request_body;
     std::string                                                 _request_file;
     std::string                                                 _protocol_version;
     std::string                                                 _content_type;
-    std::string                                                 _body;
+    std::string                                                 _body; //response
 };
 
 std::ostream &operator<<(std::ostream &out, RequestHandler &rh);
